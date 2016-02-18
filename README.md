@@ -5,4 +5,4 @@ Simple Markdown blOG, or chriS Martin's blOG
 - Write posts in Markdown
 - SQLAlchemy with modular SQL back-end
 - HTML5
-- Really simple
+- Really simple. Renders beautifully without JavaScript because there is no JavaScript
