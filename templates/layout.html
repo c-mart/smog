@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smog</title>
+</head>
+<body>
+    <h1>smog: Simple Markdown blOG</h1>
+    <div class="nav">
+        <span class="nav-item"><a href="{{ url_for('view_posts') }}">Home</a></span>
+        <span class="nav-item"><a href="{{ url_for('create_edit_post') }}">Create Post</a></span>
+        <span class="nav-item"><a href="{{ url_for('view_posts', published='false') }}">View Unpublished</a></span>
+
+    </div>
+    {% for message in get_flashed_messages() %}
+        <div class='flash'>{{ message }}</div>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</body>
+</html>

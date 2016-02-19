@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block body %}
+    {% if edit == True %}
+        <h1>Edit Post</h1>
+    {%  else %}
+    <h1>Create Post</h1>
+    {% endif %}
+    <form action="{{ url_for('create_edit_post') }}" method="post" class="create-post">
+        <p>
+            Title<br />
+            <input type="text" size="50" name="title" value="{{ formdata['title'] }}" />
+        </p>
+        <p>
+            Body<br />
+            <textarea name="body" rows="20" cols="80">{{ formdata['body'] }}</textarea>
+        </p>
+        <p>
+            Short description (generated from title if left blank)<br />
+            <input type="text" size="50" name="description" value="{{ formdata['description'] }}"/>
+        </p>
+        <p>
+            Permalink (generated from title if left blank)<br />
+            <input type="text" size="50" name="permalink" value="{{ formdata['permalink'] }}" />
+        </p>
+        <p>
+            <input type="checkbox" name="published" value="True"
+                   {% if formdata['published'] %}checked=""{% endif %} /> Published
+        </p>
+        <p>
+            <input type="checkbox" name="comments_allowed" value="True"
+                   {% if formdata['comments_allowed'] %}checked=""{% endif %} /> Comments allowed
+        </p>
+        <p>
+            <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />
+            <input type="submit" value="Post" />
+        </p>
+    </form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block body %}
+{% for post in posts %}
+    <h2>{{ post.title }}</h2>
+    <div class="post-body">
+        {{ post.body|markdown }}
+    </div>
+    <div class="post-footer">
+        <span class="post-footer-item">Posted on {{ post.create_date|date_format() }}</span>
+        {% if post.edit_date|date_format() != post.create_date|date_format() %}
+            <span class="post-footer-item">Edited on {{ post.edit_date|date_format() }}</span>
+        {% endif %}
+        <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit post</a></span>
+        <span class="post-footer-item"><a href="{{ url_for('delete_post') }}/{{ post.id }}">Delete post</a></span>
+    </div>
+{% endfor %}
+{% endblock %}
