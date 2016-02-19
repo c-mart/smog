@@ -11,3 +11,6 @@ Drew some influences from flask tutorial
 
 ## Dependencies
 flask-Misaka needs python-dev, libffi-dev
+
+# License
+Copyright 2016 Chris Martin. smog is free software released under the GNU GPL version 3.
