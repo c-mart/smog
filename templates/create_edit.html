@@ -2,8 +2,8 @@
 {% block body %}
     {% if edit == True %}
         <h1>Edit Post</h1>
-    {%  else %}
-    <h1>Create Post</h1>
+    {% else %}
+        <h1>Create Post</h1>
     {% endif %}
     <form action="{{ url_for('create_edit_post') }}" method="post" class="create-post">
         <p>

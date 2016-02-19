@@ -1,13 +1,17 @@
 # smog
 Simple Markdown blOG, or chriS Martin's blOG
 
-- Flask microframework
-- Write posts in Markdown, parsed using Flask-Misaka, or write in HTML
+- Built with Python using Flask microframework
+- Write posts in Markdown or HTML
 - SQLAlchemy with modular back-end, use any database you want
 - HTML5
 - Renders beautifully without JavaScript because there is no JavaScript
 
-Drew some influences from flask tutorial
+For demo blog, see https://update.me.later
+
+## Documentation
+Mikasa Markdown interpreter: https://flask-misaka.readthedocs.org/en/latest/
+
 
 ## Dependencies
 flask-Misaka needs python-dev, libffi-dev

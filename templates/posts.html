@@ -10,8 +10,10 @@
         {% if post.edit_date|date_format() != post.create_date|date_format() %}
             <span class="post-footer-item">Edited on {{ post.edit_date|date_format() }}</span>
         {% endif %}
-        <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit post</a></span>
-        <span class="post-footer-item"><a href="{{ url_for('delete_post') }}/{{ post.id }}">Delete post</a></span>
+        {% if current_user.is_authenticated %}
+            <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit post</a></span>
+            <span class="post-footer-item"><a href="{{ url_for('delete_post') }}/{{ post.id }}">Delete post</a></span>
+        {% endif %}
     </div>
 {% endfor %}
 {% endblock %}
