@@ -116,12 +116,14 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %s>' % self.title
 
-# Initialize database after defining models
-if not path.exists(DB_PATH):
-    db.create_all()
-    testuser = User('test@test.com', 'Test User', 'changeme123')
-    db.session.add(testuser)
-    db.session.commit()
+
+# Create database if it's not there
+if __name__ == '__main__':
+    if not path.exists(DB_PATH):
+        db.create_all()
+        testuser = User('test@test.com', 'Test User', 'changeme123')
+        db.session.add(testuser)
+        db.session.commit()
 
 
 # Views

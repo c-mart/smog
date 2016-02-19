@@ -17,6 +17,7 @@ Database migration to expand schema, add an "author" field to posts
 `first_or_404()` or `try: return User.query.filter_by(id=int(user_id)).one() except NoResultFound():`?
 
 ## Todo
+- Why does my app throw OperationalErrors after running test cases?
 - Handle "next" for login
 - Relationship between users and posts. Each post has an "author".
 - Write some tests
