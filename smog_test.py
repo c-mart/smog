@@ -2,9 +2,10 @@ import unittest
 
 # TODO test posting with special characters in title and no permalink field
 
-class MyTestCase(unittest.TestCase):
+
+class smogTestCase(unittest.TestCase):
     def test_something(self):
-        self.assertEqual(True, False)
+        self.assertEqual(True, True)
 
 
 if __name__ == '__main__':

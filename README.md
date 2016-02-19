@@ -1,13 +1,12 @@
 # smog
 Simple Markdown blOG, or chriS Martin's blOG
 
-test
-
 - Built with Python using Flask microframework
 - Write posts in Markdown or HTML
 - SQLAlchemy with modular back-end, use any database you want
 - HTML5
-- Renders beautifully without JavaScript because there is no JavaScript
+- Renders nicely without JavaScript because there is no JavaScript
+- GNU GPL
 
 For demo blog, see https://update.me.later
 
