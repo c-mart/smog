@@ -3,20 +3,15 @@ SMOG: Simple Markdown blOG
 Like the Flaskr blog but better.
 
 - Sqlite3 backend for now, something better later
-- One user account for now, table of users with salted/hashed passwords later
 - Manual forms now, WTForms later
 
-Database migration to expand schema, add an "author" field to posts
-
 ## Tests to write
-- Logging in and posting
-- Trying to use an invalid user ID
-- Test logging in wrong all sorts of ways
-
-## Technique/Style Questions
-`first_or_404()` or `try: return User.query.filter_by(id=int(user_id)).one() except NoResultFound():`?
+- Test trying to load an unpublished post by its permalink
 
 ## Todo
+- Database migration to expand schema, add an "author" field to posts
+- How should I handle posting with special characters in title and no permalink field?
+- Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - Why does my app throw OperationalErrors after running test cases?
 - Handle "next" for login
 - Relationship between users and posts. Each post has an "author".

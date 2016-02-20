@@ -171,8 +171,11 @@ def logout():
 def view_posts(permalink=None):
     if permalink is None:
         posts = Post.query.filter_by(published=True).order_by(Post.create_date.desc()).all()
+        if len(posts) == 0:
+            flash('No posts yet.')
     else:
-        posts = Post.query.filter_by(permalink=permalink, published=True).first_or_404()
+        # Template expects a list of posts, so we return a list even though it's just one post
+        posts = [Post.query.filter_by(permalink=permalink, published=True).first_or_404()]
     return render_template('posts.html', posts=posts)
 
 
@@ -186,11 +189,8 @@ def view_unpublished():
 @app.route('/create', methods=['GET', 'POST'])
 @flask_login.login_required
 def create_edit_post():
-    # TODO fix this
-    # if not session.get('logged_in'):
-    #     abort(401)
     if request.method == 'POST':
-        if request.form['update_id']:
+        if request.form.get('update_id'):
             # Updating existing post in database
             post = Post.query.filter_by(id=request.form['update_id']).first_or_404()
             post.title = request.form['title']
@@ -209,14 +209,13 @@ def create_edit_post():
                         published=True if 'published' in request.form else False,
                         comments_allowed=True if 'comments_allowed' in request.form else False,
                         )
-        # todo add error checking e.g. if model doesn't like input from view
         try:
             db.session.add(post)
             db.session.commit()
         except (IntegrityError, InvalidRequestError):
             db.session.rollback()
-            flash('There was a problem creating your post. \
-                Please make sure that another post does not already have your desired post title and permalink.')
+            flash('There was a problem creating your post. Please make sure that another post does not already have '
+                  'your desired post title and permalink.')
             return render_template('create_edit.html', formdata=request.form)
         else:
             flash('Post successful')
