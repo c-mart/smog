@@ -1,0 +1,7 @@
+DB_PATH = '/tmp/smog.sqlite'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DB_PATH
+SECRET_KEY = 'CHANGEME123'
+USERNAME = 'admin'
+PASSWORD = 'changeme123'
+DEBUG = True
+RATELIMIT_ENABLED = False

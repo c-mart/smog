@@ -1,31 +1,13 @@
-from datetime import datetime
-from flask import Flask, redirect, url_for, request, session, abort, flash, render_template
-import flask.ext.login as flask_login
-from flask_sqlalchemy import SQLAlchemy
-from flask.ext.misaka import Misaka
+from smog import app, limiter, login_manager
+import flask_login
+from smog.models import *
+from smog.helpers import *
+from flask import redirect, url_for, request, session, flash, render_template, make_response
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
-from hashlib import pbkdf2_hmac
-from os import urandom, path
-
-# Configuration
-DB_PATH = '/tmp/smog.sqlite'
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DB_PATH
-SECRET_KEY = 'CHANGEME123'
-USERNAME = 'admin'
-PASSWORD = 'changeme123'
-DEBUG = True
-
-# Initializing application and extensions
-app = Flask(__name__)
-app.config.from_object(__name__)
-db = SQLAlchemy(app)
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
-Misaka(app)
 
 
-# Helper functions for login and authentication
+# TODO write some docstrings
 @login_manager.user_loader
 def user_loader(user_id):
     try:
@@ -34,101 +16,8 @@ def user_loader(user_id):
         return None
 
 
-def pw_hash(password, salt):
-    return pbkdf2_hmac('sha512', password, salt, 100000)
-
-
-# Models
-class User(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    email = db.Column(db.String)
-    name = db.Column(db.String)
-    pw_hash = db.Column(db.Binary)
-    pw_salt = db.Column(db.Binary)
-    active = db.Column(db.Boolean, default=True)
-    create_date = db.Column(db.DateTime)
-
-    def __init__(self, email, name, password):
-        # Todo perform validation that this is an email address
-        self.email = email
-        self.name = name
-        self.pw_salt = urandom(16)
-        self.pw_hash = pw_hash(password, self.pw_salt)
-        self.create_date = datetime.utcnow()
-
-    def __repr__(self):
-        return '<User %s>', self.email
-
-    # TODO understand what the @property does
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return self.active
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return unicode(self.id)
-
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, unique=True)
-    description = db.Column(db.String)
-    permalink = db.Column(db.String, unique=True)
-    body = db.Column(db.Text)
-    create_date = db.Column(db.DateTime)
-    edit_date = db.Column(db.DateTime)
-    published = db.Column(db.Boolean)
-    comments_allowed = db.Column(db.Boolean)
-
-    def __init__(self, title, body, description=None, permalink=None, create_date=None,
-                 edit_date=None, published=True, comments_allowed=True):
-        self.title = title
-        self.body = body
-        if description == '' or description is None:
-            self.description = self.title
-        else:
-            self.description = description
-        if permalink == '' or permalink is None:
-            self.permalink = self.title.lower().replace(' ', '-')
-        else:
-            # TODO perform some permalink validation, e.g. ensure no invalid characters
-            self.permalink = permalink
-        if create_date is None:
-            self.create_date = datetime.utcnow()
-        else:
-            # TODO ensure create_date is in the right format if passed
-            self.create_date = create_date
-        if edit_date is None:
-            self.edit_date = datetime.utcnow()
-        else:
-            # TODO ensure edit_date is in the right format if passed
-            self.edit_date = edit_date
-        self.published = published
-        self.comments_allowed = comments_allowed
-
-    def __repr__(self):
-        return '<Post %s>' % self.title
-
-
-# Create database if it's not there
-if __name__ == '__main__':
-    if not path.exists(DB_PATH):
-        db.create_all()
-        testuser = User('test@test.com', 'Test User', 'changeme123')
-        db.session.add(testuser)
-        db.session.commit()
-
-
-# Views
-# TODO write some docstrings
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("6/minute", methods=['POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -200,6 +89,7 @@ def create_edit_post():
             post.published = True if 'published' in request.form else False
             post.comments_allowed = True if 'comments_allowed' in request.form else False
             post.edit_date = datetime.utcnow()
+            post.user_id = session['user_id']
         else:
             # Creating new post in database
             post = Post(title=request.form['title'],
@@ -208,6 +98,7 @@ def create_edit_post():
                         permalink=request.form['permalink'],
                         published=True if 'published' in request.form else False,
                         comments_allowed=True if 'comments_allowed' in request.form else False,
+                        user_id=session['user_id']
                         )
         try:
             db.session.add(post)
@@ -239,12 +130,16 @@ def delete_post(post_id):
     return redirect(url_for('view_posts'))
 
 
+@app.errorhandler(429)
+def rate_limit_exceeded_handler(e):
+    print(e)
+    flash('You have tried doing that too often. Please wait a minute before trying again.')
+    # Return statement should be generalized if we ever use rate limiting for actions other than logging in
+    return make_response(redirect(url_for('login')))
+
 # Jinja2 display filters
 
 
 @app.template_filter('date_format')
 def date_format(value, formatstr='%Y-%m-%d'):
     return value.strftime(formatstr)
-
-if __name__ == '__main__':
-    app.run()

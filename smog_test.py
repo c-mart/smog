@@ -1,26 +1,23 @@
 import unittest
-from smog import *
+import smog
+import smog.models
 from datetime import datetime
 import re
 
 
 class smogTestCase(unittest.TestCase):
+
     test_user_email = 'test@test.com'
     test_user_password = 'changeme123'
 
     def setUp(self):
-        app.config['DB_PATH'] = "sqlite:////tmp/smog-test.sqlite"
-        app.config['TESTING'] = True
-        self.app = app.test_client()
-        db.create_all()
-        # todo should I be testing for the User class rather than assuming it will work?
-        testuser = User(self.test_user_email, 'Test User', self.test_user_password)
-        db.session.add(testuser)
-        db.session.commit()
+        smog.app.config.from_object('smog.config_test')
+        self.app = smog.app.test_client()
+        smog.init_db()
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        smog.db.session.remove()
+        smog.db.drop_all()
 
     def login(self, email, password):
         return self.app.post('/login', data=dict(email=email, password=password), follow_redirects=True)
@@ -44,6 +41,10 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/create', follow_redirects=True)
         assert 'Please log in to access this page.' in r.data, "We should see a notice asking to log in"
 
+    def test_rate_limit_login(self):
+        smog.app.config['RATELIMIT_ENABLED'] = True
+        assert False
+
     def test_compose_post(self):
         self.login(self.test_user_email, self.test_user_password)
         r = self.app.get('/create')
@@ -60,7 +61,8 @@ class smogTestCase(unittest.TestCase):
             comments_allowed=True
         ), follow_redirects=True)
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see post body"
-        assert 'Posted on ' + datetime.utcnow().strftime('%Y-%m-%d') in r.data, "We should see creation date"
+        assert 'Posted by Test User' in r.data, "We should see name of user posting"
+        assert 'on ' + datetime.utcnow().strftime('%Y-%m-%d') in r.data, "We should see creation date"
 
     def test_auto_permalink(self):
         self.login(self.test_user_email, self.test_user_password)
@@ -148,7 +150,7 @@ class smogTestCase(unittest.TestCase):
     def test_cannot_create_duplicate_post(self):
         # Try to create two identical posts, we should not be able to
         self.login(self.test_user_email, self.test_user_password)
-        r = self.app.post('/create', data=dict(
+        self.app.post('/create', data=dict(
             title='Test post',
             body='The quick brown fox jumps over the lazy dog',
             description='Test description',

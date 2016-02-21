@@ -9,13 +9,14 @@ Like the Flaskr blog but better.
 - Test trying to load an unpublished post by its permalink
 
 ## Todo
+- CRUD users, let users change password
+- Relationship between users and posts. Each post has an "author".
 - Database migration to expand schema, add an "author" field to posts
 - How should I handle posting with special characters in title and no permalink field?
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - Why does my app throw OperationalErrors after running test cases?
 - Handle "next" for login
-- Relationship between users and posts. Each post has an "author".
-- Write some tests
+
 - Make some CSS
 - Published checkbox should be true by default
 - Preview?
@@ -30,6 +31,7 @@ x Allow viewing of drafts
 x Allow editing post where post is updated
 x Allow editing post which updates edit date but not create date
 x make password form box hidden
+x Write some tests
 
 ## Extended Features
 - Confirm before deleting post

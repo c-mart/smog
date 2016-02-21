@@ -9,7 +9,7 @@
             {{ post.body|markdown }}
         </div>
         <div class="post-footer">
-            <span class="post-footer-item">Posted on {{ post.create_date|date_format() }}</span>
+            <span class="post-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
             {% if post.edit_date|date_format() != post.create_date|date_format() %}
                 <span class="post-footer-item">Edited on {{ post.edit_date|date_format() }}</span>
             {% endif %}
