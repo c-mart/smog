@@ -14,6 +14,7 @@ class smogTestCase(unittest.TestCase):
         smog.app.config.from_object('smog.config_test')
         self.app = smog.app.test_client()
         smog.init_db()
+        smog.limiter.enabled = False
 
     def tearDown(self):
         smog.db.session.remove()
@@ -42,8 +43,18 @@ class smogTestCase(unittest.TestCase):
         assert 'Please log in to access this page.' in r.data, "We should see a notice asking to log in"
 
     def test_rate_limit_login(self):
-        smog.app.config['RATELIMIT_ENABLED'] = True
-        assert False
+        smog.limiter.enabled = True
+        self.login('invalid', 'credentials')
+        self.login('invalid', 'credentials')
+        self.login('invalid', 'credentials')
+        self.login('invalid', 'credentials')
+        self.login('invalid', 'credentials')
+        self.login('invalid', 'credentials')
+        r = self.login('invalid', 'credentials')
+        assert 'You have tried doing that too often' in r.data, "We should see a rate limit warning."
+        r = self.login(self.test_user_email, self.test_user_password)
+        assert 'logged in' not in r.data, 'Rate limiter should not allow us to log in'
+        assert 'You have tried doing that too often' in r.data, "We should see a rate limit warning."
 
     def test_compose_post(self):
         self.login(self.test_user_email, self.test_user_password)

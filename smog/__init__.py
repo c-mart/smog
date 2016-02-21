@@ -18,7 +18,6 @@ limiter.init_app(app)
 import smog.views
 
 
-
 def init_db():
     import smog.models
     db.create_all()
