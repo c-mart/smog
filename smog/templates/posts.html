@@ -4,7 +4,7 @@
         <h2>Unpublished Posts</h2>
     {% endif %}
     {% for post in posts %}
-        <h2><a href="{{ url_for('view_posts') }}{{ post.permalink }}">{{ post.title }}</a></h2>
+        <h2 class="post-title"><a href="{{ url_for('view_posts') }}{{ post.permalink }}">{{ post.title }}</a></h2>
         <div class="post-body">
             {{ post.body|markdown }}
         </div>

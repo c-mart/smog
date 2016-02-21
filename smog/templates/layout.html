@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>smog</title>
 </head>
-<body>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}" />
+<body><div class="page">
     <h1>smog: Simple Markdown blOG</h1>
     {% if current_user.is_authenticated %}
         <p>Welcome, {{ current_user.name }}</p>
     {% endif %}
     <div class="nav">
-        <span class="nav-item"><a href="{{ url_for('view_posts') }}">Home</a></span>
+        <span class="nav-item"><a href="{{ url_for('view_posts') }}">All Posts</a></span>
         {% if current_user.is_authenticated %}
             <span class="nav-item"><a href="{{ url_for('create_edit_post') }}">Create Post</a></span>
             <span class="nav-item"><a href="{{ url_for('view_unpublished') }}">View Unpublished</a></span>
@@ -23,5 +24,5 @@
         <div class='flash'><strong>{{ message }}</strong></div>
     {% endfor %}
     {% block body %}{% endblock %}
-</body>
+</div></body>
 </html>

@@ -9,21 +9,21 @@ Like the Flaskr blog but better.
 - Test trying to load an unpublished post by its permalink
 
 ## Todo
+- Make some CSS
+
 - CRUD users, let users change password
-- Relationship between users and posts. Each post has an "author".
-- Database migration to expand schema, add an "author" field to posts
 - How should I handle posting with special characters in title and no permalink field?
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
-- Why does my app throw OperationalErrors after running test cases?
 - Handle "next" for login
-
-- Make some CSS
 - Published checkbox should be true by default
 - Preview?
 - Post type can be post (shown serially in date order) or static page (shown in nav)
 - Mitigate XSS and CSRF
 - create_edit_post() does a LOT. would it be better to split this into multiple views?
 
+x Relationship between users and posts. Each post has an "author".
+x Database migration to expand schema, add an "author" field to posts
+x Why does my app throw OperationalErrors after running test cases? Because testing was using a separate database
 x Show admin (post, edit, delete) buttons if logged in
 x Only allow post/edit/delete view if logged in
 x Line breaks aren't showing - just render markdown
