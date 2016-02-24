@@ -6,6 +6,8 @@ TODO navigation links should always be the same color, but links within post bod
 
 body            { font-family: sans-serif;
                   color: #eeeeec; background: #2e3436; }
+h1              { color: #fcaf3e; }
+h2              { color: #8ae234; }
 a               { color: #729fcf; }
 .page           { margin: 2em auto; width: 50em; }
 .nav-item a     { text-decoration: none; font-weight: bold; padding: 1em;}

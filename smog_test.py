@@ -102,6 +102,24 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/posts/test-permalink')
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see post body"
 
+    def test_cannot_access_permalink_unpublished(self):
+        self.login(self.test_user_email, self.test_user_password)
+        self.app.post('/create', data=dict(
+            title='Test post',
+            body='The quick brown fox jumps over the lazy dog',
+            description='Test description',
+            permalink='test-permalink',
+            published=False,
+            comments_allowed=True
+        ), follow_redirects=True)
+        # Following permalink
+        r = self.app.get('/posts/test-permalink')
+        assert 'The quick brown fox jumps over the lazy dog' in r.data,\
+            "Unpublished post should load while we are logged in"
+        self.logout()
+        r = self.app.get('/posts/test-permalink')
+        assert r.status_code == 404, "Trying to access unpublished post while not logged in should get us a 404"
+
     def test_edit_post(self):
         self.login(self.test_user_email, self.test_user_password)
         r = self.app.post('/create', data=dict(
@@ -179,7 +197,7 @@ class smogTestCase(unittest.TestCase):
         ), follow_redirects=True)
         assert 'There was a problem creating your post.' in r.data, "User should receive error message"
         r = self.app.get('/')
-        assert r.data.count("<h2><a href=\"/posts/test-permalink\">Test post</a></h2>") == 1,\
+        assert r.data.count("<h2 class=\"post-title\"><a href=\"/posts/test-permalink\">Test post</a></h2>") == 1,\
             "Duplicate posts exist where they should not"
 
     def test_markdown_parsing(self):

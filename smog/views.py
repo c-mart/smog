@@ -63,8 +63,14 @@ def view_posts(permalink=None):
         if len(posts) == 0:
             flash('No posts yet.')
     else:
-        # Template expects a list of posts, so we return a list even though it's just one post
-        posts = [Post.query.filter_by(permalink=permalink, published=True).first_or_404()]
+        if flask_login.current_user.is_authenticated is True:
+            # Authenticated user sees post whether or not it is published
+            # Template expects a list of posts, so we return a list even though it's just one post
+            posts = [Post.query.filter_by(permalink=permalink).first_or_404()]
+        else:
+            # Unauthenticated user only sees post if it is published
+            # Template expects a list of posts, so we return a list even though it's just one post
+            posts = [Post.query.filter_by(permalink=permalink, published=True).first_or_404()]
     return render_template('posts.html', posts=posts)
 
 
@@ -86,8 +92,8 @@ def create_edit_post():
             post.body = request.form['body']
             post.description = request.form['description']
             post.permalink = request.form['permalink']
-            post.published = True if 'published' in request.form else False
-            post.comments_allowed = True if 'comments_allowed' in request.form else False
+            post.published = True if request.form.get('published') == "True" else False
+            post.comments_allowed = True if request.form.get('comments_allowed') == "True" else False
             post.edit_date = datetime.utcnow()
             post.user_id = session['user_id']
         else:
@@ -96,8 +102,8 @@ def create_edit_post():
                         body=request.form['body'],
                         description=request.form['description'],
                         permalink=request.form['permalink'],
-                        published=True if 'published' in request.form else False,
-                        comments_allowed=True if 'comments_allowed' in request.form else False,
+                        published=True if request.form.get('published') == "True" else False,
+                        comments_allowed=True if request.form.get('comments_allowed') == "True" else False,
                         user_id=session['user_id']
                         )
         try:
