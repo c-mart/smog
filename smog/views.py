@@ -62,16 +62,15 @@ def view_posts(permalink=None):
         posts = Post.query.filter_by(published=True).order_by(Post.create_date.desc()).all()
         if len(posts) == 0:
             flash('No posts yet.')
+        return render_template('posts.html', posts=posts)
     else:
         if flask_login.current_user.is_authenticated is True:
             # Authenticated user sees post whether or not it is published
-            # Template expects a list of posts, so we return a list even though it's just one post
-            posts = [Post.query.filter_by(permalink=permalink).first_or_404()]
+            post = Post.query.filter_by(permalink=permalink).first_or_404()
         else:
             # Unauthenticated user only sees post if it is published
-            # Template expects a list of posts, so we return a list even though it's just one post
-            posts = [Post.query.filter_by(permalink=permalink, published=True).first_or_404()]
-    return render_template('posts.html', posts=posts)
+            post = Post.query.filter_by(permalink=permalink, published=True).first_or_404()
+        return render_template('single_post.html', post=post)
 
 
 @app.route('/unpublished')

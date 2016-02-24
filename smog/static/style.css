@@ -1,16 +1,17 @@
 /*
 Color palette borrowed from https://en.wikipedia.org/wiki/Tango_Desktop_Project#Palette
 
-TODO navigation links should always be the same color, but links within post body should change to something like #ad7fa8 once clicked.
+TODO navigation links should always be the same color, but links within post body should change to something like #ad7fa8 once clicked?
 */
 
 body            { font-family: sans-serif;
                   color: #eeeeec; background: #2e3436; }
 h1              { color: #fcaf3e; }
-h2              { color: #8ae234; }
+h2              { color: #d3d7cf; }
 a               { color: #729fcf; }
 .page           { margin: 2em auto; width: 50em; }
 .nav-item a     { text-decoration: none; font-weight: bold; padding: 1em;}
 .flash          { color: #fce94f; }
-.post-title a   { color: #eeeeec; text-decoration: none; }
+.post-title a   { color: #fcaf3e; text-decoration: none; }
 .post-footer    { color: #d3d7cf; }
+.sub-heading    { /* todo Make me bolder */}

@@ -10,7 +10,7 @@ Like the Flaskr blog but better.
 
 ## Todo
 - Think about issues that should be fixed before this "ships" (i.e. is used for my blog)
-- How do deal with H1? Post title should always be H1 and page title (e.g. 'smog') should not?
+- How do deal with H1? Single-post page has post title as H1. Multiple-post page has blog title as H1.
 - Center images inside posts?
 - Strip non-alphanumeric characters from permalinks
 - Get rid of green in CSS
