@@ -25,22 +25,32 @@
         <p>
             <h3>Permalink</h3>
             <input type="text" size="50" name="permalink" value="{{ formdata['permalink'] }}" /><br />
-            Allowed characters are alphanumeric, hyphen, and underscore. All others will be stripped.<br />
             (Generated from title if left blank)<br />
+        </p>
+        <p>
+            <h3>Post Type</h3>
+            <input type="radio" name="static_page" value="False"
+                {% if formdata.static_page == False or not formdata.static_page %}
+                    checked="True"
+                {% endif %} /> <strong>Blog Post</strong> (shown chronologically)<br />
+            <input type="radio" name="static_page" value="True"
+                {% if formdata.static_page == True %}
+                    checked="True"
+                {% endif %} /> <strong>Static Page</strong> (shown in menu)<br />
         </p>
         <p>
             <input type="checkbox" name="published" value="True"
                    {% if formdata.published == False %}
                    {% else %}
                        checked="True"
-                   {% endif %} /> Published
+                   {% endif %} /> <strong>Published</strong>
         </p>
         <p>
             <input type="checkbox" name="comments_allowed" value="True"
                    {% if formdata['comments_allowed'] == False %}
                    {% else %}
                    checked="True"
-                   {% endif %} /> Comments allowed
+                   {% endif %} /> <strong>Comments allowed</strong>
         </p>
         <p>
             <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />

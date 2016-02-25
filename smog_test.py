@@ -161,6 +161,8 @@ class smogTestCase(unittest.TestCase):
                    ['<h3>Heading</h3>', '<li>Bullet</li>', '<p>Paragraph</p>', '<code>some_code()\n</code>']
                    ), "Markdown not parsed correctly"
 
+    def test_post_static_page(self):
+        assert False, "This should check to ensure that posts and static pages are handled correctly"
 
 if __name__ == '__main__':
     unittest.main()

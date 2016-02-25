@@ -1,26 +1,29 @@
 SMOG: Simple Markdown blOG
-
 Like the Flaskr blog but better.
 
 - Sqlite3 backend for now, something better later
 - Manual forms now, WTForms later
 
-## Tests to write
-
+## Ship-critical issues to fix
+- Render description in HTML somewhere. Consider separate template for showing single post with meta tag
+- CRUD users as admin, let users change password
+- RSS
+- Mitigate XSS and CSRF
+- Fix CSS for flash messages
+- More space between post-footer-items
 
 ## Todo
-- Test for use of slugify, ensure permalinks are cleaned up
-- Think about issues that should be fixed before this "ships" (i.e. is used for my blog)
+- Test for posting static pages vs blog post
+- How to order static pages?
 - Center images inside posts?
-- H2 in post title and in post body look the same, they should be different?
-- CRUD users, let users change password
-- Render description in HTML somewhere. Consider separate template for showing single post with meta tag
+- H2 in post title and in post body look the same, they should be different? Render H2s in post body as H3s when?
 - Handle "next" for login
 - Post type can be post (shown serially in date order) or static page (shown in nav)
-- Mitigate XSS and CSRF
 - create_edit_post() does a LOT. would it be better to split this into multiple views?
 - Make form fields light on dark
 
+x static pages.
+x Test for use of slugify, ensure permalinks are cleaned up
 x How should I handle posting with special characters in title and no permalink field?
 x Get rid of green in CSS
 x Strip non-alphanumeric characters from permalinks
@@ -40,14 +43,12 @@ x make password form box hidden
 x Write some tests
 
 ## Extended Features
+- Post tags with tag cloud
 - Confirm before deleting post
-- Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes
+- Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
 - Figure out markdown blockquoting
 - Static pages separate from posts
 - Automatically publish at a date and time
 - Preview function while composing
 - Built-in image hosting with exif tag removal
-- People can post comments
-- Comment moderation
-- Post tags with tag cloud
-- RSS
+- People can post comments, comment moderation

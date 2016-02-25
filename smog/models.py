@@ -51,12 +51,13 @@ class Post(db.Model):
     body = db.Column(db.Text)
     create_date = db.Column(db.DateTime)
     edit_date = db.Column(db.DateTime)
+    static_page = db.Column(db.Boolean)
     published = db.Column(db.Boolean)
     comments_allowed = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, title, body, user_id, description=None, permalink=None, create_date=None,
-                 edit_date=None, published=True, comments_allowed=True):
+                 edit_date=None, static_page=False, published=True, comments_allowed=True):
         self.title = title
         self.body = body
         if description == '' or description is None:
@@ -83,6 +84,7 @@ class Post(db.Model):
         self.published = published
         self.comments_allowed = comments_allowed
         self.user_id = user_id
+        self.static_page = static_page
 
     def __repr__(self):
         return '<Post %s>' % self.title

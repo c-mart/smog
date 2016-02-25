@@ -10,7 +10,8 @@ h1              { color: #fcaf3e; }
 h2              { color: #d3d7cf; }
 a               { color: #729fcf; }
 .page           { margin: 2em auto; width: 50em; }
-.nav-item a     { text-decoration: none; font-weight: bold; padding: 1em;}
+.nav            { margin: 1em; }
+.nav-item a     { text-decoration: none; font-weight: bold; margin: 1em; }
 .flash          { color: #fce94f; }
 .post-title a   { color: #fcaf3e; text-decoration: none; }
 .post-footer    { color: #d3d7cf; }

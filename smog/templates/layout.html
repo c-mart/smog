@@ -12,6 +12,16 @@
     {% endif %}
     <div class="nav">
         <span class="nav-item"><a href="{{ url_for('view_posts') }}">All Posts</a></span>
+        {% for page in pages %}
+            <span class="nav-item"><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.title }}</a></span>
+        {% endfor %}
+    </div>
+    {% for message in get_flashed_messages() %}
+        <div class='flash'><strong>{{ message }}</strong></div>
+    {% endfor %}
+    {% block body %}{% endblock %}
+    <div class="nav">
+        Administer me:
         {% if current_user.is_authenticated %}
             <span class="nav-item"><a href="{{ url_for('create_edit_post') }}">Create Post</a></span>
             <span class="nav-item"><a href="{{ url_for('view_unpublished') }}">View Unpublished</a></span>
@@ -20,9 +30,5 @@
             <span class="nav-item"><a href="{{ url_for('login') }}">Log in</a></span>
         {% endif %}
     </div>
-    {% for message in get_flashed_messages() %}
-        <div class='flash'><strong>{{ message }}</strong></div>
-    {% endfor %}
-    {% block body %}{% endblock %}
 </div></body>
 </html>

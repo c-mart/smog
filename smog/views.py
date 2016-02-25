@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from slugify import slugify
 
+
 # TODO write some docstrings
 @login_manager.user_loader
 def user_loader(user_id):
@@ -14,6 +15,10 @@ def user_loader(user_id):
         return User.query.filter_by(id=int(user_id)).one()
     except NoResultFound():
         return None
+
+
+def static_pages():
+    return Post.query.filter_by(published=True, static_page=True).all()
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -59,10 +64,10 @@ def logout():
 @app.route('/posts/<permalink>')
 def view_posts(permalink=None):
     if permalink is None:
-        posts = Post.query.filter_by(published=True).order_by(Post.create_date.desc()).all()
+        posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
         if len(posts) == 0:
             flash('No posts yet.')
-        return render_template('posts.html', posts=posts)
+        return render_template('posts.html', posts=posts, pages=static_pages())
     else:
         if flask_login.current_user.is_authenticated is True:
             # Authenticated user sees post whether or not it is published
@@ -70,14 +75,16 @@ def view_posts(permalink=None):
         else:
             # Unauthenticated user only sees post if it is published
             post = Post.query.filter_by(permalink=permalink, published=True).first_or_404()
-        return render_template('single_post.html', post=post)
+        return render_template('single_post.html', post=post, pages=static_pages())
 
 
 @app.route('/unpublished')
 @flask_login.login_required
 def view_unpublished():
     posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
-    return render_template('posts.html', posts=posts, unpublished=True)
+    if len(posts) == 0:
+        flash('No unpublished posts yet.')
+    return render_template('posts.html', posts=posts, unpublished=True, pages=static_pages())
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -91,6 +98,7 @@ def create_edit_post():
             post.body = request.form['body']
             post.description = request.form['description']
             post.permalink = slugify(request.form['permalink'])
+            post.static_page = True if request.form['static_page'] == "True" else False
             post.published = True if request.form.get('published') == "True" else False
             post.comments_allowed = True if request.form.get('comments_allowed') == "True" else False
             post.edit_date = datetime.utcnow()
@@ -101,6 +109,7 @@ def create_edit_post():
                         body=request.form['body'],
                         description=request.form['description'],
                         permalink=slugify(request.form['permalink']),
+                        static_page=True if request.form['static_page'] == "True" else False,
                         published=True if request.form.get('published') == "True" else False,
                         comments_allowed=True if request.form.get('comments_allowed') == "True" else False,
                         user_id=session['user_id']
