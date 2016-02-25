@@ -13,6 +13,7 @@ a               { color: #729fcf; }
 .nav            { margin: 1em; }
 .nav-item a     { text-decoration: none; font-weight: bold; margin: 1em; }
 .flash          { color: #fce94f; }
+.post           { margin-bottom: 4em; }
 .post-title a   { color: #fcaf3e; text-decoration: none; }
 .post-footer    { color: #d3d7cf; }
 .sub-heading    { /* todo Make me bolder */}

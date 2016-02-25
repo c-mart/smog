@@ -7,11 +7,9 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}" />
 <body><div class="page">
     {% block title %}{% endblock %}
-    {% if current_user.is_authenticated %}
-        <p>Logged in as {{ current_user.name }}</p>
-    {% endif %}
     <div class="nav">
-        <span class="nav-item"><a href="{{ url_for('view_posts') }}">All Posts</a></span>
+        <span class="nav-item"><a href="{{ url_for('view_posts') }}">Most Recent</a></span>
+        <span class="nav-item"><a href="{{ url_for('list_posts') }}">All Posts</a></span>
         {% for page in pages %}
             <span class="nav-item"><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.title }}</a></span>
         {% endfor %}
@@ -20,6 +18,9 @@
         <div class='flash'><strong>{{ message }}</strong></div>
     {% endfor %}
     {% block body %}{% endblock %}
+    {% if current_user.is_authenticated %}
+    <p>Logged in as {{ current_user.name }}</p>
+    {% endif %}
     <div class="nav">
         Administer me:
         {% if current_user.is_authenticated %}

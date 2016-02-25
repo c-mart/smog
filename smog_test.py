@@ -32,6 +32,7 @@ class smogTestCase(unittest.TestCase):
                     body='The quick brown fox jumps over the lazy dog',
                     description='Test description',
                     permalink='test-permalink',
+                    static_page=False,
                     published=True,
                     comments_allowed=True):
         return self.app.post('/create', data=locals(), follow_redirects=True)
@@ -117,6 +118,7 @@ class smogTestCase(unittest.TestCase):
             body='The quack bruno fax stumps the lousy doug',
             description='Test description',
             permalink='test-permalink',
+            static_page=False,
             published=True,
             comments_allowed=True
         ), follow_redirects=True)
@@ -163,6 +165,9 @@ class smogTestCase(unittest.TestCase):
 
     def test_post_static_page(self):
         assert False, "This should check to ensure that posts and static pages are handled correctly"
+
+    def test_list_posts(self):
+        assert False, "This should confirm that we can see a list of posts."
 
 if __name__ == '__main__':
     unittest.main()

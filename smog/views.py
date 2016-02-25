@@ -58,7 +58,7 @@ def logout():
     return redirect(url_for('view_posts'))
 
 
-# TODO also allow short post URLs with post ID
+
 @app.route('/')
 @app.route('/posts/')
 @app.route('/posts/<permalink>')
@@ -67,7 +67,7 @@ def view_posts(permalink=None):
         posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
         if len(posts) == 0:
             flash('No posts yet.')
-        return render_template('posts.html', posts=posts, pages=static_pages())
+        return render_template('multiple_posts.html', posts=posts, pages=static_pages())
     else:
         if flask_login.current_user.is_authenticated is True:
             # Authenticated user sees post whether or not it is published
@@ -84,8 +84,15 @@ def view_unpublished():
     posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
     if len(posts) == 0:
         flash('No unpublished posts yet.')
-    return render_template('posts.html', posts=posts, unpublished=True, pages=static_pages())
+    return render_template('multiple_posts.html', posts=posts, unpublished=True, pages=static_pages())
 
+
+@app.route('/list')
+def list_posts():
+    posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
+    if len(posts) == 0:
+        flash('No posts yet.')
+    return render_template('posts_list.html', posts=posts, pages=static_pages())
 
 @app.route('/create', methods=['GET', 'POST'])
 @flask_login.login_required
@@ -151,9 +158,8 @@ def rate_limit_exceeded_handler(e):
     # Return statement should be generalized if we ever use rate limiting for actions other than logging in
     return make_response(redirect(url_for('login')))
 
+
 # Jinja2 display filters
-
-
 @app.template_filter('date_format')
 def date_format(value, formatstr='%Y-%m-%d'):
     return value.strftime(formatstr)

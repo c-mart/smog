@@ -5,6 +5,8 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
+- Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear")
+
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - CRUD users as admin, let users change password
 - RSS
@@ -22,6 +24,7 @@ Like the Flaskr blog but better.
 - create_edit_post() does a LOT. would it be better to split this into multiple views?
 - Make form fields light on dark
 
+x "All Posts" page which lists posts in reverse chronological order
 x static pages.
 x Test for use of slugify, ensure permalinks are cleaned up
 x How should I handle posting with special characters in title and no permalink field?
@@ -43,6 +46,7 @@ x make password form box hidden
 x Write some tests
 
 ## Extended Features
+- Two column layout for All Posts page
 - Post tags with tag cloud
 - Confirm before deleting post
 - Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
@@ -52,3 +56,4 @@ x Write some tests
 - Preview function while composing
 - Built-in image hosting with exif tag removal
 - People can post comments, comment moderation
+- Allow short post URLs with post ID
