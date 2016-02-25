@@ -5,7 +5,7 @@ from smog.helpers import *
 from flask import redirect, url_for, request, session, flash, render_template, make_response
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
-
+from slugify import slugify
 
 # TODO write some docstrings
 @login_manager.user_loader
@@ -90,7 +90,7 @@ def create_edit_post():
             post.title = request.form['title']
             post.body = request.form['body']
             post.description = request.form['description']
-            post.permalink = request.form['permalink']
+            post.permalink = slugify(request.form['permalink'])
             post.published = True if request.form.get('published') == "True" else False
             post.comments_allowed = True if request.form.get('comments_allowed') == "True" else False
             post.edit_date = datetime.utcnow()
@@ -100,7 +100,7 @@ def create_edit_post():
             post = Post(title=request.form['title'],
                         body=request.form['body'],
                         description=request.form['description'],
-                        permalink=request.form['permalink'],
+                        permalink=slugify(request.form['permalink']),
                         published=True if request.form.get('published') == "True" else False,
                         comments_allowed=True if request.form.get('comments_allowed') == "True" else False,
                         user_id=session['user_id']

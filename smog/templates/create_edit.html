@@ -1,26 +1,32 @@
 {% extends 'layout.html' %}
+{% block title %}
+    <h1>smog: Simple Markdown blOG</h1>
+{% endblock %}
 {% block body %}
     {% if edit == True %}
-        <h1>Edit Post</h1>
+        <h2>Edit Post</h2>
     {% else %}
-        <h1>Create Post</h1>
+        <h2>Create Post</h2>
     {% endif %}
     <form action="{{ url_for('create_edit_post') }}" method="post" class="create-post">
         <p>
-            Title<br />
+            <h3>Title</h3>
             <input type="text" size="50" name="title" value="{{ formdata['title'] }}" />
         </p>
         <p>
-            Body<br />
+            <h3>Body</h3>
             <textarea name="body" rows="20" cols="80">{{ formdata['body'] }}</textarea>
         </p>
         <p>
-            Short description (generated from title if left blank)<br />
-            <input type="text" size="50" name="description" value="{{ formdata['description'] }}"/>
+            <h3>Short description</h3>
+            <input type="text" size="50" name="description" value="{{ formdata['description'] }}"/><br />
+            (Generated from title if left blank)
         </p>
         <p>
-            Permalink (generated from title if left blank)<br />
-            <input type="text" size="50" name="permalink" value="{{ formdata['permalink'] }}" />
+            <h3>Permalink</h3>
+            <input type="text" size="50" name="permalink" value="{{ formdata['permalink'] }}" /><br />
+            Allowed characters are alphanumeric, hyphen, and underscore. All others will be stripped.<br />
+            (Generated from title if left blank)<br />
         </p>
         <p>
             <input type="checkbox" name="published" value="True"

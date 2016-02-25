@@ -8,7 +8,7 @@
 <body><div class="page">
     {% block title %}{% endblock %}
     {% if current_user.is_authenticated %}
-        <p>Welcome, {{ current_user.name }}</p>
+        <p>Logged in as {{ current_user.name }}</p>
     {% endif %}
     <div class="nav">
         <span class="nav-item"><a href="{{ url_for('view_posts') }}">All Posts</a></span>

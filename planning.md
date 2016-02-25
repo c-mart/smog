@@ -6,24 +6,26 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Tests to write
-- Test trying to load an unpublished post by its permalink
+
 
 ## Todo
+- Test for use of slugify, ensure permalinks are cleaned up
 - Think about issues that should be fixed before this "ships" (i.e. is used for my blog)
-- How do deal with H1? Single-post page has post title as H1. Multiple-post page has blog title as H1.
 - Center images inside posts?
-- Strip non-alphanumeric characters from permalinks
-- Get rid of green in CSS
-- H2 in post title and in post body look the same, they should be different
+- H2 in post title and in post body look the same, they should be different?
 - CRUD users, let users change password
-- How should I handle posting with special characters in title and no permalink field?
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - Handle "next" for login
-- Preview?
 - Post type can be post (shown serially in date order) or static page (shown in nav)
 - Mitigate XSS and CSRF
 - create_edit_post() does a LOT. would it be better to split this into multiple views?
+- Make form fields light on dark
 
+x How should I handle posting with special characters in title and no permalink field?
+x Get rid of green in CSS
+x Strip non-alphanumeric characters from permalinks
+x Test trying to load an unpublished post by its permalink
+x How do deal with H1? Single-post page has post title as H1. Multiple-post page has blog title as H1.
 x Published checkbox should be true by default
 x Relationship between users and posts. Each post has an "author".
 x Database migration to expand schema, add an "author" field to posts

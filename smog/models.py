@@ -2,6 +2,7 @@ from helpers import *
 from os import urandom
 from datetime import datetime
 from smog import db
+from slugify import slugify
 
 
 class User(db.Model):
@@ -62,11 +63,13 @@ class Post(db.Model):
             self.description = self.title
         else:
             self.description = description
+
+        # Cleaning up permalink with slugify
         if permalink == '' or permalink is None:
-            self.permalink = self.title.lower().replace(' ', '-')
+            self.permalink = slugify(self.title)
         else:
-            # TODO perform some permalink validation, e.g. ensure no invalid characters
-            self.permalink = permalink
+            self.permalink = slugify(permalink)
+
         if create_date is None:
             self.create_date = datetime.utcnow()
         else:
