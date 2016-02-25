@@ -6,7 +6,6 @@ Like the Flaskr blog but better.
 
 ## Ship-critical issues to fix
 - Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear")
-
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - CRUD users as admin, let users change password
 - RSS
@@ -15,6 +14,7 @@ Like the Flaskr blog but better.
 - More space between post-footer-items
 
 ## Todo
+- Redirect poster to permalink after posting
 - Test for posting static pages vs blog post
 - How to order static pages?
 - Center images inside posts?

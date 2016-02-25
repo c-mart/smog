@@ -31,7 +31,7 @@ class smogTestCase(unittest.TestCase):
                     title='Test post',
                     body='The quick brown fox jumps over the lazy dog',
                     description='Test description',
-                    permalink='test-permalink',
+                    permalink='',
                     static_page=False,
                     published=True,
                     comments_allowed=True):
@@ -78,26 +78,26 @@ class smogTestCase(unittest.TestCase):
 
     def test_auto_permalink(self):
         self.login()
-        r = self.create_post(permalink='')
+        r = self.create_post()
         assert '<a href="/posts/test-post">' in r.data, "We should see automatically generated permalink"
 
     def test_follow_permalink(self):
         self.login()
         r = self.create_post()
-        assert '<a href="/posts/test-permalink">' in r.data, "We should see link for post permalink"
+        assert '<a href="/posts/test-post">' in r.data, "We should see link for post permalink"
         # Following permalink
-        r = self.app.get('/posts/test-permalink')
+        r = self.app.get('/posts/test-post')
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see post body"
 
     def test_cannot_access_permalink_unpublished(self):
         self.login()
         self.create_post(published=False)
         # Following permalink
-        r = self.app.get('/posts/test-permalink')
+        r = self.app.get('/posts/test-post')
         assert 'The quick brown fox jumps over the lazy dog' in r.data,\
             "Unpublished post should load while we are logged in"
         self.logout()
-        r = self.app.get('/posts/test-permalink')
+        r = self.app.get('/posts/test-post')
         assert r.status_code == 404, "Trying to access unpublished post while not logged in should get us a 404"
 
     def test_clean_up_permalink(self):
@@ -117,7 +117,7 @@ class smogTestCase(unittest.TestCase):
             title='Test post',
             body='The quack bruno fax stumps the lousy doug',
             description='Test description',
-            permalink='test-permalink',
+            permalink='test-post',
             static_page=False,
             published=True,
             comments_allowed=True
@@ -150,7 +150,7 @@ class smogTestCase(unittest.TestCase):
         r = self.create_post()
         assert 'There was a problem creating your post.' in r.data, "User should receive error message"
         r = self.app.get('/')
-        assert r.data.count("<h2 class=\"post-title\"><a href=\"/posts/test-permalink\">Test post</a></h2>") == 1,\
+        assert r.data.count("<h2 class=\"post-title\"><a href=\"/posts/test-post\">Test post</a></h2>") == 1,\
             "Duplicate posts exist where they should not"
 
     def test_markdown_parsing(self):
@@ -164,10 +164,25 @@ class smogTestCase(unittest.TestCase):
                    ), "Markdown not parsed correctly"
 
     def test_post_static_page(self):
-        assert False, "This should check to ensure that posts and static pages are handled correctly"
+        self.login()
+        self.create_post(static_page=True)
+        r = self.app.get('/')
+        assert 'No posts yet.' in r.data, "We should see no posts"
+        assert '<a href="/posts/test-post">Test post</a>' in r.data, "We should see a link to our static page"
+        r = self.app.get('/posts/test-post')
+        assert "The quick brown fox jumps over the lazy dog" in r.data, "We should see our static page"
 
     def test_list_posts(self):
-        assert False, "This should confirm that we can see a list of posts."
+        self.login()
+        self.create_post(title='post 1')
+        self.create_post(title='post 2')
+        r = self.app.get('/list')
+        assert '<a href="/posts/post-1">post 1</a>' in r.data and \
+               '<a href="/posts/post-1">post 1</a>' in r.data, \
+               'We should see a list of posts a link to our test post'
+
+    def test_settings(self):
+        assert False, "This should allow us to configure the settings of our blog."
 
 if __name__ == '__main__':
     unittest.main()
