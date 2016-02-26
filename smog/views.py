@@ -2,13 +2,14 @@ from smog import app, limiter, login_manager
 import flask_login
 from smog.models import *
 from smog.helpers import *
-from flask import redirect, url_for, request, session, flash, render_template, make_response
+from flask import redirect, url_for, request, session, flash, render_template, make_response, g
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from slugify import slugify
 from werkzeug.contrib.atom import AtomFeed
 from urlparse import urljoin
 from misaka import html
+from functools import wraps
 
 # TODO write some docstrings
 @login_manager.user_loader
@@ -19,12 +20,21 @@ def user_loader(user_id):
         return None
 
 
-def static_pages():
-    return Post.query.filter_by(published=True, static_page=True).all()
+def get_static_stuff(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        g.poop=True
+        static_pages = Post.query.filter_by(published=True, static_page=True).all()
+        g.static_pages = static_pages
+        settings = SiteSettings.query.filter_by(id=0).one()
+        g.site_settings = settings
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route('/login', methods=['GET', 'POST'])
 @limiter.limit("6/minute", methods=['POST'])
+@get_static_stuff
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -60,15 +70,31 @@ def logout():
     return redirect(url_for('view_posts'))
 
 
+@app.route('/site-settings', methods=['GET', 'POST'])
+@flask_login.login_required
+@get_static_stuff
+def site_settings():
+    settings = SiteSettings.query.filter_by(id=0).one()
+    if request.method == 'POST':
+        settings.site_title = request.form['site_title']
+        settings.footer_line = request.form['footer_line']
+        db.session.add(settings)
+        db.session.commit()
+        flash('Site settings have been updated.')
+        return redirect(url_for('site_settings'))
+    return render_template('site_settings.html', formdata=settings)
+
+
 @app.route('/')
 @app.route('/posts/')
 @app.route('/posts/<permalink>')
+@get_static_stuff
 def view_posts(permalink=None):
     if permalink is None:
         posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
         if len(posts) == 0:
             flash('No posts yet.')
-        return render_template('multiple_posts.html', posts=posts, pages=static_pages())
+        return render_template('multiple_posts.html', posts=posts)
     else:
         if flask_login.current_user.is_authenticated is True:
             # Authenticated user sees post whether or not it is published
@@ -76,7 +102,26 @@ def view_posts(permalink=None):
         else:
             # Unauthenticated user only sees post if it is published
             post = Post.query.filter_by(permalink=permalink, published=True).first_or_404()
-        return render_template('single_post.html', post=post, pages=static_pages())
+        return render_template('single_post.html', post=post)
+
+
+@app.route('/unpublished')
+@flask_login.login_required
+@get_static_stuff
+def view_unpublished():
+    posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
+    if len(posts) == 0:
+        flash('No unpublished posts yet.')
+    return render_template('multiple_posts.html', posts=posts, unpublished=True)
+
+
+@app.route('/list')
+@get_static_stuff
+def list_posts():
+    posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
+    if len(posts) == 0:
+        flash('No posts yet.')
+    return render_template('posts_list.html', posts=posts)
 
 
 @app.route('/posts.atom')
@@ -95,24 +140,10 @@ def recent_posts_feed():
                  )
     return feed.get_response()
 
-@app.route('/unpublished')
-@flask_login.login_required
-def view_unpublished():
-    posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
-    if len(posts) == 0:
-        flash('No unpublished posts yet.')
-    return render_template('multiple_posts.html', posts=posts, unpublished=True, pages=static_pages())
-
-
-@app.route('/list')
-def list_posts():
-    posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
-    if len(posts) == 0:
-        flash('No posts yet.')
-    return render_template('posts_list.html', posts=posts, pages=static_pages())
 
 @app.route('/create', methods=['GET', 'POST'])
 @flask_login.login_required
+@get_static_stuff
 def create_edit_post():
     if request.method == 'POST':
         if request.form.get('update_id'):
@@ -160,6 +191,7 @@ def create_edit_post():
 
 @app.route('/delete/<post_id>')
 @flask_login.login_required
+@get_static_stuff
 def delete_post(post_id):
     post = Post.query.filter_by(id=post_id).first_or_404()
     db.session.delete(post)

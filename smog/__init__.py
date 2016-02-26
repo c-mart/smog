@@ -23,6 +23,8 @@ def init_db():
     db.create_all()
     testuser = models.User('test@test.com', 'Test User', 'changeme123')
     db.session.add(testuser)
+    settings = models.SiteSettings()
+    db.session.add(settings)
     db.session.commit()
 
 # Create database if it's not there

@@ -188,13 +188,24 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/')
         assert '<link href="/posts.atom" rel="alternate" title="Recent Posts" type="application/atom+xml">' in r.data,\
             "We should see a link to an Atom feed"
+        r = self.app.get('/list')
+        assert '<link href="/posts.atom" rel="alternate" title="Recent Posts" type="application/atom+xml">' in r.data,\
+            "We should see a link to an Atom feed"
         r = self.app.get('/posts.atom')
         assert '<feed xmlns="http://www.w3.org/2005/Atom">' in r.data, "An Atom feed should load"
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see our post in the Atom feed"
         assert "Can't C me" not in r.data, "We should not see unpublished posts in the Atom feed"
 
     def test_settings(self):
-        assert False, "This should allow us to configure the settings of our blog."
+        self.login()
+        r = self.app.get('/site-settings')
+        assert 'Site Settings' in r.data and '<form' in r.data, 'A site settings page should load'
+        self.app.post('/site-settings',
+                      data=dict(site_title='dis b mah blog', footer_line='dis b mah foot'),
+                      follow_redirects=True)
+        r = self.app.get('/')
+        assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
+        assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
 
 if __name__ == '__main__':
     unittest.main()

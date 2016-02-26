@@ -5,10 +5,11 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
+- Use url_for in tests?
+- Set browser title bar
 - Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - Some kind of better user management
-- RSS
 - Mitigate XSS and CSRF
 - Fix CSS for flash messages
 - More space between post-footer-items?
@@ -24,6 +25,8 @@ Like the Flaskr blog but better.
 - create_edit_post() does a LOT. would it be better to split this into multiple views?
 - Make form fields light on dark
 
+## Completed Todo
+x RSS/Atom feed (I did Atom)
 x "All Posts" page which lists posts in reverse chronological order
 x static pages.
 x Test for use of slugify, ensure permalinks are cleaned up

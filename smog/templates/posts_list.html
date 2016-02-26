@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
+{% block head %}
+    <link href="{{ url_for('recent_posts_feed') }}" rel="alternate" title="Recent Posts" type="application/atom+xml">
+{% endblock %}
 {% block title %}
-<h1>smog: Simple Markdown blOG</h1>
+<h1>{{ g.site_settings.site_title }}</h1>
 {% endblock %}
 {% block body %}
     <h2>All Posts</h2>

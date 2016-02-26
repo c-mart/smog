@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block title %}
+    <h1>Site Settings</h1>
+{% endblock %}
+{% block body %}
+    <form action="{{ url_for('site_settings') }}" method="post">
+        <p>
+            <h3>Site Title</h3>
+            <input type="text" size="50" name="site_title" value="{{ formdata['site_title'] }}" /><br />
+            This will appear in the at the top of each page and in the browser menu bar.
+        </p>
+        <p>
+            <h3>Footer Line</h3>
+            <input type="text" size="50" name="footer_line" value="{{ formdata['footer_line'] }}" /><br />
+            This line will appear at the bottom of every page.<br />
+            <code>$year$</code> inserts the current year for use in a copyright notice.
+        </p>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </form>
+{% endblock %}

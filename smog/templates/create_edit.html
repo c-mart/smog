@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block title %}
-    <h1>smog: Simple Markdown blOG</h1>
+    <h1>{{ g.site_settings.site_title }}</h1>
 {% endblock %}
 {% block body %}
     {% if edit == True %}

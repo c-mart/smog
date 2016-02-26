@@ -3,18 +3,25 @@ from os import urandom
 from datetime import datetime
 from smog import db
 from slugify import slugify
+from string import replace
 
-'''
+
 class SiteSettings(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
     site_title = db.Column(db.String)
     footer_line = db.Column(db.String)
 
-    def __init__(self, site_title='smog: Simple Markdown blOG', footer_line='Copyright $year$, all rights reserved'):
+    def __init__(self, site_title='smog: Simple Markdown blOG',
+                 footer_line='Copyright $year$ Bloggy McAuthorson, all rights reserved'):
+        self.id = 0
         self.site_title = site_title
         self.footer_line = footer_line
-    # TODO continue building this, figure out how to store only one row in a table
-    # TODO figure out how to insert current year in copyright string
-'''
+
+    def __repr__(self):
+        return '<Site settings>'
+
+    def get_footer_line(self):
+        return replace(self.footer_line, '$year$', str(datetime.today().year))
 
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
