@@ -181,6 +181,18 @@ class smogTestCase(unittest.TestCase):
                '<a href="/posts/post-1">post 1</a>' in r.data, \
                'We should see a list of posts a link to our test post'
 
+    def test_atom_feed(self):
+        self.login()
+        self.create_post()
+        self.create_post(title="Can't C Me", body="The blind stares of a million pairs of eyes", published=False)
+        r = self.app.get('/')
+        assert '<link href="/posts.atom" rel="alternate" title="Recent Posts" type="application/atom+xml">' in r.data,\
+            "We should see a link to an Atom feed"
+        r = self.app.get('/posts.atom')
+        assert '<feed xmlns="http://www.w3.org/2005/Atom">' in r.data, "An Atom feed should load"
+        assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see our post in the Atom feed"
+        assert "Can't C me" not in r.data, "We should not see unpublished posts in the Atom feed"
+
     def test_settings(self):
         assert False, "This should allow us to configure the settings of our blog."
 

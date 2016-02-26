@@ -6,7 +6,9 @@ from flask import redirect, url_for, request, session, flash, render_template, m
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from slugify import slugify
-
+from werkzeug.contrib.atom import AtomFeed
+from urlparse import urljoin
+from misaka import html
 
 # TODO write some docstrings
 @login_manager.user_loader
@@ -58,7 +60,6 @@ def logout():
     return redirect(url_for('view_posts'))
 
 
-
 @app.route('/')
 @app.route('/posts/')
 @app.route('/posts/<permalink>')
@@ -77,6 +78,22 @@ def view_posts(permalink=None):
             post = Post.query.filter_by(permalink=permalink, published=True).first_or_404()
         return render_template('single_post.html', post=post, pages=static_pages())
 
+
+@app.route('/posts.atom')
+def recent_posts_feed():
+    feed = AtomFeed('Recent Posts', feed_url=request.url, url=request.url_root)
+    posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).limit(15).all()
+    for post in posts:
+        # Todo render markdown
+        feed.add(post.title,
+                 html(post.body),
+                 content_type='html',
+                 author=post.user_name(),
+                 url=urljoin(request.url_root, '/posts/' + post.permalink),
+                 updated=post.edit_date,
+                 published=post.create_date
+                 )
+    return feed.get_response()
 
 @app.route('/unpublished')
 @flask_login.login_required

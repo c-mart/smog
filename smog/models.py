@@ -4,6 +4,17 @@ from datetime import datetime
 from smog import db
 from slugify import slugify
 
+'''
+class SiteSettings(db.Model):
+    site_title = db.Column(db.String)
+    footer_line = db.Column(db.String)
+
+    def __init__(self, site_title='smog: Simple Markdown blOG', footer_line='Copyright $year$, all rights reserved'):
+        self.site_title = site_title
+        self.footer_line = footer_line
+    # TODO continue building this, figure out how to store only one row in a table
+    # TODO figure out how to insert current year in copyright string
+'''
 
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
