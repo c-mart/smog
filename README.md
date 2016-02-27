@@ -10,6 +10,9 @@ Simple Markdown blOG, or chriS Martin's blOG
 
 For demo blog, see https://update.me.later
 
+## Story
+I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
+
 ## Documentation
 Mikasa Markdown interpreter: https://flask-misaka.readthedocs.org/en/latest/
 

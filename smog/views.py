@@ -111,6 +111,9 @@ def create_edit_user():
     if request.method == 'POST':
         if request.form.get('update_id'):
             # Update user account
+            if request.form['update_id'] == session['user_id'] and request.form.get('active') == "False":
+                flash('Error: you cannot disable your own user account.')
+                return redirect(url_for('manage_users'))
             user = User.query.filter_by(id=request.form['update_id']).first_or_404()
             user.name = request.form['name']
             user.email = request.form['email']
@@ -143,10 +146,13 @@ def create_edit_user():
 @get_static_stuff
 def delete_user(user_id):
     """Deletes a user."""
-    user = User.query.filter(User.id == user_id).first_or_404()
-    db.session.delete(user)
-    db.session.commit()
-    flash('User has been deleted.')
+    if user_id == session['user_id']:
+        flash('Error: you cannot delete your own user account.')
+    else:
+        user = User.query.filter(User.id == user_id).first_or_404()
+        db.session.delete(user)
+        db.session.commit()
+        flash('User has been deleted.')
     return redirect(url_for('manage_users'))
 
 

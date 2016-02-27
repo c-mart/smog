@@ -8,6 +8,7 @@ from string import replace
 
 class SiteSettings(db.Model):
     """Global site settings. This table only has one row."""
+
     id = db.Column(db.Integer(), primary_key=True)
     site_title = db.Column(db.String)
     footer_line = db.Column(db.String)

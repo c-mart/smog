@@ -5,8 +5,6 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
-- Rename create_edit.html to create_edit_post.html
-- Some kind of better user management
 - Don't allow user to deactivate or delete him/her self
 - Fix CSS for flash messages
 - More space between post-footer-items?
@@ -14,6 +12,7 @@ Like the Flaskr blog but better.
 - Don't show title twice for single-post page
 
 ## Todo
+- Rename create_edit.html to create_edit_post.html
 - Refactor "Active" user to "Enabled" user to resolve ambiguity
 - Mitigate XSS and CSRF using WTForms
 - Redirect poster to permalink after posting
@@ -27,6 +26,7 @@ Like the Flaskr blog but better.
 - Make form fields light on dark
 
 ## Completed Todo
+x Some kind of better user management
 x Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 x Set browser title bar
 x Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.

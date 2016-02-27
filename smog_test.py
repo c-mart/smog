@@ -294,5 +294,9 @@ class smogTestCase(unittest.TestCase):
         # Try logging in as second user, we shouldn't be able to
         assert False
 
+    def test_delete_disable_own_account(self):
+        """Confirm that we cannot disable or delete our own user account."""
+        assert False
+
 if __name__ == '__main__':
     unittest.main()
