@@ -51,7 +51,8 @@ class smogTestCase(unittest.TestCase):
     def test_login_logout(self):
         """Perform invalid login attempt, log user in, log user out"""
         r = self.login('invalid', 'credentials')
-        assert 'Invalid email or password, try again.' in r.data, "We should receive an invalid credentials message"
+        assert 'No active account associated with that email and password, try again.' in r.data,\
+            "We should receive an invalid credentials message"
         r = self.login()
         assert 'You are logged in.' in r.data, "We should receive a logged in notice"
         r = self.logout()

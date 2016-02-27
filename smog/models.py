@@ -39,7 +39,7 @@ class User(db.Model):
     create_date = db.Column(db.DateTime)
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
-    def __init__(self, email, name, password, active):
+    def __init__(self, email, name, password, active=True):
         # Todo perform validation that this is an email address
         self.email = email
         self.name = name
