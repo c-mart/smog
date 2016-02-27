@@ -11,9 +11,11 @@ from urlparse import urljoin
 from misaka import html
 from functools import wraps
 
+
 # TODO write some docstrings
 @login_manager.user_loader
 def user_loader(user_id):
+    """Retrieves user object for login manager."""
     try:
         return User.query.filter_by(id=int(user_id)).one()
     except NoResultFound():
@@ -21,6 +23,7 @@ def user_loader(user_id):
 
 
 def get_static_stuff(f):
+    """Decorator to retrieve static pages and site settings, storing them in `g` for display in templates"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         g.poop=True
@@ -36,6 +39,7 @@ def get_static_stuff(f):
 @limiter.limit("6/minute", methods=['POST'])
 @get_static_stuff
 def login():
+    """Display login page or process login attempt"""
     if request.method == 'GET':
         return render_template('login.html')
 
@@ -63,6 +67,7 @@ login_manager.login_view = 'login'
 @app.route('/logout')
 @flask_login.login_required
 def logout():
+    """Log user out"""
     flask_login.logout_user()
     flash('You are logged out.')
     return redirect(url_for('view_posts'))
@@ -72,6 +77,7 @@ def logout():
 @flask_login.login_required
 @get_static_stuff
 def site_settings():
+    """Allow user to edit global site settings"""
     settings = SiteSettings.query.filter_by(id=0).one()
     if request.method == 'POST':
         settings.site_title = request.form['site_title']
@@ -88,6 +94,7 @@ def site_settings():
 @app.route('/posts/<permalink>')
 @get_static_stuff
 def view_posts(permalink=None):
+    """Query database for posts and pass them to template. Optional permalink parameter queries for a specific post."""
     if permalink is None:
         posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
         if not posts:
@@ -107,6 +114,7 @@ def view_posts(permalink=None):
 @flask_login.login_required
 @get_static_stuff
 def view_unpublished():
+    """Query database for unpublished posts and pass them to template."""
     posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
     if not posts:
         flash('No unpublished posts yet.')
@@ -116,6 +124,7 @@ def view_unpublished():
 @app.route('/list')
 @get_static_stuff
 def list_posts():
+    """Query database for posts and pass them to template displaying list of links to posts (not full posts)."""
     posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
     if not posts:
         flash('No posts yet.')
@@ -124,6 +133,7 @@ def list_posts():
 
 @app.route('/posts.atom')
 def recent_posts_feed():
+    """Generate Atom feed of recent posts."""
     feed = AtomFeed('Recent Posts', feed_url=request.url, url=request.url_root)
     posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).limit(15).all()
     for post in posts:
@@ -143,6 +153,7 @@ def recent_posts_feed():
 @flask_login.login_required
 @get_static_stuff
 def create_edit_post():
+    """Creates and updates a post."""
     if request.method == 'POST':
         if request.form.get('update_id'):
             # Updating existing post in database
@@ -191,6 +202,7 @@ def create_edit_post():
 @flask_login.login_required
 @get_static_stuff
 def delete_post(post_id):
+    """Deletes a post."""
     post = Post.query.filter_by(id=post_id).first_or_404()
     db.session.delete(post)
     db.session.commit()
@@ -200,6 +212,7 @@ def delete_post(post_id):
 
 @app.errorhandler(429)
 def rate_limit_exceeded_handler(e):
+    """Warns user that they have hit the rate limiter."""
     print(e)
     flash('You have tried doing that too often. Please wait a minute before trying again.')
     # Return statement should be generalized if we ever use rate limiting for actions other than logging in
@@ -209,4 +222,5 @@ def rate_limit_exceeded_handler(e):
 # Jinja2 display filters
 @app.template_filter('date_format')
 def date_format(value, formatstr='%Y-%m-%d'):
+    """Parses timestamps as a date in ISO 8601 date format."""
     return value.strftime(formatstr)

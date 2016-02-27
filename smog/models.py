@@ -7,6 +7,7 @@ from string import replace
 
 
 class SiteSettings(db.Model):
+    """Global site settings. This table only has one row."""
     id = db.Column(db.Integer(), primary_key=True)
     site_title = db.Column(db.String)
     footer_line = db.Column(db.String)
@@ -21,10 +22,13 @@ class SiteSettings(db.Model):
         return '<Site settings>'
 
     def get_footer_line(self):
+        """Returns site footer line, replacing instances of $year$ with current year."""
         return replace(self.footer_line, '$year$', str(datetime.today().year))
 
 
 class User(db.Model):
+    """User object."""
+
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String)
     name = db.Column(db.String)
@@ -48,21 +52,27 @@ class User(db.Model):
     # TODO understand what the @property does
     @property
     def is_authenticated(self):
+        """Flask-login requires this for some reason"""
         return True
 
     @property
     def is_active(self):
+        """Returns boolean indicating whether user is active (i.e. they can log in)."""
         return self.active
 
     @property
     def is_anonymous(self):
+        """Flask-login requires this for some reason"""
         return False
 
     def get_id(self):
+        """Flask-login requires this for some reason"""
         return unicode(self.id)
 
 
 class Post(db.Model):
+    """Post object."""
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, unique=True)
     description = db.Column(db.String)
@@ -109,4 +119,5 @@ class Post(db.Model):
         return '<Post %s>' % self.title
 
     def user_name(self):
+        """Retrieves user name associated with a post."""
         return User.query.filter_by(id=self.user_id).one().name

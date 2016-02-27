@@ -18,6 +18,7 @@ import smog.views
 
 
 def init_db():
+    """Creates database for new site, adds a test user and creates default site settings"""
     import smog.models
     db.create_all()
     testuser = models.User('test@test.com', 'Test User', 'changeme123')
