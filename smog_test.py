@@ -123,6 +123,14 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/posts/this-is-an-ugly-dirty-permalink')
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "Permalink was not sanitized"
 
+    def test_description_single_post(self):
+        """Confirm that the post description is properly set in the meta tag when viewing a single post page"""
+        self.login()
+        self.create_post()
+        r = self.app.get('/posts/test-post')
+        assert '<meta name="description" content="Test description" />' in r.data,\
+            "We should see our post description in a meta tag on the single-post page"
+
     def test_edit_post(self):
         """Confirm that we can edit basically every element of a post and see the results."""
         self.login()

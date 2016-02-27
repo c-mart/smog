@@ -1,4 +1,7 @@
 {% extends 'layout.html' %}
+{% block head %}
+    <meta name="description" content="{{ post.description }}" />
+{% endblock %}
 {% block title %}
     <h1 class="post-title">{{ post.title }}</h1>
     <p class="sub-heading">on {{ g.site_settings.site_title }}</p>
