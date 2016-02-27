@@ -7,16 +7,5 @@
     <p class="sub-heading">on {{ g.site_settings.site_title }}</p>
 {% endblock %}
 {% block body %}
-    <div class="post-body">
-        {{ post.body|markdown }}
-    </div>
-    <div class="post-footer">
-        <span class="post-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
-        {% if post.edit_date|date_format() != post.create_date|date_format() %}
-            <span class="post-footer-item"> - Updated on {{ post.edit_date|date_format() }}</span>
-        {% endif %}
-        {% if current_user.is_authenticated %}
-            <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit Post</a></span>
-        {% endif %}
-    </div>
+    {% include 'includes/post_body.html' %}
 {% endblock %}

@@ -5,7 +5,6 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
-- Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - Some kind of better user management
 - Mitigate XSS and CSRF
 - Fix CSS for flash messages
@@ -23,6 +22,7 @@ Like the Flaskr blog but better.
 - Make form fields light on dark
 
 ## Completed Todo
+x Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 x Set browser title bar
 x Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.
 x RSS/Atom feed (I did Atom)
