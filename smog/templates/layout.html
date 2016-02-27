@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ g.site_settings.site_title }}</title>
+    <title>{% if post %}{{ post.title }} - {% endif %}{{ g.site_settings.site_title }}</title>
     {% block head %}{% endblock %}
 </head>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}" />

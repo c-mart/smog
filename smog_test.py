@@ -249,5 +249,14 @@ class smogTestCase(unittest.TestCase):
         assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
         assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
 
+    def test_title_shows_post_title(self):
+        """Confirm that the HTML title shows the post title if we load a single-post page"""
+        self.login()
+        self.create_post()
+        r = self.app.get('/posts/test-post')
+        print(r.data)
+        assert '<title>Test post - smog: Simple Markdown blOG</title>' in r.data,\
+            "We should see the post title in HTML <title> tag if we load a single-post page"
+
 if __name__ == '__main__':
     unittest.main()
