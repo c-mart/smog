@@ -1,4 +1,4 @@
-from helpers import *
+import helpers
 from os import urandom
 from datetime import datetime
 from smog import db
@@ -23,6 +23,7 @@ class SiteSettings(db.Model):
     def get_footer_line(self):
         return replace(self.footer_line, '$year$', str(datetime.today().year))
 
+
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String)
@@ -38,7 +39,7 @@ class User(db.Model):
         self.email = email
         self.name = name
         self.pw_salt = urandom(16)
-        self.pw_hash = pw_hash(password, self.pw_salt)
+        self.pw_hash = helpers.pw_hash(password, self.pw_salt)
         self.create_date = datetime.utcnow()
 
     def __repr__(self):

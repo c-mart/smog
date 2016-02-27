@@ -1,7 +1,7 @@
 from smog import app, limiter, login_manager
 import flask_login
 from smog.models import *
-from smog.helpers import *
+import smog.helpers
 from flask import redirect, url_for, request, session, flash, render_template, make_response, g
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
@@ -43,9 +43,10 @@ def login():
         try:
             user = User.query.filter_by(email=request.form['email']).one()
         except NoResultFound:
-            pass  # User doesn't exist, skip to invalid block
+            flash('Invalid email or password, try again.')
+            return render_template('login.html')
         else:
-            if user.pw_hash == pw_hash(request.form['password'], user.pw_salt) and user.active is True:
+            if user.pw_hash == smog.helpers.pw_hash(request.form['password'], user.pw_salt) and user.active is True:
                 flask_login.login_user(user)
                 flash('You are logged in.')
                 # TODO fix this. Args need to be passed from login form.
@@ -55,9 +56,6 @@ def login():
                 print(next_page)
                 '''
                 return redirect(url_for('view_posts'))
-
-        flash('Invalid email or password, try again.')
-        return render_template('login.html')
 
 login_manager.login_view = 'login'
 
@@ -92,7 +90,7 @@ def site_settings():
 def view_posts(permalink=None):
     if permalink is None:
         posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
-        if len(posts) == 0:
+        if not posts:
             flash('No posts yet.')
         return render_template('multiple_posts.html', posts=posts)
     else:
@@ -110,7 +108,7 @@ def view_posts(permalink=None):
 @get_static_stuff
 def view_unpublished():
     posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
-    if len(posts) == 0:
+    if not posts:
         flash('No unpublished posts yet.')
     return render_template('multiple_posts.html', posts=posts, unpublished=True)
 
@@ -119,7 +117,7 @@ def view_unpublished():
 @get_static_stuff
 def list_posts():
     posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
-    if len(posts) == 0:
+    if not posts:
         flash('No posts yet.')
     return render_template('posts_list.html', posts=posts)
 

@@ -178,7 +178,7 @@ class smogTestCase(unittest.TestCase):
         self.create_post(title='post 2')
         r = self.app.get('/list')
         assert '<a href="/posts/post-1">post 1</a>' in r.data and \
-               '<a href="/posts/post-1">post 1</a>' in r.data, \
+               '<a href="/posts/post-2">post 2</a>' in r.data, \
                'We should see a list of posts a link to our test post'
 
     def test_atom_feed(self):

@@ -7,7 +7,6 @@ Like the Flaskr blog but better.
 ## Ship-critical issues to fix
 - Use url_for in tests?
 - Set browser title bar
-- Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.
 - Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 - Some kind of better user management
 - Mitigate XSS and CSRF
@@ -26,6 +25,7 @@ Like the Flaskr blog but better.
 - Make form fields light on dark
 
 ## Completed Todo
+x Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.
 x RSS/Atom feed (I did Atom)
 x "All Posts" page which lists posts in reverse chronological order
 x static pages.

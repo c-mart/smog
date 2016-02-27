@@ -1,7 +1,6 @@
 from flask import Flask
 from flask.ext.misaka import Misaka
 from os import path
-from smog.helpers import *
 from flask_sqlalchemy import SQLAlchemy
 import flask_login
 import flask_limiter
