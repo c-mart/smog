@@ -12,7 +12,7 @@
         <span class="nav-item"><a href="{{ url_for('view_posts') }}">Home</a></span>
         <span class="nav-item"><a href="{{ url_for('list_posts') }}">All Posts</a></span>
         {% for page in g.static_pages %}
-            <span class="nav-item"><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.title }}</a></span>
+            <span class="nav-item"><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.static_page_link_title }}</a></span>
         {% endfor %}
     </div>
     {% for message in get_flashed_messages() %}

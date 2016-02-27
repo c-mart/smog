@@ -28,16 +28,27 @@
             (Generated from title if left blank)<br />
         </p>
         <p>
-            <h3>Post Type</h3>
-            <input type="radio" name="static_page" value="False"
-                {% if formdata.static_page == False or not formdata.static_page %}
-                    checked="True"
-                {% endif %} /> <strong>Blog Post</strong> (shown chronologically)<br />
-            <input type="radio" name="static_page" value="True"
-                {% if formdata.static_page == True %}
-                    checked="True"
-                {% endif %} /> <strong>Static Page</strong> (shown in menu)<br />
+        <h3>Post Type</h3>
+        <input type="radio" name="static_page" value="False"
+            {% if formdata.static_page == False or not formdata.static_page %}
+                checked="True"
+            {% endif %} /> <strong>Blog Post</strong> (shown in timeline)<br />
+        <input type="radio" name="static_page" value="True"
+            {% if formdata.static_page == True %}
+                checked="True"
+            {% endif %} /> <strong>Static Page</strong> (shown in site menu)<br />
+            <ul>
+                <li>Short link title for site menu:
+                <input type="text" size="20" name="static_page_link_title" value="{{ formdata['static_page_link_title'] }}" /></li>
+                <li><input type="checkbox" name="static_page_in_timeline" value="True"
+                   {# The following if statement is weird - the database stores boolean values as 0 or 1, which
+                      apparently don't evaluate to False and True here. #}
+                   {% if formdata.static_page_in_timeline == "1" %}
+                       checked="True"
+                   {% endif %} /> Also show in timeline</li>
+            </ul>
         </p>
+        <h3>Post Options</h3>
         <p>
             <input type="checkbox" name="published" value="True"
                    {% if formdata.published == False %}
@@ -49,7 +60,7 @@
             <input type="checkbox" name="comments_allowed" value="True"
                    {% if formdata['comments_allowed'] == False %}
                    {% else %}
-                   checked="True"
+                       checked="True"
                    {% endif %} /> <strong>Comments allowed</strong>
         </p>
         <p>

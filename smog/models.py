@@ -81,12 +81,25 @@ class Post(db.Model):
     create_date = db.Column(db.DateTime)
     edit_date = db.Column(db.DateTime)
     static_page = db.Column(db.Boolean)
+    static_page_in_timeline = db.Column(db.Boolean)
+    static_page_link_title = db.Column(db.String)
     published = db.Column(db.Boolean)
     comments_allowed = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, title, body, user_id, description=None, permalink=None, create_date=None,
-                 edit_date=None, static_page=False, published=True, comments_allowed=True):
+    def __init__(self,
+                 title,
+                 body,
+                 user_id,
+                 static_page_in_timeline,
+                 static_page_link_title,
+                 description=None,
+                 permalink=None,
+                 create_date=None,
+                 edit_date=None,
+                 static_page=False,
+                 published=True,
+                 comments_allowed=True):
         self.title = title
         self.body = body
         if description == '' or description is None:
@@ -96,6 +109,7 @@ class Post(db.Model):
 
         # Cleaning up permalink with slugify
         if permalink == '' or permalink is None:
+            # Generate permalink from title if user doesn't specify a permalink
             self.permalink = slugify(self.title)
         else:
             self.permalink = slugify(permalink)
@@ -105,15 +119,24 @@ class Post(db.Model):
         else:
             # TODO ensure create_date is in the right format if passed
             self.create_date = create_date
+
         if edit_date is None:
             self.edit_date = datetime.utcnow()
         else:
             # TODO ensure edit_date is in the right format if passed
             self.edit_date = edit_date
+
         self.published = published
         self.comments_allowed = comments_allowed
         self.user_id = user_id
         self.static_page = static_page
+        self.static_page_in_timeline = static_page_in_timeline
+
+        if static_page_link_title == '' or static_page_link_title is None:
+            # Auto-generate static page link title if user doesn't provide it
+            self.static_page_link_title = title
+        else:
+            self.static_page_link_title = static_page_link_title
 
     def __repr__(self):
         return '<Post %s>' % self.title

@@ -3,6 +3,7 @@ import flask_login
 from smog.models import *
 import smog.helpers
 from flask import redirect, url_for, request, session, flash, render_template, make_response, g
+from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from slugify import slugify
@@ -96,7 +97,10 @@ def site_settings():
 def view_posts(permalink=None):
     """Query database for posts and pass them to template. Optional permalink parameter queries for a specific post."""
     if permalink is None:
-        posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
+        # Posts in timeline must be published, and either NOT a static page OR a static page set to display in timeline
+        posts = Post.query.filter(and_(Post.published == True,
+                                       or_(Post.static_page == False, Post.static_page_in_timeline == True)))\
+            .order_by(Post.create_date.desc()).all()
         if not posts:
             flash('No posts yet.')
         return render_template('multiple_posts.html', posts=posts)
@@ -125,7 +129,9 @@ def view_unpublished():
 @get_static_stuff
 def list_posts():
     """Query database for posts and pass them to template displaying list of links to posts (not full posts)."""
-    posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).all()
+    posts = Post.query.filter(and_(Post.published == True,
+                                   or_(Post.static_page == False, Post.static_page_in_timeline == True)))\
+        .order_by(Post.create_date.desc()).all()
     if not posts:
         flash('No posts yet.')
     return render_template('posts_list.html', posts=posts)
@@ -135,7 +141,10 @@ def list_posts():
 def recent_posts_feed():
     """Generate Atom feed of recent posts."""
     feed = AtomFeed('Recent Posts', feed_url=request.url, url=request.url_root)
-    posts = Post.query.filter_by(published=True, static_page=False).order_by(Post.create_date.desc()).limit(15).all()
+    # Posts in feed must be published, and either NOT a static page OR a static page set to display in timeline
+    posts = Post.query.filter(and_(Post.published == True,
+                                   or_(Post.static_page == False, Post.static_page_in_timeline == True)))\
+        .order_by(Post.create_date.desc()).limit(15).all()
     for post in posts:
         # Todo render markdown
         feed.add(post.title,
@@ -163,6 +172,8 @@ def create_edit_post():
             post.description = request.form['description']
             post.permalink = slugify(request.form['permalink'])
             post.static_page = True if request.form['static_page'] == "True" else False
+            post.static_page_in_timeline = True if request.form.get('static_page_in_timeline') == "True" else False
+            post.static_page_link_title = request.form.get('static_page_link_title')
             post.published = True if request.form.get('published') == "True" else False
             post.comments_allowed = True if request.form.get('comments_allowed') == "True" else False
             post.edit_date = datetime.utcnow()
@@ -174,6 +185,8 @@ def create_edit_post():
                         description=request.form['description'],
                         permalink=slugify(request.form['permalink']),
                         static_page=True if request.form['static_page'] == "True" else False,
+                        static_page_in_timeline=True if request.form.get('static_page_in_timeline') == "True" else False,
+                        static_page_link_title=request.form.get('static_page_link_title'),
                         published=True if request.form.get('published') == "True" else False,
                         comments_allowed=True if request.form.get('comments_allowed') == "True" else False,
                         user_id=session['user_id']

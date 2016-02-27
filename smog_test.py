@@ -266,5 +266,17 @@ class smogTestCase(unittest.TestCase):
         assert '<title>Test post - smog: Simple Markdown blOG</title>' in r.data,\
             "We should see the post title in HTML <title> tag if we load a single-post page"
 
+    def test_static_page_in_timeline(self):
+        """Toggle static_page_in_timeline, and confirm that a static page either displays in timeline or not"""
+        assert False
+
+    def test_static_page_link_title(self):
+        """Confirm that we can set a custom static page link title and it's displayed in the site menu"""
+        assert False
+
+    def create_50_posts(self):
+        """Create many posts and confirm that the atom feed only shows the most recent."""
+        assert False
+
 if __name__ == '__main__':
     unittest.main()

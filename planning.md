@@ -9,6 +9,8 @@ Like the Flaskr blog but better.
 - Mitigate XSS and CSRF
 - Fix CSS for flash messages
 - More space between post-footer-items?
+- Clean up presentation of create/edit form for static page options
+- Don't show title twice for single-post page
 
 ## Todo
 - Redirect poster to permalink after posting
