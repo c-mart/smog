@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block title %}
+    <h1>Manage Users</h1>
+{% endblock %}
+{% block body %}
+    <table>
+        <tr>
+            <td><strong>User Name</strong></td>
+            <td><strong>Email Address</strong></td>
+            <td><strong>Status</strong></td>
+            <td><strong>Create Date</strong></td>
+            <td></td>
+        </tr>
+        {% for user in users %}<tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{% if user.active == True %}Active{% else %}Disabled{% endif %}</td>
+            <td>{{ user.create_date | date_format() }}</td>
+            <td><a href="{{ url_for('create_edit_user', id=user.id) }}"><strong>Edit</strong></a></td>
+        </tr>{% endfor %}
+
+    </table>
+    <a href="{{ url_for('create_edit_user') }}"><strong>Create New User</strong></a>
+{% endblock %}

@@ -5,14 +5,17 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
+- Rename create_edit.html to create_edit_post.html
 - Some kind of better user management
-- Mitigate XSS and CSRF
+- Don't allow user to deactivate or delete him/her self
 - Fix CSS for flash messages
 - More space between post-footer-items?
 - Clean up presentation of create/edit form for static page options
 - Don't show title twice for single-post page
 
 ## Todo
+- Refactor "Active" user to "Enabled" user to resolve ambiguity
+- Mitigate XSS and CSRF using WTForms
 - Redirect poster to permalink after posting
 - Test for posting static pages vs blog post
 - How to order static pages?

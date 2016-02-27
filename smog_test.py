@@ -75,6 +75,12 @@ class smogTestCase(unittest.TestCase):
         assert 'logged in' not in r.data, 'Rate limiter should not allow us to log in'
         assert 'You have tried doing that too often' in r.data, "We should see a rate limit warning."
 
+    def test_disabled_user_cannot_log_in(self):
+        assert False
+
+    def test_disabled_logged_in_user_cannot_do_anything(self):
+        assert False
+
     def test_compose_post(self):
         """Access the Create Post page."""
         self.login()
@@ -274,8 +280,18 @@ class smogTestCase(unittest.TestCase):
         """Confirm that we can set a custom static page link title and it's displayed in the site menu"""
         assert False
 
-    def create_50_posts(self):
+    def test_create_50_posts(self):
         """Create many posts and confirm that the atom feed only shows the most recent."""
+        assert False
+
+    def test_crud_users(self):
+        # Log in as a user
+        # Create second user
+        # Log in as second user
+        # Modify first user
+        # Log in as first user
+        # Delete second user
+        # Try logging in as second user, we shouldn't be able to
         assert False
 
 if __name__ == '__main__':

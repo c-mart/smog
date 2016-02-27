@@ -24,6 +24,7 @@
             Logged in as {{ current_user.name }}. Administer me:<br />
             <span class="nav-item"><a href="{{ url_for('create_edit_post') }}">Create Post</a></span>
             <span class="nav-item"><a href="{{ url_for('view_unpublished') }}">View Unpublished</a></span>
+            <span class="nav-item"><a href="{{ url_for('manage_users') }}">Manage Users</a></span>
             <span class="nav-item"><a href="{{ url_for('site_settings') }}">Site Settings</a></span>
             <span class="nav-item"><a href="{{ url_for('logout') }}">Log out</a></span>
         {% else %}

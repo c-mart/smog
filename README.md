@@ -13,6 +13,9 @@ For demo blog, see https://update.me.later
 ## Documentation
 Mikasa Markdown interpreter: https://flask-misaka.readthedocs.org/en/latest/
 
+## Known Issues
+- We're not adequately protecting against CSRF. Plan to switch to WTForms.
+- Currently no separation of privileges between users. Any user can CRUD other user accounts. (This isn't a problem if there is only one user or all users trust each other.)
 
 ## Dependencies
 flask-Misaka needs python-dev, libffi-dev

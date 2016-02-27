@@ -38,13 +38,14 @@ class User(db.Model):
     create_date = db.Column(db.DateTime)
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
-    def __init__(self, email, name, password):
+    def __init__(self, email, name, password, active):
         # Todo perform validation that this is an email address
         self.email = email
         self.name = name
         self.pw_salt = urandom(16)
         self.pw_hash = helpers.pw_hash(password, self.pw_salt)
         self.create_date = datetime.utcnow()
+        self.active = active
 
     def __repr__(self):
         return '<User %s>', self.email

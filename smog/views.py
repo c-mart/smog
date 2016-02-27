@@ -48,7 +48,8 @@ def login():
         try:
             user = User.query.filter_by(email=request.form['email']).one()
         except NoResultFound:
-            flash('Invalid email or password, try again.')
+            # TODO refactor this logic block to DRY later
+            flash('No active account associated with that email and password, try again.')
             return render_template('login.html')
         else:
             if user.pw_hash == smog.helpers.pw_hash(request.form['password'], user.pw_salt) and user.active is True:
@@ -61,6 +62,10 @@ def login():
                 print(next_page)
                 '''
                 return redirect(url_for('view_posts'))
+            else:
+                # TODO refactor this logic block to DRY earlier
+                flash('No active account associated with that email and password, try again.')
+                return render_template('login.html')
 
 login_manager.login_view = 'login'
 
@@ -88,6 +93,61 @@ def site_settings():
         flash('Site settings have been updated.')
         return redirect(url_for('site_settings'))
     return render_template('site_settings.html', formdata=settings)
+
+
+@app.route('/manage-users', methods=['GET', 'POST'])
+@flask_login.login_required
+@get_static_stuff
+def manage_users():
+    """Allow user to CRUD user accounts"""
+    users = User.query.all()
+    return render_template('manage_users.html', users=users)
+
+
+@app.route('/create-edit-user', methods=['GET', 'POST'])
+@flask_login.login_required
+@get_static_stuff
+def create_edit_user():
+    if request.method == 'POST':
+        if request.form.get('update_id'):
+            # Update user account
+            user = User.query.filter_by(id=request.form['update_id']).first_or_404()
+            user.name = request.form['name']
+            user.email = request.form['email']
+            user.active = True if request.form.get('active') == "True" else False
+            if request.form['password']:
+                user.pw_hash = helpers.pw_hash(request.form['password'], user.pw_salt)
+        else:
+            # Create new user account
+            user = User(name=request.form['name'],
+                        email=request.form['email'],
+                        password=request.form['password'],
+                        active=True if request.form['active'] == "True" else False
+                        )
+        db.session.add(user)
+        db.session.commit()
+        flash('User %s has been saved.' % request.form['name'])
+        return redirect(url_for('manage_users'))
+
+    elif request.method == 'GET' and request.args.get('id') is not None:
+        # Display form with existing user information populated
+        user = User.query.filter(User.id == request.args.get('id')).first_or_404()
+        return render_template('create_edit_user.html', formdata=user, edit=True)
+    else:
+        # Display blank form to create new user
+        return render_template('create_edit_user.html', formdata=dict())
+
+
+@app.route('/delete-user/<user_id>', methods=['GET'])
+@flask_login.login_required
+@get_static_stuff
+def delete_user(user_id):
+    """Deletes a user."""
+    user = User.query.filter(User.id == user_id).first_or_404()
+    db.session.delete(user)
+    db.session.commit()
+    flash('User has been deleted.')
+    return redirect(url_for('manage_users'))
 
 
 @app.route('/')

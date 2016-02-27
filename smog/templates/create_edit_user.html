@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block title %}
+    {% if edit == True %}
+        <h1>Edit User</h1>
+    {% else %}
+        <h1>Create User</h1>
+    {% endif %}
+{% endblock %}
+{% block body %}
+    <form action="{{ url_for('create_edit_user') }}" method="post"><table>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td><input type="text" size="30" name="name" value="{{ formdata['name'] }}" /></td>
+        </tr>
+        <tr>
+            <td><strong>Email address</strong></td>
+            <td><input type="text" size="30" name="email" value="{{ formdata['email'] }}" /></td>
+        </tr>
+        <tr>
+            <td><strong>State</strong></td>
+            <td>
+                <select name="active">
+                    <option value="True" {% if formdata['active'] == True %}selected{% endif %}>Active</option>
+                    <option value="False" {% if formdata['active'] == False %}selected{% endif %}>Disabled</option>
+                </select>
+            </td>
+        <tr>
+            <td>
+                {% if edit == True %}
+                    <strong>Change Password</strong><br />
+                    (unmodified if left blank)
+                {% else %}
+                    <strong>Password</strong>
+                {% endif %}
+            </td>
+            <td><input type="password" size="30" name="password" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />
+                <input type="submit" value="Save" />
+            </td>
+        </tr>
+    </table></form>
+    {% if formdata['id'] %}
+        <a href="{{ url_for('delete_user', user_id=formdata['id']) }}"><strong>Delete User</strong></a>
+    {% endif %}
+{% endblock %}
