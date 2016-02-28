@@ -5,7 +5,6 @@ Like the Flaskr blog but better.
 - Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
-- Don't allow user to deactivate or delete him/her self
 - Fix CSS for flash messages
 - More space between post-footer-items?
 - Clean up presentation of create/edit form for static page options
@@ -24,8 +23,11 @@ Like the Flaskr blog but better.
 - Post type can be post (shown serially in date order) or static page (shown in nav)
 - create_edit_post() does a LOT. would it be better to split this into multiple views?
 - Make form fields light on dark
+- Standardize nomenclature of "nav"/"navigation" vs "site menu" throughout codebase
+- Standardize nomenclature of "timeline" vs "home page" vs "posts page"
 
 ## Completed Todo
+x Don't allow user to deactivate or delete him/her self
 x Some kind of better user management
 x Render description in HTML somewhere. Consider separate template for showing single post with meta tag
 x Set browser title bar

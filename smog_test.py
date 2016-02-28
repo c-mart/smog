@@ -156,7 +156,6 @@ class smogTestCase(unittest.TestCase):
             published=True,
             comments_allowed=True
         ), follow_redirects=True)
-
         assert 'The quack bruno fax stumps the lousy doug' in r.data, "We should see edited post body"
         assert 'The quick brown fox jumps over the lazy dog' not in r.data, "We should see edited post body"
 
@@ -275,15 +274,48 @@ class smogTestCase(unittest.TestCase):
 
     def test_static_page_in_timeline(self):
         """Toggle static_page_in_timeline, and confirm that a static page either displays in timeline or not"""
-        assert False
+        self.login()
+        self.create_post(title='Test static page', static_page=True)
+        r = self.app.get('/')
+        assert 'No posts yet' in r.data, 'We should not see our static page in the timeline'
+        r = self.app.get('/posts/test-static-page')
+        assert 'The quick brown fox jumps over the lazy dog' in r.data,\
+            'We should see our static page when we load the permalink'
+        post_id = re.search("/create\?id=([0-9]+)", r.data).group(1)
+        r = self.app.post('/create', data=dict(
+            update_id=post_id,
+            title='Test static page',
+            body='The quick brown fox jumps over the lazy dog',
+            description='Test description',
+            permalink='test-static-page',
+            static_page=True,
+            static_page_link_title='Test static page',
+            static_page_in_timeline=True,
+            published=True,
+            comments_allowed=True
+        ), follow_redirects=True)
+        print(r.data)
+        r = self.app.get('/')
+        assert '<a href="/posts/test-static-page">Test static page</a>' in r.data,\
+            "We should see the link to our static page in the site menu"
+        assert 'The quick brown fox jumps over the lazy dog' in r.data,\
+            'We should see the body of our static page in the timeline'
+
 
     def test_static_page_link_title(self):
         """Confirm that we can set a custom static page link title and it's displayed in the site menu"""
         assert False
 
-    def test_create_50_posts(self):
+    def test_only_recent_in_atom_feed(self):
         """Create many posts and confirm that the atom feed only shows the most recent."""
-        assert False
+        self.login()
+        for i in range(30):
+            self.create_post(title='post ' + str(i))
+        r = self.app.get('/posts.atom')
+        assert '<feed xmlns="http://www.w3.org/2005/Atom">' in r.data, "An Atom feed should load"
+        assert '<title type="text">post 29</title>' in r.data, "We should see our most recent post in the Atom feed"
+        assert '<title type="text">post 19</title>' in r.data, "We should see a post 10 posts old in the Atom feed"
+        assert '<title type="text">post 5</title>' not in r.data, "We should not see a very old post in the Atom feed"
 
     def test_crud_users(self):
         # Log in as a user
