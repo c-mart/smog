@@ -25,6 +25,7 @@ Like the Flaskr blog but better.
 - Make form fields light on dark
 - Standardize nomenclature of "nav"/"navigation" vs "site menu" throughout codebase
 - Standardize nomenclature of "timeline" vs "home page" vs "posts page"
+- Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
 
 ## Completed Todo
 x Don't allow user to deactivate or delete him/her self

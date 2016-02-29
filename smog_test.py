@@ -37,6 +37,7 @@ class smogTestCase(unittest.TestCase):
                     description='Test description',
                     permalink='',
                     static_page=False,
+                    static_page_link_title='',
                     published=True,
                     comments_allowed=True):
         """Creates test post."""
@@ -268,7 +269,6 @@ class smogTestCase(unittest.TestCase):
         self.login()
         self.create_post()
         r = self.app.get('/posts/test-post')
-        print(r.data)
         assert '<title>Test post - smog: Simple Markdown blOG</title>' in r.data,\
             "We should see the post title in HTML <title> tag if we load a single-post page"
 
@@ -294,17 +294,19 @@ class smogTestCase(unittest.TestCase):
             published=True,
             comments_allowed=True
         ), follow_redirects=True)
-        print(r.data)
         r = self.app.get('/')
         assert '<a href="/posts/test-static-page">Test static page</a>' in r.data,\
             "We should see the link to our static page in the site menu"
         assert 'The quick brown fox jumps over the lazy dog' in r.data,\
             'We should see the body of our static page in the timeline'
 
-
     def test_static_page_link_title(self):
         """Confirm that we can set a custom static page link title and it's displayed in the site menu"""
-        assert False
+        self.login()
+        self.create_post(title='Test static page', static_page=True, static_page_link_title='spegy and merbls')
+        r = self.app.get('/')
+        assert '<a href="/posts/test-static-page">spegy and merbls</a>' in r.data,\
+            "We should see our custom link title in the site menu"
 
     def test_only_recent_in_atom_feed(self):
         """Create many posts and confirm that the atom feed only shows the most recent."""
@@ -318,14 +320,79 @@ class smogTestCase(unittest.TestCase):
         assert '<title type="text">post 5</title>' not in r.data, "We should not see a very old post in the Atom feed"
 
     def test_crud_users(self):
-        # Log in as a user
-        # Create second user
-        # Log in as second user
-        # Modify first user
-        # Log in as first user
-        # Delete second user
-        # Try logging in as second user, we shouldn't be able to
-        assert False
+        """Create, modify, and delete user accounts.
+
+        This is more of an "integration test" than a unit test, which proves the entire user management workflow.
+        Here is what we do:
+        - Log in as Test User
+        - Create account for Rumpel Stiltskin
+        - Log out and log in as Rumpel Stiltskin
+        - Load "Manage Users" page and obtain edit user link for Test User
+        - Load "Edit User" page for Test User
+        - Rename Test User to Bob Loblaw, also change email and password
+        - Log out and log in as Bob Loblaw
+        - Delete Rumpel Stiltskin
+        - Log out and try logging in as Rumpel Stiltskin, we shouldn't be able to
+        """
+        # Log in as Test User
+        self.login()
+        # Create account for Rumpel Stiltskin
+        r = self.app.post('/create-edit-user', data=dict(
+            name='Rumpel Stiltskin',
+            email='rumpel@stilt.skin',
+            password='cheesefries99',
+            active=True
+        ), follow_redirects=True)
+        assert 'User Rumpel Stiltskin has been saved.' in r.data, 'User account saved message should appear'
+        assert '<td>Rumpel Stiltskin</td>' in r.data, 'User name should appear on manage users page'
+        assert '<td>rumpel@stilt.skin</td>' in r.data, 'User email should appear on manage users page'
+        assert '<td>Active</td>' in r.data, 'User enabled status should appear on manage users page'
+        # Log out and log in as Rumpel Stiltskin
+        self.logout()
+        r = self.login(email='rumpel@stilt.skin', password='cheesefries99')
+        assert 'Logged in as Rumpel Stiltskin.' in r.data, 'Should be logged in as new user'
+        # Load "Manage Users" page and obtain edit user link for Test User
+        r = self.app.get('/manage-users')
+        reg_exp = re.search(
+            '<td>Test User<\/td>(.|\n)*?<td><a href="(\/create-edit-user\?id=([0-9]+))">', r.data)
+        edit_link = reg_exp.group(2)
+        edit_user_id = reg_exp.group(3)
+        # Load "Edit User" page for Test User
+        r = self.app.get(edit_link)
+        assert '<h1>Edit User</h1>' in r.data and 'value="Test User"' in r.data, 'Edit user page should load'
+        # Rename Test User to Bob Loblaw, also change email and password
+        r = self.app.post('/create-edit-user', data=dict(
+            update_id=edit_user_id,
+            name='Bob Loblaw',
+            email='bob@lob.law',
+            password='chickenmeal',
+            active=True
+        ), follow_redirects=True)
+        assert 'User Bob Loblaw has been saved.' in r.data, 'User account saved message should appear'
+        assert '<td>Bob Loblaw</td>' in r.data, 'Updated user name should appear on manage users page'
+        assert '<td>Test User</td>' not in r.data, 'Old user name should not appear on manage users page'
+        assert '<td>bob@lob.law</td>' in r.data, 'Updated user email should appear on manage users page'
+        assert '<td>test@test.com</td>' not in r.data, 'Old user email should not appear on manage users page'
+        # Log out and log in as Bob Loblaw
+        self.logout()
+        r = self.login(email='bob@lob.law', password='chickenmeal')
+        assert 'Logged in as Bob Loblaw' in r.data, 'Should be logged in as Bob Loblaw'
+        # Delete Rumpel Stiltskin
+        r = self.app.get('/manage-users')
+        reg_exp = re.search(
+            '<td>Rumpel Stiltskin<\/td>(.|\n)*?<td><a href="(\/create-edit-user\?id=([0-9]+))">', r.data)
+        edit_link = reg_exp.group(2)
+        delete_user_id = reg_exp.group(3)
+        r = self.app.get(edit_link)
+        assert '<a href="/delete-user/%s">' % delete_user_id in r.data, 'Should see a delete user link'
+        r = self.app.get('/delete-user/' + str(delete_user_id), follow_redirects=True)
+        assert 'User has been deleted.' in r.data, 'Should see notice that the user has been deleted.'
+        assert 'Rumpel Stiltskin' not in r.data, 'Rumpel Stiltskin user should no longer display in manage users table'
+        # Log out, try logging in as Rumpel Stiltskin, we shouldn't be able to
+        self.logout()
+        r = self.login(email='rumpel@stilt.skin', password='cheesefries99')
+        assert 'No active account associated with that email and password, try again.' in r.data,\
+            'We should not be able to log in as a deleted user'
 
     def test_delete_disable_own_account(self):
         """Confirm that we cannot disable or delete our own user account."""
