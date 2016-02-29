@@ -1,11 +1,9 @@
 # smog
 Simple Markdown blOG, or chriS Martin's blOG
 
-See a demo blog (which is also my personal blog) at https://smog.c-mart.in.
+See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
 
-(Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
-
-- Built with Python using Flask microframework
+- Written in Python using Flask microframework
 - Write posts in Markdown or HTML
 - SQLAlchemy with modular back-end, use any database you want
 - HTML5
@@ -38,13 +36,13 @@ This is written for a Debian/Ubuntu server running Apache 2. Commands will be sl
 - Start blogging
 
 ## Known Issues
-We're not adequately protecting against CSRF. Plan to switch to WTForms which should solve this.
+smog does not protect against CSRF. I plan to switch to WTForms which should solve this.
 
 smog is not yet recommended for blog admins that don't completely trust their authors (authenticated users) with admin-level site access, for two reasons:
 - There is currently no separation of privileges between users. Any authenticated user can CRUD other user accounts.
 - When a user account is disabled, the disabled user is not prevented from doing anything until he or she logs out.
 
-If you will be the only author (authenticated user), or you will only have a handful of trusted users, then rock on.
+If you will be the only post author, or you will only have a handful of trusted users, then rock on.
 
 
 ## Dependencies
