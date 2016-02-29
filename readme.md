@@ -32,7 +32,7 @@ This is written for a Debian/Ubuntu server running Apache 2. Commands will be sl
 - Enable the site: `a2ensite smog`
 - Reload apache: `service apache2 reload`
 - Try browsing to your site, if everything is working the page will load.
-- Log in with test account, username "test@test.com" and password "changeme123". **The first thing you should do is navigate to Manage Users and change the password for this test account.** Better, create your own account, log in as yourself, and delete the test account. (todo make this more secure by default)
+- Log in with test account, username "test@test.com" and password "changeme123". **The first thing you should do is navigate to Manage Users, then change the user name and password for your account.** (todo make this more secure by default)
 - Browse to Site Settings, customize the name of your blog and your desired footer line
 - Start blogging
 
