@@ -14,11 +14,15 @@ For demo blog, see https://update.me.later
 I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
 
 ## Documentation
-Mikasa Markdown interpreter: https://flask-misaka.readthedocs.org/en/latest/
+
+## Acknowledgements
+- Mistune Markdown interpreter
+- Default template uses https://en.wikipedia.org/wiki/Tango_Desktop_Project#Palette
 
 ## Known Issues
 - We're not adequately protecting against CSRF. Plan to switch to WTForms.
 - Currently no separation of privileges between users. Any user can CRUD other user accounts. (This isn't a problem if there is only one user or all users trust each other.)
+- When a user account is disabled, the disabled user is not prevented from doing anything until he or she logs out. Until this is fixed, smog is probably not a good choice for folks that want the ability to instantly shut off a given user's access.
 
 ## Dependencies
 flask-Misaka needs python-dev, libffi-dev

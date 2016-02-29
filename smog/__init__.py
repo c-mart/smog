@@ -1,5 +1,4 @@
 from flask import Flask
-from flask.ext.misaka import Misaka
 from os import path
 from flask_sqlalchemy import SQLAlchemy
 import flask_login
@@ -8,7 +7,6 @@ import flask_limiter
 # Initializing application and extensions
 app = Flask(__name__)
 app.config.from_object('smog.config_run')
-Misaka(app)
 db = SQLAlchemy(app)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)

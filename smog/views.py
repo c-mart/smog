@@ -9,7 +9,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from slugify import slugify
 from werkzeug.contrib.atom import AtomFeed
 from urlparse import urljoin
-from misaka import html
+from mistune import markdown
 from functools import wraps
 
 
@@ -214,7 +214,7 @@ def recent_posts_feed():
     for post in posts:
         # Todo render markdown
         feed.add(post.title,
-                 html(post.body),
+                 markdown(post.body),
                  content_type='html',
                  author=post.user_name(),
                  url=urljoin(request.url_root, '/posts/' + post.permalink),
@@ -303,3 +303,9 @@ def rate_limit_exceeded_handler(e):
 def date_format(value, formatstr='%Y-%m-%d'):
     """Parses timestamps as a date in ISO 8601 date format."""
     return value.strftime(formatstr)
+
+
+@app.template_filter('render_markdown')
+def render_markdown(value):
+    """Renders markdown in jinja2 templates"""
+    return markdown(value)

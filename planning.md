@@ -1,8 +1,4 @@
 SMOG: Simple Markdown blOG
-Like the Flaskr blog but better.
-
-- Sqlite3 backend for now, something better later
-- Manual forms now, WTForms later
 
 ## Ship-critical issues to fix
 - Fix CSS for flash messages
@@ -28,6 +24,7 @@ Like the Flaskr blog but better.
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
 
 ## Completed Todo
+x Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
 x Don't allow user to deactivate or delete him/her self
 x Some kind of better user management
 x Render description in HTML somewhere. Consider separate template for showing single post with meta tag
@@ -59,7 +56,6 @@ x Write some tests
 - Two column layout for All Posts page
 - Post tags with tag cloud
 - Confirm before deleting post
-- Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
 - Figure out markdown blockquoting
 - Static pages separate from posts
 - Automatically publish at a date and time
