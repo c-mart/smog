@@ -1,5 +1,6 @@
 # smog
 Simple Markdown blOG, or chriS Martin's blOG
+See a demo blog (which is also my personal blog) at https://smog.c-mart.in.
 
 - Built with Python using Flask microframework
 - Write posts in Markdown or HTML
@@ -8,13 +9,16 @@ Simple Markdown blOG, or chriS Martin's blOG
 - Renders nicely without JavaScript because there is no JavaScript
 - GNU GPL
 
-For demo blog, see https://update.me.later
+(Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
+
+## Story
+I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
 
 ## How to Install on a Web Server (work in progress)
 
 This assumes that you already have a working and reasonably well-secured web server. It doesn't cover setup of HTTPS encryption, but that is very easy if you run [Let's Encrypt](https://letsencrypt.org/getting-started/) after following the setup steps below.
 
-This is written for Debian/Ubuntu running Apache 2. Commands will be slightly different on another OS like RHEL/CentOS.
+This is written for a Debian/Ubuntu server running Apache 2. Commands will be slightly different on another operating system like RHEL/CentOS.
 
 - Install prerequisite packages: `apt-get install git libapache2-mod-wsgi python python-dev python-pip`
 - Clone the project: `git clone https://github.com/c-mart/smog.git` into a directory on your web server (like /var/www/)
@@ -27,17 +31,19 @@ This is written for Debian/Ubuntu running Apache 2. Commands will be slightly di
 - Enable the site: `a2ensite smog`
 - Reload apache: `service apache2 reload`
 - Try browsing to your site, if everything is working the page will load.
-- Log in with test account, username "test@test.com" and password "changeme123". The first thing you should do is navigate to Manage Users and change the password. (todo make this more secure by default)
+- Log in with test account, username "test@test.com" and password "changeme123". **The first thing you should do is navigate to Manage Users and change the password for this test account.** Better, create your own account, log in as yourself, and delete the test account. (todo make this more secure by default)
 - Browse to Site Settings, customize the name of your blog and your desired footer line
 - Start blogging
 
-## Story
-I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
-
 ## Known Issues
-- We're not adequately protecting against CSRF. Plan to switch to WTForms.
-- Currently no separation of privileges between users. Any user can CRUD other user accounts. (This isn't a problem if there is only one user or all users trust each other.)
-- When a user account is disabled, the disabled user is not prevented from doing anything until he or she logs out. Until this is fixed, smog is probably not a good choice for folks that want the ability to instantly shut off a given user's access.
+We're not adequately protecting against CSRF. Plan to switch to WTForms which should solve this.
+
+smog is not yet recommended for blog admins that don't completely trust their authors (authenticated users) with admin-level site access, for two reasons:
+- There is currently no separation of privileges between users. Any authenticated user can CRUD other user accounts.
+- When a user account is disabled, the disabled user is not prevented from doing anything until he or she logs out.
+
+If you will be the only author (authenticated user), or you will only have a handful of trusted users, then rock on.
+
 
 ## Dependencies
 All of these should be available from PyPI/pip:
@@ -49,7 +55,6 @@ All of these should be available from PyPI/pip:
 - mistune
 
 ## Acknowledgements
-- Mistune Markdown interpreter
 - Default template uses https://en.wikipedia.org/wiki/Tango_Desktop_Project#Palette
 
 ## License
