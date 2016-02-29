@@ -3,13 +3,13 @@ Simple Markdown blOG, or chriS Martin's blOG
 
 See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
 
-- Written in Python using Flask microframework
-- Write posts in Markdown or HTML
-- SQLAlchemy with modular back-end, use any database you want
+- Written in Python using [Flask](http://flask.pocoo.org/) microframework
+- Write posts in [Markdown](https://daringfireball.net/projects/markdown/), HTML, or plain text
+- Uses [SQLAlchemy](http://www.sqlalchemy.org/) with modular back-end: use any database you like
 - HTML5
-- Renders nicely without JavaScript because there is no JavaScript
-- GNU GPL
+- Renders nicely without JavaScript support because there is no JavaScript
 - Easy to modify and extend, fairly complete test coverage will let you know if you break anything
+- GNU GPL
 
 ## Story
 I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
@@ -22,6 +22,7 @@ This is written for a Debian/Ubuntu server running Apache 2. Commands will be sl
 
 - Install prerequisite packages: `apt-get install git libapache2-mod-wsgi python python-dev python-pip`
 - Clone the project: `git clone https://github.com/c-mart/smog.git` into a directory on your web server (like /var/www/)
+- Connect to a real database. (Todo: help people do this.) If you don't, it will create a SQLite database in your /tmp directory, which will probably disappear next time you reboot your server. 
 - Enable WSGI Apache module: `a2enmod wsgi`
 - Install virtualenv: `pip install virtualenv`
 - Create a virtualenv: `virtualenv /var/www/smog-venv` (or any other path you wish your virtualenv to live in)

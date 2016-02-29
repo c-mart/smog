@@ -7,6 +7,7 @@ SMOG: Simple Markdown blOG
 - Don't show title twice for single-post page
 
 ## Todo
+- Link to Markdown reference in create post page
 - Rename create_edit.html to create_edit_post.html
 - Refactor "Active" user to "Enabled" user to resolve ambiguity
 - Mitigate XSS and CSRF using WTForms
