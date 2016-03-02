@@ -57,6 +57,7 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/')
         assert 'No posts yet.' in r.data, "We should see no posts"
 
+    # Test Cases - Authentication
     def test_login_logout(self):
         """Perform invalid login attempt, log user in, log user out"""
         r = self.login('invalid', 'credentials')
@@ -85,6 +86,7 @@ class smogTestCase(unittest.TestCase):
         assert 'logged in' not in r.data, 'Rate limiter should not allow us to log in'
         assert 'You have tried doing that too often' in r.data, "We should see a rate limit warning."
 
+    # Test Cases - CRUDing posts
     def test_compose_post(self):
         """Access the Create Post page."""
         self.login()
@@ -206,27 +208,13 @@ class smogTestCase(unittest.TestCase):
         assert r.data.count("<h2 class=\"post-title\"><a href=\"/posts/test-post\">Test post</a></h2>") == 1,\
             "Duplicate posts exist where they should not"
 
-    def test_markdown_parsing(self):
-        """Confirm that markdown syntax in a post body is automatically parsed as HTML for display."""
+    def test_title_shows_post_title(self):
+        """Confirm that the HTML title shows the post title if we load a single-post page"""
         self.login()
-        r = self.create_post(body='### Heading\n'
-                             '- Bullet\n\n'
-                             'Paragraph\n\n'
-                             '    some_code()',)
-        assert all(x in r.data for x in
-                   ['<h3>Heading</h3>', '<li>Bullet</li>', '<p>Paragraph</p>', '<code>some_code()\n</code>']
-                   ), "Markdown not parsed correctly"
-
-    def test_post_static_page(self):
-        """Create a static page, confirm it shows up in the nav bar and we can load it."""
-        self.login()
-        self.create_post(static_page=True)
-        r = self.app.get('/')
-        assert 'No posts yet.' in r.data, "We should see no posts"
-        assert '<span class="nav-item"><a href="/posts/test-post">Test post</a></span>' in r.data,\
-            "We should see a link to our static page in the navigation"
+        self.create_post()
         r = self.app.get('/posts/test-post')
-        assert "The quick brown fox jumps over the lazy dog" in r.data, "We should see our static page"
+        assert '<title>Test post - smog: Simple Markdown blOG</title>' in r.data,\
+            "We should see the post title in HTML <title> tag if we load a single-post page"
 
     def test_list_posts(self):
         """Confirm that the All Posts page displays a list of posts."""
@@ -254,25 +242,29 @@ class smogTestCase(unittest.TestCase):
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see our post in the Atom feed"
         assert "Can't C me" not in r.data, "We should not see unpublished posts in the Atom feed"
 
-    def test_settings(self):
-        """Confirm that site settings are passed to templates, we can update the settings, and changes propagate."""
+    # Test Cases - User Input Parsing
+    def test_markdown_parsing(self):
+        """Confirm that markdown syntax in a post body is automatically parsed as HTML for display."""
         self.login()
-        r = self.app.get('/site-settings')
-        assert 'Site Settings' in r.data and '<form' in r.data, 'A site settings page should load'
-        self.app.post('/site-settings',
-                      data=dict(site_title='dis b mah blog', footer_line='dis b mah foot'),
-                      follow_redirects=True)
-        r = self.app.get('/')
-        assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
-        assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
+        r = self.create_post(body='### Heading\n'
+                             '- Bullet\n\n'
+                             'Paragraph\n\n'
+                             '    some_code()',)
+        assert all(x in r.data for x in
+                   ['<h3>Heading</h3>', '<li>Bullet</li>', '<p>Paragraph</p>', '<code>some_code()\n</code>']
+                   ), "Markdown not parsed correctly"
 
-    def test_title_shows_post_title(self):
-        """Confirm that the HTML title shows the post title if we load a single-post page"""
+    # Test Cases - Static Pages
+    def test_post_static_page(self):
+        """Create a static page, confirm it shows up in the nav bar and we can load it."""
         self.login()
-        self.create_post()
+        self.create_post(static_page=True)
+        r = self.app.get('/')
+        assert 'No posts yet.' in r.data, "We should see no posts"
+        assert '<span class="nav-item"><a href="/posts/test-post">Test post</a></span>' in r.data,\
+            "We should see a link to our static page in the navigation"
         r = self.app.get('/posts/test-post')
-        assert '<title>Test post - smog: Simple Markdown blOG</title>' in r.data,\
-            "We should see the post title in HTML <title> tag if we load a single-post page"
+        assert "The quick brown fox jumps over the lazy dog" in r.data, "We should see our static page"
 
     def test_static_page_in_timeline(self):
         """Toggle static_page_in_timeline, and confirm that a static page either displays in timeline or not"""
@@ -310,6 +302,18 @@ class smogTestCase(unittest.TestCase):
         assert '<a href="/posts/test-static-page">spegy and merbls</a>' in r.data,\
             "We should see our custom link title in the site menu"
 
+    def test_site_settings(self):
+        """Confirm that site settings are passed to templates, we can update the settings, and changes propagate."""
+        self.login()
+        r = self.app.get('/site-settings')
+        assert 'Site Settings' in r.data and '<form' in r.data, 'A site settings page should load'
+        self.app.post('/site-settings',
+                      data=dict(site_title='dis b mah blog', footer_line='dis b mah foot'),
+                      follow_redirects=True)
+        r = self.app.get('/')
+        assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
+        assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
+
     def test_only_recent_in_atom_feed(self):
         """Create many posts and confirm that the atom feed only shows the most recent."""
         self.login()
@@ -321,6 +325,7 @@ class smogTestCase(unittest.TestCase):
         assert '<title type="text">post 19</title>' in r.data, "We should see a post 10 posts old in the Atom feed"
         assert '<title type="text">post 5</title>' not in r.data, "We should not see a very old post in the Atom feed"
 
+    # Test Cases - User Management
     def test_crud_users(self):
         """Create, modify, and delete user accounts.
 
@@ -461,6 +466,7 @@ class smogTestCase(unittest.TestCase):
         print(r.data)
         r = self.app2.get('/')
         """
+        assert False
 
 if __name__ == '__main__':
     unittest.main()

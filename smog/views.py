@@ -27,7 +27,6 @@ def get_static_stuff(f):
     """Decorator to retrieve static pages and site settings, storing them in `g` for display in templates"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        g.poop=True
         static_pages = Post.query.filter_by(published=True, static_page=True).all()
         g.static_pages = static_pages
         settings = SiteSettings.query.filter_by(id=0).one()

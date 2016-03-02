@@ -5,8 +5,10 @@ SMOG: Simple Markdown blOG
 - More space between post-footer-items?
 - Clean up presentation of create/edit form for static page options
 - Don't show title twice for single-post page
+- Flash color should be in the Tango palette
 
 ## Todo
+- Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)
 - Link to Markdown reference in create post page
 - Rename create_edit.html to create_edit_post.html
 - Refactor "Active" user to "Enabled" user to resolve ambiguity
@@ -52,13 +54,13 @@ x Allow editing post where post is updated
 x Allow editing post which updates edit date but not create date
 x make password form box hidden
 x Write some tests
+x Static pages separate from posts
 
 ## Extended Features
-- Two column layout for All Posts page
+- Table layout for All Posts page
 - Post tags with tag cloud
 - Confirm before deleting post
-- Figure out markdown blockquoting
-- Static pages separate from posts
+- Figure out markdown blockquoting and footnotes
 - Automatically publish at a date and time
 - Preview function while composing
 - Built-in image hosting with exif tag removal
