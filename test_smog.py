@@ -226,6 +226,7 @@ class smogTestCase(unittest.TestCase):
                '<a href="/posts/post-2">post 2</a>' in r.data, \
                'We should see a list of posts a link to our test post'
 
+    # Test Cases - Syndication
     def test_atom_feed(self):
         """Confirm that posts show up in the Atom feed."""
         self.login()
@@ -241,6 +242,17 @@ class smogTestCase(unittest.TestCase):
         assert '<feed xmlns="http://www.w3.org/2005/Atom">' in r.data, "An Atom feed should load"
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see our post in the Atom feed"
         assert "Can't C me" not in r.data, "We should not see unpublished posts in the Atom feed"
+
+    def test_only_recent_in_atom_feed(self):
+        """Create many posts and confirm that the atom feed only shows the most recent."""
+        self.login()
+        for i in range(30):
+            self.create_post(title='post ' + str(i))
+        r = self.app.get('/posts.atom')
+        assert '<feed xmlns="http://www.w3.org/2005/Atom">' in r.data, "An Atom feed should load"
+        assert '<title type="text">post 29</title>' in r.data, "We should see our most recent post in the Atom feed"
+        assert '<title type="text">post 19</title>' in r.data, "We should see a post 10 posts old in the Atom feed"
+        assert '<title type="text">post 5</title>' not in r.data, "We should not see a very old post in the Atom feed"
 
     # Test Cases - User Input Parsing
     def test_markdown_parsing(self):
@@ -301,29 +313,6 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/')
         assert '<a href="/posts/test-static-page">spegy and merbls</a>' in r.data,\
             "We should see our custom link title in the site menu"
-
-    def test_site_settings(self):
-        """Confirm that site settings are passed to templates, we can update the settings, and changes propagate."""
-        self.login()
-        r = self.app.get('/site-settings')
-        assert 'Site Settings' in r.data and '<form' in r.data, 'A site settings page should load'
-        self.app.post('/site-settings',
-                      data=dict(site_title='dis b mah blog', footer_line='dis b mah foot'),
-                      follow_redirects=True)
-        r = self.app.get('/')
-        assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
-        assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
-
-    def test_only_recent_in_atom_feed(self):
-        """Create many posts and confirm that the atom feed only shows the most recent."""
-        self.login()
-        for i in range(30):
-            self.create_post(title='post ' + str(i))
-        r = self.app.get('/posts.atom')
-        assert '<feed xmlns="http://www.w3.org/2005/Atom">' in r.data, "An Atom feed should load"
-        assert '<title type="text">post 29</title>' in r.data, "We should see our most recent post in the Atom feed"
-        assert '<title type="text">post 19</title>' in r.data, "We should see a post 10 posts old in the Atom feed"
-        assert '<title type="text">post 5</title>' not in r.data, "We should not see a very old post in the Atom feed"
 
     # Test Cases - User Management
     def test_crud_users(self):
@@ -467,6 +456,19 @@ class smogTestCase(unittest.TestCase):
         r = self.app2.get('/')
         """
         assert False
+
+    # Test Cases - Sitewide Stuff
+    def test_site_settings(self):
+        """Confirm that site settings are passed to templates, we can update the settings, and changes propagate."""
+        self.login()
+        r = self.app.get('/site-settings')
+        assert 'Site Settings' in r.data and '<form' in r.data, 'A site settings page should load'
+        self.app.post('/site-settings',
+                      data=dict(site_title='dis b mah blog', footer_line='dis b mah foot'),
+                      follow_redirects=True)
+        r = self.app.get('/')
+        assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
+        assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
 
 if __name__ == '__main__':
     unittest.main()

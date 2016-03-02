@@ -1,6 +1,11 @@
 SMOG: Simple Markdown blOG
 
-## Ship-critical issues to fix
+Things to do:
+- Work on update-ability. Currently, running "git clone" overwrites the config (e.g. database URI) on a running web server. Learn best practices of how this is handled with production apps.
+- Work on CSS and learn some best practices. Improve my own or use a template/framework
+- Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
+
+## CSS Fixes
 - Fix CSS for flash messages
 - More space between post-footer-items?
 - Clean up presentation of create/edit form for static page options
