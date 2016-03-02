@@ -7,8 +7,8 @@ import flask_limiter
 # Initializing application and extensions
 app = Flask(__name__)
 app.config.from_object('smog.config_default')
-app.config.from_envvar('SMOG_CONFIG')
-print app.config['SECRET_KEY']
+app.config.from_envvar('SMOG_CONFIG', silent=True)
+print app.config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -28,8 +28,11 @@ def init_db():
     db.session.commit()
 
 # Create database if it's not there
+# TODO fix this now that we no longer have DB_PATH
+'''
 if not path.exists(app.config['DB_PATH']):
     init_db()
+'''
 
 if __name__ == '__main__':
     app.run()
