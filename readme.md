@@ -28,13 +28,19 @@ This is written for a Debian/Ubuntu server running Apache 2. Commands will be sl
 - Create a virtualenv: `virtualenv /var/www/smog-venv` (or any other path you wish your virtualenv to live in)
 - Install dependencies: `pip install Flask flask_sqlalchemy flask_login flask_limiter slugify mistune`
 - Create /etc/apache2/sites-available/smog.conf (todo upload example of this)
-- Create your WSGI file, e.g. at /var/www/smog.wsgi (todo upload example of this)
+- Create your WSGI file, e.g. at /var/www/smog.wsgi (todo upload example of this, perhaps from http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/)
 - Enable the site: `a2ensite smog`
 - Reload apache: `service apache2 reload`
 - Try browsing to your site, if everything is working the page will load.
 - Log in with test account, username "test@test.com" and password "changeme123". **The first thing you should do is navigate to Manage Users, then change the user name and password for your account.** (todo make this more secure by default)
 - Browse to Site Settings, customize the name of your blog and your desired footer line
 - Start blogging
+
+Other (integrate this):
+
+- Create config file
+- Set environment variable to your config file, e.g. `export SMOG_CONFIG=/etc/smog_config`
+- Set config to override secret key
 
 ## Known Issues
 smog does not protect against CSRF. I plan to switch to WTForms which should solve this.

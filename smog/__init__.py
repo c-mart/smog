@@ -6,7 +6,9 @@ import flask_limiter
 
 # Initializing application and extensions
 app = Flask(__name__)
-app.config.from_object('smog.config_run')
+app.config.from_object('smog.config_default')
+app.config.from_envvar('SMOG_CONFIG')
+print app.config['SECRET_KEY']
 db = SQLAlchemy(app)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)

@@ -1,7 +1,4 @@
 DB_PATH = '/tmp/smog.sqlite'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DB_PATH
-SECRET_KEY = 'CHANGEME123'
-USERNAME = 'admin'
-PASSWORD = 'changeme123'
-DEBUG = True
+SECRET_KEY = 'CHANGEME123'  # todo change this
 RATELIMIT_ENABLED = True
