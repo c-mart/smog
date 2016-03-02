@@ -8,7 +8,6 @@ import flask_limiter
 app = Flask(__name__)
 app.config.from_object('smog.config_default')
 app.config.from_envvar('SMOG_CONFIG', silent=True)
-print app.config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)

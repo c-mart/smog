@@ -38,9 +38,8 @@ This is written for a Debian/Ubuntu server running Apache 2. Commands will be sl
 
 Other (integrate this):
 
-- Create config file
-- Set environment variable to your config file, e.g. `export SMOG_CONFIG=/etc/smog_config`
-- Set config to override secret key
+- Create config file containing things like SQLALCHEMY_DATABASE_URI and SECRET_KEY
+- In your WSGI file, set SMOG_CONFIG environment variable pointing to your config file, e.g. `os.environ['SMOG_CONFIG'] = '/var/www/smog_config'`
 
 ## Known Issues
 smog does not protect against CSRF. I plan to switch to WTForms which should solve this.
