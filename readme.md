@@ -40,12 +40,11 @@ Other (integrate this):
 
 - Create config file containing things like SQLALCHEMY_DATABASE_URI and SECRET_KEY
 - In your WSGI file, set SMOG_CONFIG environment variable pointing to your config file, e.g. `os.environ['SMOG_CONFIG'] = '/var/www/smog_config'`
-- Run `python manage.py init_db` to add a test user and populate initial site settings
+- Activate your virtual environment and run `python manage.py init_db` to add a test user and populate initial site settings
 
 ## How to Perform Updates
 - `git pull` the repo in-place
-- Activate smog virtualenv?
-- Run `python manage.py db upgrade` to apply latest schema version to your database
+- Activate smog virtualenv and run `python manage.py db upgrade` to apply latest schema version to your database
 - Reload your web server?
 
 ## Known Issues
