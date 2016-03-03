@@ -1,6 +1,6 @@
 import unittest
-import smog
-import smog.models
+import smog, smog.models
+from smog.manage import init_db
 from datetime import datetime
 import re
 
@@ -14,7 +14,7 @@ class smogTestCase(unittest.TestCase):
         """Set up each test: initialize test client and database, disable rate limiter."""
         smog.app.config.from_object('smog.config_test')
         self.app = smog.app.test_client()
-        smog.init_db()
+        init_db()
         smog.limiter.enabled = False
 
     def tearDown(self):

@@ -1,8 +1,8 @@
 SMOG: Simple Markdown blOG
 
 Things to do:
-- Work on CSS and learn some best practices. Improve my own or use a template/framework
 - Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
+- Work on CSS and learn some best practices. Improve my own or use a template/framework
 
 ## CSS Fixes
 - Fix CSS for flash messages

@@ -40,6 +40,14 @@ Other (integrate this):
 
 - Create config file containing things like SQLALCHEMY_DATABASE_URI and SECRET_KEY
 - In your WSGI file, set SMOG_CONFIG environment variable pointing to your config file, e.g. `os.environ['SMOG_CONFIG'] = '/var/www/smog_config'`
+- Run `python manage.py db upgrade` to apply latest schema version to your database
+- Run `python manage.py populate_db`
+
+## How to Perform Updates
+- `git pull` the repo in-place
+- Activate smog virtualenv?
+- Run `python manage.py db upgrade` to apply latest schema version to your database
+- Reload your web server?
 
 ## Known Issues
 smog does not protect against CSRF. I plan to switch to WTForms which should solve this.
@@ -55,6 +63,8 @@ If you will be the only post author, or you will only have a handful of trusted 
 All of these should be available from PyPI/pip:
 - flask
 - flask_sqlalchemy
+- flask_script
+- flask_migrate
 - flask_login
 - flask_limiter
 - slugify

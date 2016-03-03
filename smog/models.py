@@ -12,12 +12,16 @@ class SiteSettings(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     site_title = db.Column(db.String)
     footer_line = db.Column(db.String)
+    analytics_code = db.Column(db.String)
 
-    def __init__(self, site_title='smog: Simple Markdown blOG',
-                 footer_line='Copyright $year$ Bloggy McAuthorson, all rights reserved'):
+    def __init__(self,
+                 site_title='smog: Simple Markdown blOG',
+                 footer_line='Copyright $year$ Bloggy McAuthorson, all rights reserved',
+                 analytics_code=''):
         self.id = 0
         self.site_title = site_title
         self.footer_line = footer_line
+        self.analytics_code = analytics_code
 
     def __repr__(self):
         return '<Site settings>'
