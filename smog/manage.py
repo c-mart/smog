@@ -9,12 +9,13 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
-def populate_db():
+def init_db():
     """Adds a test user and creates default site settings"""
-    testuser = models.User('test@test.com', 'Test User', 'changeme123')
-    db.session.add(testuser)
+    db.create_all()
     settings = models.SiteSettings()
     db.session.add(settings)
+    testuser = models.User('test@test.com', 'Test User', 'changeme123')
+    db.session.add(testuser)
     db.session.commit()
 
 if __name__ == '__main__':

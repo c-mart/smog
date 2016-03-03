@@ -87,6 +87,7 @@ def site_settings():
     if request.method == 'POST':
         settings.site_title = request.form['site_title']
         settings.footer_line = request.form['footer_line']
+        settings.analytics_code = request.form['analytics_code']
         db.session.add(settings)
         db.session.commit()
         flash('Site settings have been updated.')

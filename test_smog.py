@@ -464,11 +464,15 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/site-settings')
         assert 'Site Settings' in r.data and '<form' in r.data, 'A site settings page should load'
         self.app.post('/site-settings',
-                      data=dict(site_title='dis b mah blog', footer_line='dis b mah foot'),
+                      data=dict(site_title='dis b mah blog',
+                                footer_line='dis b mah foot',
+                                analytics_code='<!-- Dummy analytics code -->'),
                       follow_redirects=True)
         r = self.app.get('/')
         assert '<title>dis b mah blog</title>' in r.data, 'We should see the title that we just set'
         assert '<div class="footer">dis b mah foot</div>' in r.data, 'We should see the footer line that we just set'
+        assert '!-- Dummy analytics code -->' in r.data,\
+            'We should see the analytics code that we set in site settings at the bottom of the main page.'
 
 if __name__ == '__main__':
     unittest.main()
