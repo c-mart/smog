@@ -1,6 +1,6 @@
 import unittest
 import smog, smog.models
-from smog.manage import init_db
+from manage import init_db
 from datetime import datetime
 import re
 
