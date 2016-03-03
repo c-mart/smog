@@ -43,8 +43,9 @@
                 <li><input type="checkbox" name="static_page_in_timeline" value="True"
                    {# The following if statement is weird - the database stores boolean values as 0 or 1, which
                       apparently don't evaluate to False and True here. #}
-                   {% if formdata.static_page_in_timeline == "1" %}
-                       checked="True"
+                   {% if formdata.static_page_in_timeline == False %}
+                   {% else %}
+                   checked="True"
                    {% endif %} /> Also show in timeline</li>
             </ul>
         </p>
