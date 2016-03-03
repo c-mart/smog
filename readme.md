@@ -44,7 +44,9 @@ Other (integrate this):
 
 ## How to Perform Updates
 - `git pull` the repo in-place
-- Activate smog virtualenv and run `python manage.py db upgrade` to apply latest schema version to your database
+- Activate smog virtualenv
+- Set your SMOG_CONFIG environment variable
+and run `python manage.py db upgrade` to apply latest schema version to your database
 - Reload your web server?
 
 ## Known Issues
