@@ -17,7 +17,7 @@ class SiteSettings(db.Model):
     def __init__(self,
                  site_title='smog: Simple Markdown blOG',
                  footer_line='Copyright $year$ Bloggy McAuthorson, all rights reserved',
-                 analytics_code=''):
+                 analytics_code='<!-- Insert analytics code here -->'):
         self.id = 0
         self.site_title = site_title
         self.footer_line = footer_line

@@ -92,7 +92,8 @@ def site_settings():
         db.session.commit()
         flash('Site settings have been updated.')
         return redirect(url_for('site_settings'))
-    return render_template('site_settings.html', formdata=settings)
+    elif request.method == 'GET':
+        return render_template('site_settings.html', formdata=settings)
 
 
 @app.route('/manage-users', methods=['GET', 'POST'])
