@@ -13,6 +13,7 @@ class SiteSettings(db.Model):
     site_title = db.Column(db.String)
     footer_line = db.Column(db.String)
     analytics_code = db.Column(db.String)
+    testchange = db.Column(db.String)
 
     def __init__(self,
                  site_title='smog: Simple Markdown blOG',
@@ -22,6 +23,7 @@ class SiteSettings(db.Model):
         self.site_title = site_title
         self.footer_line = footer_line
         self.analytics_code = analytics_code
+        self.testchange = 'lookatme123'
 
     def __repr__(self):
         return '<Site settings>'
