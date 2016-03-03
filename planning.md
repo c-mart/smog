@@ -1,7 +1,6 @@
 SMOG: Simple Markdown blOG
 
 Things to do:
-- Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
 - Work on CSS and learn some best practices. Improve my own or use a template/framework
 
 ## CSS Fixes
@@ -31,6 +30,7 @@ Things to do:
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
 
 ## Completed Todo
+x Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
 x Work on update-ability. Currently, running "git clone" overwrites the config (e.g. database URI) on a running web server. Learn best practices of how this is handled with production apps.
 x Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
 x Don't allow user to deactivate or delete him/her self

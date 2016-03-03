@@ -6,6 +6,7 @@ See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Tod
 - Written in Python using [Flask](http://flask.pocoo.org/) microframework
 - Write posts in [Markdown](https://daringfireball.net/projects/markdown/), HTML, or plain text
 - Uses [SQLAlchemy](http://www.sqlalchemy.org/) with modular back-end: use any database you like
+- Use of [Flask-Migrate](https://flask-migrate.readthedocs.org/en/latest/) allows you to easily update the database of your deployed Flask application when new features are added in the future
 - HTML5
 - Renders nicely without JavaScript support because there is no JavaScript
 - Easy to modify and extend, fairly complete test coverage will let you know if you break anything
@@ -50,7 +51,9 @@ and run `python manage.py db upgrade` to apply latest schema version to your dat
 - Reload your web server?
 
 ## Known Issues
-smog does not protect against CSRF. I plan to switch to WTForms which should solve this.
+Automatic database schema updates in the future (using Flask-Migrate) may not work if you're using a SQLite back-end. Use another database engine instead, like MySQL or PostgreSQL. (This is because SQLite doesn't natively support adding and removing columns from a table, and Flask-Migrate hasn't yet implemented a workaround.)
+
+smog does not protect against [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery). I plan to switch to WTForms which should solve this.
 
 smog is not yet recommended for blog admins that don't completely trust their authors (authenticated users) with admin-level site access, for two reasons:
 - There is currently no separation of privileges between users. Any authenticated user can CRUD other user accounts.
