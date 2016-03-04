@@ -38,6 +38,12 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
 textarea { min-height: 400px; }
 
+/* Lists */
+ul {
+    list-style: disc inside;
+}
+
+
 /* Custom elements */
 
 .container {

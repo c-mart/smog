@@ -5,6 +5,7 @@ Things to do:
 
 ## CSS Fixes
 - Images should scale down on small displays
+- Make post body a little bigger
 - Fix display of bullets in post body
 - More space between post-footer-items?
 
