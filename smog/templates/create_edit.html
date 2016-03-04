@@ -1,75 +1,72 @@
 {% extends 'layout.html' %}
 {% block title %}
-    <h1>{{ g.site_settings.site_title }}</h1>
-{% endblock %}
-{% block body %}
     {% if edit == True %}
         <h2>Edit Post</h2>
     {% else %}
         <h2>Create Post</h2>
     {% endif %}
+    <h5>on {{ g.site_settings.site_title }}</h5>
+{% endblock %}
+{% block body %}
+
     <form action="{{ url_for('create_edit_post') }}" method="post" class="create-post">
-        <p>
-            <h3>Title</h3>
-            <input type="text" size="50" name="title" value="{{ formdata['title'] }}" />
-        </p>
-        <p>
-            <h3>Body</h3>
-            <textarea name="body" rows="20" cols="80">{{ formdata['body'] }}</textarea>
-        </p>
-        <p>
-            <h3>Short description</h3>
-            <input type="text" size="50" name="description" value="{{ formdata['description'] }}"/><br />
-            (Generated from title if left blank)
-        </p>
-        <p>
-            <h3>Permalink</h3>
-            <input type="text" size="50" name="permalink" value="{{ formdata['permalink'] }}" /><br />
-            (Generated from title if left blank)<br />
-        </p>
-        <p>
-        <h3>Post Type</h3>
-        <input type="radio" name="static_page" value="False"
-            {% if formdata.static_page == False or not formdata.static_page %}
-                checked="True"
-            {% endif %} /> <strong>Blog Post</strong> (shown in timeline)<br />
-        <input type="radio" name="static_page" value="True"
-            {% if formdata.static_page == True %}
-                checked="True"
-            {% endif %} /> <strong>Static Page</strong> (shown in site menu)<br />
-            <ul>
-                <li>Short link title for site menu:
-                <input type="text" size="20" name="static_page_link_title" value="{{ formdata['static_page_link_title'] }}" /></li>
-                <li><input type="checkbox" name="static_page_in_timeline" value="True"
-                   {# The following if statement is weird - the database stores boolean values as 0 or 1, which
-                      apparently don't evaluate to False and True here. #}
-                   {% if formdata.static_page_in_timeline == False %}
-                   {% else %}
-                   checked="True"
-                   {% endif %} /> Also show in timeline</li>
-            </ul>
-        </p>
-        <h3>Post Options</h3>
-        <p>
-            <input type="checkbox" name="published" value="True"
-                   {% if formdata.published == False %}
-                   {% else %}
-                       checked="True"
-                   {% endif %} /> <strong>Published</strong>
-        </p>
-        <p>
-            <input type="checkbox" name="comments_allowed" value="True"
-                   {% if formdata['comments_allowed'] == False %}
-                   {% else %}
-                       checked="True"
-                   {% endif %} /> <strong>Comments allowed</strong>
-        </p>
-        <p>
-            <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />
-            <input type="submit" value="Save" />
-        </p>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value="{{ formdata['title'] }}" class="u-full-width" />
+        <label for="body">Body</label>
+        <textarea name="body" id="body" rows="30" cols="80" class="u-full-width">{{ formdata['body'] }}</textarea>
+        <div class="row">
+            <div class="six columns">
+                <label for="description">Short description</label>
+                <input type="text" name="description" id="description" value="{{ formdata['description'] }}" placeholder="(generated from title if left blank)" class="u-full-width" />
+            </div>
+            <div class="six columns">
+                <label for="permalink">Permalink</label>
+                <input type="text" name="permalink" id="permalink" value="{{ formdata['permalink'] }}" placeholder="generated-from-title-if-left-blank" class="u-full-width" />
+            </div>
+        </div>
+        <label for="static_page">Post Type</label>
+        <select name="static_page" class="u-full-width" id="static_page">
+            <option value="False" {% if formdata.static_page == False or not formdata.static_page %}selected="selected"{% endif %}>
+                Blog Post (shown in timeline)
+            </option>
+            <option value="True" {% if formdata.static_page == True %}selected="selected"{% endif %}>
+                Static Page (shown in site menu)
+            </option>
+        </select>
+        <h5>Post Options</h5>
+        <div class="row">
+            <div class="six columns">
+                <label>
+                    <input type="checkbox" name="published" value="True"
+                       {% if formdata.published == False %}
+                       {% else %}
+                           checked="True"
+                       {% endif %} />
+                    <span class="label-body"><strong>Published</strong></span>
+                </label>
+            </div>
+            <div class="six columns">
+                <label>
+                    <input type="checkbox" name="comments_allowed" value="True"
+                       {% if formdata['comments_allowed'] == False %}
+                       {% else %}
+                           checked="True"
+                       {% endif %} />
+                    <span class="label-body"><strong>Comments Allowed</strong></span>
+                </label>
+            </div>
+        </div>
+        <h5>Static Page Options (these do not apply for blog posts)</h5>
+        <label for="static_page_link_title">Link Title for Site Menu</label>
+        <input type="text" name="static_page_link_title" id="static_page_link_title" value="{{ formdata['static_page_link_title'] }}" class="u-full-width" /></li>
+        <label>
+            <input type="checkbox" name="static_page_in_timeline" value="True" {% if formdata.static_page_in_timeline == False %}{% else %}checked="true"{% endif %} />
+            <span class="label-body">Also show static page in timeline</span>
+        </label>
+        <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />
+        {% if formdata['id'] %}
+            <a href="{{ url_for('delete_post', post_id = formdata['id']) }}" class="button">Delete post</a>
+        {% endif %}
+        <span class="u-pull-right"><input type="submit" value="Save" class="button-primary" /></span>
     </form>
-    {% if formdata['id'] %}
-        <p><a href="{{ url_for('delete_post', post_id = formdata['id']) }}">Delete post</a></p>
-    {% endif %}
 {% endblock %}

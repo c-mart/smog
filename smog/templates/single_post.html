@@ -1,10 +1,11 @@
 {% extends 'layout.html' %}
 {% block head %}
     <meta name="description" content="{{ post.description }}" />
+    <meta name="author" content="{{ post.user_name() }}" />
 {% endblock %}
 {% block title %}
     <h1 class="post-title">{{ post.title }}</h1>
-    <p class="sub-heading">on {{ g.site_settings.site_title }}</p>
+    <h3 class="sub-heading">on {{ g.site_settings.site_title }}</h3>
 {% endblock %}
 {% block body %}
     {% include 'includes/post_body.html' %}

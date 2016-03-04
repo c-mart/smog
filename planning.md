@@ -4,6 +4,7 @@ Things to do:
 - Work on CSS and learn some best practices. Improve my own or use a template/framework
 
 ## CSS Fixes
+- Add web font? google font or alternative? Change to just sans-serif?
 - Fix CSS for flash messages
 - More space between post-footer-items?
 - Clean up presentation of create/edit form for static page options
