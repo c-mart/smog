@@ -4,15 +4,11 @@ Things to do:
 - Work on CSS and learn some best practices. Improve my own or use a template/framework
 
 ## CSS Fixes
-- Add web font? google font or alternative? Change to just sans-serif?
-- Fix CSS for flash messages
+- Images should scale down on small displays
+- Fix display of bullets in post body
 - More space between post-footer-items?
-- Clean up presentation of create/edit form for static page options
-- Don't show title twice for single-post page
-- Flash color should be in the Tango palette
 
 ## Todo
-- Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)
 - Link to Markdown reference in create post page
 - Rename create_edit.html to create_edit_post.html
 - Refactor "Active" user to "Enabled" user to resolve ambiguity
@@ -31,6 +27,7 @@ Things to do:
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
 
 ## Completed Todo
+x Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)
 x Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
 x Work on update-ability. Currently, running "git clone" overwrites the config (e.g. database URI) on a running web server. Learn best practices of how this is handled with production apps.
 x Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python

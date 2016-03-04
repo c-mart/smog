@@ -193,7 +193,7 @@ class smogTestCase(unittest.TestCase):
         r = self.create_post()
         post_id = re.search("/create\?id=([0-9]+)", r.data).group(1)
         r = self.app.get('/create?id=' + str(post_id))
-        assert re.search("<a href=\"/delete/[0-9]+\">Delete post</a>", r.data) is not None, "Delete link is missing"
+        assert re.search("<a href=\"/delete/[0-9]+\" class=\"button\">Delete post</a>", r.data) is not None, "Delete link is missing"
         r = self.app.get('/delete/' + str(post_id), follow_redirects=True)
         assert "Post has been deleted." in r.data, "User should receive notice that post has been deleted"
         assert "No posts yet." in r.data, "We should see no posts now"
@@ -273,7 +273,7 @@ class smogTestCase(unittest.TestCase):
         self.create_post(static_page=True)
         r = self.app.get('/')
         assert 'No posts yet.' in r.data, "We should see no posts"
-        assert '<span class="nav-item"><a href="/posts/test-post">Test post</a></span>' in r.data,\
+        assert '<a href="/posts/test-post">Test post</a>' in r.data,\
             "We should see a link to our static page in the navigation"
         r = self.app.get('/posts/test-post')
         assert "The quick brown fox jumps over the lazy dog" in r.data, "We should see our static page"
@@ -380,7 +380,7 @@ class smogTestCase(unittest.TestCase):
         edit_link = reg_exp.group(2)
         delete_user_id = reg_exp.group(3)
         r = self.app.get(edit_link)
-        assert '<a href="/delete-user/%s">' % delete_user_id in r.data, 'Should see a delete user link'
+        assert '<a href="/delete-user/%s"' % delete_user_id in r.data, 'Should see a delete user link'
         r = self.app.get('/delete-user/' + str(delete_user_id), follow_redirects=True)
         assert 'User has been deleted.' in r.data, 'Should see notice that the user has been deleted.'
         assert 'Rumpel Stiltskin' not in r.data, 'Rumpel Stiltskin user should no longer display in manage users table'
