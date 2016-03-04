@@ -1,15 +1,16 @@
 <div class="post">
-    <h2 class="post-title"><a href="{{ url_for('view_posts') }}{{ post.permalink }}">{{ post.title }}</a></h2>
     <div class="post-body">
         {{ post.body | render_markdown() | safe }}
     </div>
-    <div class="post-footer">
-        <span class="post-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
-        {% if post.edit_date|date_format() != post.create_date|date_format() %}
-            <span class="post-footer-item"> - Updated on {{ post.edit_date|date_format() }}</span>
-        {% endif %}
-        {% if current_user.is_authenticated %}
-            <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit/Delete Post</a></span>
-        {% endif %}
+    <div class="row">
+        <div class="u-pull-right">
+            <span class="post-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
+            {% if post.edit_date|date_format() != post.create_date|date_format() %}
+                <span class="post-footer-item"> - Updated on {{ post.edit_date|date_format() }}</span>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+                <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit/Delete Post</a></span>
+            {% endif %}
+        </div>
     </div>
 </div>

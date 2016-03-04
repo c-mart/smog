@@ -1,0 +1,128 @@
+@media (min-width: 550px) {
+    .container {
+        width: 85%;
+    }
+}
+
+body {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+h1 { font-size: 4.0rem; line-height: 1.2;  letter-spacing: 0; color: #fcaf3e; }
+h2 { font-size: 3.0rem; line-height: 1.25; letter-spacing: 0; }
+h3 { font-size: 2.4rem; line-height: 1.3;  letter-spacing: 0; }
+h4 { font-size: 1.8rem; line-height: 1.35; letter-spacing: 0; }
+h5 { font-size: 1.5rem; line-height: 1.5;  letter-spacing: 0; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+    h1 { font-size: 4.0rem; }
+    h2 { font-size: 3.0rem; }
+    h3 { font-size: 2.4rem; }
+    h4 { font-size: 1.8rem; }
+    h5 { font-size: 1.5rem; }
+    h6 { font-size: 1.5rem; }
+}
+
+/* Links */
+
+/* Buttons */
+
+/* Forms */
+
+textarea { min-height: 400px; }
+
+/* Custom elements */
+
+.container {
+    margin-top: 7.0rem;
+    margin-bottom: 1.0rem;
+}
+
+.top-nav {
+    margin: 0;
+    padding: 0;
+}
+
+.top-nav ul,
+.bottom-nav ul {
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    list-style-type: none;
+    overflow: hidden;
+    font-size: 1.6rem;
+    background-color: #eeeeec;
+}
+
+.top-nav ul {
+    top: 0;
+}
+
+.bottom-nav ul {
+    bottom: 0;
+    margin-bottom: 0;
+}
+
+.top-nav ul li,
+.bottom-nav ul li {
+    float: left;
+    margin-bottom: 0;
+}
+
+.top-nav ul li a,
+.bottom-nav ul li a,
+.top-nav ul li p,
+.bottom-nav ul li p {
+    display: block;
+    color: #2e3436;
+    text-align: center;
+    margin-bottom: 0;
+    padding: 4px 10px;
+    text-decoration: none;
+}
+
+.top-nav ul li a:hover,
+.bottom-nav ul li a:hover {
+    background-color: #d3d7cf;
+}
+
+.flash {
+    border: 2px solid #f57900;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f57900;
+    margin-bottom: 1rem;
+}
+
+.post-title a {
+    color: #d3d7cf;
+}
+
+.post-title a:hover {
+    color: #eeeeec;
+}
+
+.post {
+    margin-bottom: 2rem;
+}
+
+.post-footer-item {
+    color: #888888;
+}
+
+a { text-decoration: none; }
+
+.footer {
+    color: #888888;
+    text-align: center;
+}

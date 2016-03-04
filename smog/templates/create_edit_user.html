@@ -39,11 +39,11 @@
             <td></td>
             <td>
                 <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />
-                <input type="submit" value="Save" />
+                {% if formdata['id'] %}
+                    <a href="{{ url_for('delete_user', user_id=formdata['id']) }}" class="button"><strong>Delete User</strong></a>
+                {% endif %}
+                <input type="submit" value="Save" class="button-primary" />
             </td>
         </tr>
     </table></form>
-    {% if formdata['id'] %}
-        <a href="{{ url_for('delete_user', user_id=formdata['id']) }}"><strong>Delete User</strong></a>
-    {% endif %}
 {% endblock %}

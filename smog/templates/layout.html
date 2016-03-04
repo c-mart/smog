@@ -2,36 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if post %}{{ post.title }} - {% endif %}{{ g.site_settings.site_title }}</title>
     {% block head %}{% endblock %}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='normalize.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='skeleton.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='dark-tango-skeleton.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}" />
 </head>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}" />
-<body><div class="page">
-    {% block title %}{% endblock %}
-    <div class="nav">
-        <span class="nav-item"><a href="{{ url_for('view_posts') }}">Home</a></span>
-        <span class="nav-item"><a href="{{ url_for('list_posts') }}">All Posts</a></span>
-        {% for page in g.static_pages %}
-            <span class="nav-item"><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.static_page_link_title }}</a></span>
-        {% endfor %}
+<body>
+    <div class="top-nav">
+        <ul>
+            <li><a href="{{ url_for('view_posts') }}">Home</a></li>
+            <li><a href="{{ url_for('list_posts') }}">All Posts</a></li>
+            {% for page in g.static_pages %}
+                <li><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.static_page_link_title }}</a></li>
+            {% endfor %}
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('logout') }}">Log out</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
     </div>
-    {% for message in get_flashed_messages() %}
-        <div class='flash'><strong>{{ message }}</strong></div>
-    {% endfor %}
-    {% block body %}{% endblock %}
-    <div class="nav">
-        {% if current_user.is_authenticated %}
-            Logged in as {{ current_user.name }}. Administer me:<br />
-            <span class="nav-item"><a href="{{ url_for('create_edit_post') }}">Create Post</a></span>
-            <span class="nav-item"><a href="{{ url_for('view_unpublished') }}">View Unpublished</a></span>
-            <span class="nav-item"><a href="{{ url_for('manage_users') }}">Manage Users</a></span>
-            <span class="nav-item"><a href="{{ url_for('site_settings') }}">Site Settings</a></span>
-            <span class="nav-item"><a href="{{ url_for('logout') }}">Log out</a></span>
-        {% else %}
-            Administer me: <span class="nav-item"><a href="{{ url_for('login') }}">Log in</a></span>
-        {% endif %}
+    <div class="container">
+        {% block title %}{% endblock %}
+        {% for message in get_flashed_messages() %}
+            <div class='flash'>{{ message }}</div>
+        {% endfor %}
+        <div class="row">
+            {% block body %}{% endblock %}
+        </div>
     </div>
     <div class="footer">{{ g.site_settings.get_footer_line() }}</div>
-</div></body>
+    {% if current_user.is_authenticated %}
+        <div class="bottom-nav">
+            <ul>
+                <li><p>Logged in as {{ current_user.name }}.</p></li>
+                <li><a href="{{ url_for('create_edit_post') }}">Create Post</a></li>
+                <li><a href="{{ url_for('view_unpublished') }}">View Unpublished</a></li>
+                <li><a href="{{ url_for('manage_users') }}">Manage Users</a></li>
+                <li><a href="{{ url_for('site_settings') }}">Site Settings</a></li>
+            </ul>
+        </div>
+    {% endif %}
+</body>
 {{ g.site_settings.analytics_code | safe }}
 </html>

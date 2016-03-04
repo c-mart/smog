@@ -16,14 +16,16 @@ See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Tod
 I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
 
 ## How to Install on a Web Server (work in progress)
+If you already know how to configure and administer a Unix/Linux web server then Smog is easy to configure. If you don't feel comfortable on the command line then these instructions will probably disappoint.
 
-This assumes that you already have a working and reasonably well-secured web server. It doesn't cover setup of HTTPS encryption, but that is very easy if you run [Let's Encrypt](https://letsencrypt.org/getting-started/) after following the setup steps below.
+Hardening the server, updates, and backups are up to you. This also doesn't cover setup of HTTPS encryption, but that is very easy if you run [Let's Encrypt](https://letsencrypt.org/getting-started/) after following the setup steps below.
+
 
 This is written for a Debian/Ubuntu server running Apache 2. Commands will be slightly different on another operating system like RHEL/CentOS.
 
 - Install prerequisite packages: `apt-get install git libapache2-mod-wsgi python python-dev python-pip`
 - Clone the project: `git clone https://github.com/c-mart/smog.git` into a directory on your web server (like /var/www/)
-- Connect to a real database. (Todo: help people do this.) If you don't, it will create a SQLite database in your /tmp directory, which will probably disappear next time you reboot your server. 
+- Connect to a real database. (Todo: tell people how to do this.) If you don't, it will create a SQLite database in your /tmp directory, which will probably disappear next time you reboot your server. 
 - Enable WSGI Apache module: `a2enmod wsgi`
 - Install virtualenv: `pip install virtualenv`
 - Create a virtualenv: `virtualenv /var/www/smog-venv` (or any other path you wish your virtualenv to live in)
