@@ -25,10 +25,6 @@ I wrote this in order to learn Python web development and scratch a personal itc
 
 If you're looking for a lean and simple blog platform with clean styling that works equally well for micro- and macro-blogging, smog is for you. If you're looking to download and apply a bunch of pre-made, gaudy themes to your site, smog is not for you.
 
-
-
-easily extendable 
-
 ## How to Install on a Web Server (work in progress)
 If you already know how to configure and administer a Unix/Linux web server then Smog is easy to configure. If you don't feel comfortable on the command line then these instructions will probably disappoint.
 
