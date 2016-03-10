@@ -270,7 +270,7 @@ def create_edit_post():
             return render_template('create_edit.html', formdata=request.form)
         else:
             flash('Post successful')
-            return redirect(url_for('view_posts'))
+            return redirect(url_for('view_posts', permalink=post.permalink))
     elif request.method == 'GET' and request.args.get('id') is not None:
         # Editing existing post
         post = models.Post.query.filter_by(id=request.args.get('id')).first_or_404()

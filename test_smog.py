@@ -104,13 +104,15 @@ class smogTestCase(unittest.TestCase):
     def test_auto_permalink(self):
         """Confirm automatic generation of permalink with new post."""
         self.login()
-        r = self.create_post()
+        self.create_post()
+        r = self.app.get('/')
         assert '<a href="/posts/test-post">' in r.data, "We should see automatically generated permalink"
 
     def test_follow_permalink(self):
         """Confirm that a permalink works as expected."""
         self.login()
-        r = self.create_post()
+        self.create_post()
+        r = self.app.get('/')
         assert '<a href="/posts/test-post">' in r.data, "We should see link for post permalink"
         # Following permalink
         r = self.app.get('/posts/test-post')
@@ -169,10 +171,12 @@ class smogTestCase(unittest.TestCase):
         again.
         """
         self.login()
-        r = self.create_post(published=False)
+        self.create_post(published=False)
+        r = self.app.get('/')
         assert 'No posts yet.' in r.data, "We should see no published posts"
         r = self.app.get('/unpublished')
         assert 'The quick brown fox jumps over the lazy dog' in r.data, "We should see post in /unpublished"
+        r = self.app.get('/posts/test-post')
         post_id = re.search("/create\?id=([0-9]+)", r.data).group(1)
         self.app.post('/create', data=dict(
             update_id=post_id,
@@ -458,7 +462,7 @@ class smogTestCase(unittest.TestCase):
         raise NotImplementedError()
 
     # Test Cases - Comments
-    def crud_comments(self):
+    def test_crud_comments(self):
         """Create, edit, and delete comments"""
         raise NotImplementedError
 

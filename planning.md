@@ -1,7 +1,5 @@
 SMOG: Simple Markdown blOG
 
-HR BETWEEN POST AND COMMENTS
-
 ## CSS Fixes
 - Nav bar should not look like a browser toolbar
 - Images should scale down on small displays
@@ -31,38 +29,40 @@ x Fix display of bullets in post body
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
 
 ## Completed Todo
-x Link to Markdown reference in create post page, perhaps instructions to insert an image
-x Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)
-x Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
-x Work on update-ability. Currently, running "git clone" overwrites the config (e.g. database URI) on a running web server. Learn best practices of how this is handled with production apps.
-x Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
-x Don't allow user to deactivate or delete him/her self
-x Some kind of better user management
-x Render description in HTML somewhere. Consider separate template for showing single post with meta tag
-x Set browser title bar
-x Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.
-x RSS/Atom feed (I did Atom)
-x "All Posts" page which lists posts in reverse chronological order
-x static pages.
-x Test for use of slugify, ensure permalinks are cleaned up
-x How should I handle posting with special characters in title and no permalink field?
-x Get rid of green in CSS
-x Strip non-alphanumeric characters from permalinks
-x Test trying to load an unpublished post by its permalink
-x How do deal with H1? Single-post page has post title as H1. Multiple-post page has blog title as H1.
-x Published checkbox should be true by default
-x Relationship between users and posts. Each post has an "author".
-x Database migration to expand schema, add an "author" field to posts
-x Why does my app throw OperationalErrors after running test cases? Because testing was using a separate database
-x Show admin (post, edit, delete) buttons if logged in
-x Only allow post/edit/delete view if logged in
-x Line breaks aren't showing - just render markdown
-x Allow viewing of drafts
-x Allow editing post where post is updated
-x Allow editing post which updates edit date but not create date
-x make password form box hidden
-x Write some tests
-x Static pages separate from posts
+- HR BETWEEN POST AND COMMENTS
+- Link to Markdown reference in create post page, perhaps instructions to insert an image
+- Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)
+- Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
+- Work on update-ability. Currently, running "git clone" overwrites the config (e.g. database URI) on a running web server. Learn best practices of how this is handled with production apps.
+- Switch to another Markdown renderer (http://lepture.com/en/2014/markdown-parsers-in-python) which supports footnotes and is implemented in pure python
+- Don't allow user to deactivate or delete him/her self
+- Some kind of better user management
+- Render description in HTML somewhere. Consider separate template for showing single post with meta tag
+- Set browser title bar
+- Settings page with configurable blog title, footer string (e.g. "Copyright Bob Loblaw $currentyear"). Perhaps just load these into environment variables.
+- RSS/Atom feed (I did Atom)
+- "All Posts" page which lists posts in reverse chronological order
+- static pages.
+- Test for use of slugify, ensure permalinks are cleaned up
+- How should I handle posting with special characters in title and no permalink field?
+- Get rid of green in CSS
+- Strip non-alphanumeric characters from permalinks
+- Test trying to load an unpublished post by its permalink
+- How do deal with H1? Single-post page has post title as H1. Multiple-post page has blog title as H1.
+- Published checkbox should be true by default
+- Relationship between users and posts. Each post has an "author".
+- Database migration to expand schema, add an "author" field to posts
+- Why does my app throw OperationalErrors after running test cases? Because testing was using a separate database
+- Show admin (post, edit, delete) buttons if logged in
+- Only allow post/edit/delete view if logged in
+- Line breaks aren't showing - just render markdown
+- Allow viewing of drafts
+- Allow editing post where post is updated
+- Allow editing post which updates edit date but not create date
+ make password form box hidden
+- Write some tests
+- Static pages separate from posts
+- People can post comments, comment moderation
 
 ## Extended Features
 - Switch to another captcha provider
@@ -75,5 +75,4 @@ x Static pages separate from posts
 - Automatically publish at a date and time
 - Preview function while composing
 - Built-in image hosting with exif tag removal
-x People can post comments, comment moderation
 - Allow short post URLs with post ID
