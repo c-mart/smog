@@ -1,28 +1,6 @@
 SMOG: Simple Markdown blOG
 
-Adding comments:
-x Create model
-x Expand database schema
-x Create database migration
-x Create view to edit comment
-x Create view to show comments (really just part of the single blog post view)
-x Logged-in users don't need to enter 
-x Link to comments from multiple post page
-x Link to create comment from blog post page
-x Integrate forms
-x recaptcha
-x Highlight comments by author?
-x Tell people comments can have markdown and provide link to reference
-x "No comments yet" if no comments
-x Comments allowed: don't display comments or comment link if comments are disabled for a post
-- "Subscribe to updates" checkbox?
-- Disallow some markdown in comments, only allow h6 perhaps?
-
-Comments have a:
-- Either a user_id of a smog user who posted comment, or a name and email address of guest commenter
-- Comment body
-- Timestamp
-
+HR BETWEEN POST AND COMMENTS
 
 ## CSS Fixes
 - Nav bar should not look like a browser toolbar
@@ -97,5 +75,5 @@ x Static pages separate from posts
 - Automatically publish at a date and time
 - Preview function while composing
 - Built-in image hosting with exif tag removal
-- People can post comments, comment moderation
+x People can post comments, comment moderation
 - Allow short post URLs with post ID
