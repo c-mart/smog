@@ -9,4 +9,9 @@
 {% endblock %}
 {% block body %}
     {% include 'includes/post_body.html' %}
+    {% if post.comments_allowed == True %}
+        <h3>Comments</h3>
+        <div class="comment"><a href="{{ url_for('create_comment', permalink=post.permalink) }}"><strong>Add Your Comment</strong></a></div>
+        {% include 'includes/comments.html' %}
+    {% endif %}
 {% endblock %}

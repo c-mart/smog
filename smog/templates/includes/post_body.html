@@ -4,12 +4,12 @@
     </div>
     <div class="row">
         <div class="u-pull-right">
-            <span class="post-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
+            <span class="content-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
             {% if post.edit_date|date_format() != post.create_date|date_format() %}
-                <span class="post-footer-item"> - Updated on {{ post.edit_date|date_format() }}</span>
+                <span class="content-footer-item"> - Updated on {{ post.edit_date|date_format() }}</span>
             {% endif %}
             {% if current_user.is_authenticated %}
-                <span class="post-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit/Delete Post</a></span>
+                <span class="content-footer-item"><a href="{{ url_for('create_edit_post', id=post.id) }}">Edit/Delete Post</a></span>
             {% endif %}
         </div>
     </div>

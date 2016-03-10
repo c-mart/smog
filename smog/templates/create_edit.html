@@ -8,8 +8,7 @@
     <h5>on {{ g.site_settings.site_title }}</h5>
 {% endblock %}
 {% block body %}
-
-    <form action="{{ url_for('create_edit_post') }}" method="post" class="create-post">
+    <form action="{{ url_for('create_edit_post') }}" method="POST">
         <label for="title">Title</label>
         <input type="text" name="title" id="title" value="{{ formdata['title'] }}" class="u-full-width" />
         <label for="body">Body</label>
@@ -17,11 +16,13 @@
         <div class="row">
             <div class="six columns">
                 <label for="description">Short description</label>
-                <input type="text" name="description" id="description" value="{{ formdata['description'] }}" placeholder="(generated from title if left blank)" class="u-full-width" />
+                <input type="text" name="description" id="description" value="{{ formdata['description'] }}"
+                       placeholder="(generated from title if left blank)" class="u-full-width" />
             </div>
             <div class="six columns">
                 <label for="permalink">Permalink</label>
-                <input type="text" name="permalink" id="permalink" value="{{ formdata['permalink'] }}" placeholder="generated-from-title-if-left-blank" class="u-full-width" />
+                <input type="text" name="permalink" id="permalink" value="{{ formdata['permalink'] }}"
+                       placeholder="generated-from-title-if-left-blank" class="u-full-width" />
             </div>
         </div>
         <label for="static_page">Post Type</label>
@@ -64,9 +65,17 @@
             <span class="label-body">Also show static page in timeline</span>
         </label>
         <input type="hidden" name="update_id" value="{{ formdata['id'] }}" />
-        {% if formdata['id'] %}
-            <a href="{{ url_for('delete_post', post_id = formdata['id']) }}" class="button">Delete post</a>
-        {% endif %}
-        <span class="u-pull-right"><input type="submit" value="Save" class="button-primary" /></span>
+        <div class="row">
+            {% if formdata['id'] %}
+                <a href="{{ url_for('delete_post', post_id=formdata['id']) }}" class="button">Delete post</a>
+            {% endif %}
+            <span class="u-pull-right"><input type="submit" value="Save" class="button-primary" /></span>
+        </div>
     </form>
+    <h3>Posting Tips</h3>
+    <ul>
+        <li>Format and style your post with <a href="http://packetlife.net/media/library/16/Markdown.pdf">Markdown</a></li>
+        <li>Type <code>$fold$</code> after the first few lines to control what is shown as a preview on the front page. (This tag will not be rendered in your post.)</li>
+    </ul>
+
 {% endblock %}

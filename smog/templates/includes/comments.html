@@ -1,0 +1,24 @@
+{% if comments %}
+    {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-body">{{ comment.body | render_markdown() | safe }}</div>
+            <span class="content-footer-item">
+                {% if comment.author_user_id %}
+                    {% if comment.author_user_id == post.user_id %}
+                        Posted by <strong>{{ comment.user_name() }} (post author)</strong>
+                    {% else %}
+                        Posted by <strong>{{ comment.user_name() }} (site author)</strong>
+                    {% endif %}
+                {% else %}
+                    Posted by {{ comment.guest_author_name }}
+                {% endif %}
+                on {{ comment.create_date_time | date_format() }}
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('edit_comment', permalink=post.permalink, id=comment.id) }}">Edit/Delete Comment</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endfor %}
+{% else %}
+<div class="comment">No comments yet, maybe you should post one!</div>
+{% endif %}

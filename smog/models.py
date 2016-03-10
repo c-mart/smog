@@ -16,7 +16,7 @@ class SiteSettings(db.Model):
 
     def __init__(self,
                  site_title='smog: Simple Markdown blOG',
-                 footer_line='Copyright $year$ Bloggy McAuthorson, all rights reserved',
+                 footer_line='Copyright $year$ Bloggy McAuthorson, all rights reserved.',
                  analytics_code='<!-- Insert analytics code here -->'):
         self.id = 0
         self.site_title = site_title
@@ -92,22 +92,24 @@ class Post(db.Model):
     published = db.Column(db.Boolean)
     comments_allowed = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def __init__(self,
                  title,
                  body,
                  user_id,
-                 static_page_in_timeline=False,
-                 static_page_link_title=None,
                  description=None,
                  permalink=None,
                  create_date=None,
                  edit_date=None,
                  static_page=False,
+                 static_page_in_timeline=False,
+                 static_page_link_title=None,
                  published=True,
                  comments_allowed=True):
         self.title = title
         self.body = body
+        self.user_id = user_id
         if description == '' or description is None:
             self.description = self.title
         else:
@@ -134,7 +136,6 @@ class Post(db.Model):
 
         self.published = published
         self.comments_allowed = comments_allowed
-        self.user_id = user_id
         self.static_page = static_page
         self.static_page_in_timeline = static_page_in_timeline
 
@@ -150,3 +151,43 @@ class Post(db.Model):
     def user_name(self):
         """Retrieves user name associated with a post."""
         return User.query.filter_by(id=self.user_id).one().name
+
+
+class Comment(db.Model):
+    """Post comment object."""
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    author_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    guest_author_name = db.Column(db.String)
+    guest_author_email = db.Column(db.String)
+    body = db.Column(db.Text)
+    create_date_time = db.Column(db.DateTime)
+
+    def __init__(self,
+                 post_id,
+                 body,
+                 author_user_id=None,
+                 guest_author_name=None,
+                 guest_author_email=None):
+        self.post_id = post_id
+        if author_user_id:  # Logged-in commenter
+            self.author_user_id = author_user_id
+        else:  # Guest commenter
+            if all([guest_author_name, guest_author_email]):
+                self.guest_author_name = guest_author_name
+                self.guest_author_email = guest_author_email
+            else:
+                raise Exception('New comment requires either a logged-in user ID or a guest author name and email')
+        if guest_author_name is not None:
+            self.guest_author_name = guest_author_name
+            self.guest_author_email = guest_author_email
+        self.body = body
+        self.create_date_time = datetime.utcnow()
+
+    def __repr__(self):
+        return '<Comment %s>' % self.body
+
+    def user_name(self):
+        """Retrieves user name associated with a comment."""
+        return User.query.filter_by(id=self.author_user_id).one().name

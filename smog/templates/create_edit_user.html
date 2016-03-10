@@ -7,7 +7,7 @@
     {% endif %}
 {% endblock %}
 {% block body %}
-    <form action="{{ url_for('create_edit_user') }}" method="post"><table>
+    <form action="{{ url_for('create_edit_user') }}" method="POST"><table>
         <tr>
             <td><strong>Name</strong></td>
             <td><input type="text" size="30" name="name" value="{{ formdata['name'] }}" /></td>

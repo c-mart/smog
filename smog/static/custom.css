@@ -1,3 +1,5 @@
+/* Overriding skeleton.css */
+
 @media (min-width: 550px) {
     .container {
         width: 85%;
@@ -20,7 +22,6 @@ h4 { font-size: 1.8rem; line-height: 1.35; letter-spacing: 0; }
 h5 { font-size: 1.5rem; line-height: 1.5;  letter-spacing: 0; }
 h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
-/* Larger than phablet */
 @media (min-width: 550px) {
     h1 { font-size: 4.0rem; }
     h2 { font-size: 3.0rem; }
@@ -30,19 +31,15 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
     h6 { font-size: 1.5rem; }
 }
 
-/* Links */
-
-/* Buttons */
-
-/* Forms */
-
 textarea { min-height: 400px; }
 
-/* Lists */
 ul {
     list-style: disc inside;
 }
 
+.u-pull-right {
+    padding-left: 1rem;
+}
 
 /* Custom elements */
 
@@ -50,6 +47,21 @@ ul {
     margin-top: 7.0rem;
     margin-bottom: 1.0rem;
 }
+
+a { text-decoration: none; }
+
+.flash {
+    border: 2px solid #f57900;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f57900;
+    margin-bottom: 1rem;
+}
+
+/* Navigation */
 
 .top-nav {
     margin: 0;
@@ -99,16 +111,7 @@ ul {
     background-color: #d3d7cf;
 }
 
-.flash {
-    border: 2px solid #f57900;
-    border-radius: 10px;
-    padding: 1rem;
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #f57900;
-    margin-bottom: 1rem;
-}
+/* Posts */
 
 .post-title a {
     color: #d3d7cf;
@@ -122,13 +125,38 @@ ul {
     margin-bottom: 2rem;
 }
 
-.post-footer-item {
-    color: #888888;
+.post-preview {
+    margin-bottom: 1rem;
 }
 
-a { text-decoration: none; }
+.post-preview p {
+    margin-bottom: 0;
+}
+
+/* Comments */
+
+.comment {
+    margin-bottom: 2rem;
+}
+
+.comment-body p {
+    margin-bottom: 0;
+}
+
+.content-footer-item {
+    color: #888888;
+}
 
 .footer {
     color: #888888;
     text-align: center;
+}
+
+.form-error {
+    color: #f57900;
+    font-weight: 700;
+}
+
+.g-recaptcha {
+    margin-bottom: 2rem;
 }

@@ -1,8 +1,9 @@
 from smog import app, limiter, login_manager
 import flask_login
-from smog.models import *
+import smog.models as models
+import smog.forms as forms
 import smog.helpers
-from flask import redirect, url_for, request, session, flash, render_template, make_response, g
+from flask import abort, redirect, url_for, request, session, flash, render_template, make_response, g
 from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
@@ -18,7 +19,7 @@ from functools import wraps
 def user_loader(user_id):
     """Retrieves user object for login manager."""
     try:
-        return User.query.filter_by(id=int(user_id)).one()
+        return models.User.query.filter_by(id=int(user_id)).one()
     except NoResultFound():
         return None
 
@@ -27,9 +28,9 @@ def get_static_stuff(f):
     """Decorator to retrieve static pages and site settings, storing them in `g` for display in templates"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        static_pages = Post.query.filter_by(published=True, static_page=True).all()
+        static_pages = models.Post.query.filter_by(published=True, static_page=True).all()
         g.static_pages = static_pages
-        settings = SiteSettings.query.filter_by(id=0).one()
+        settings = models.SiteSettings.query.filter_by(id=0).one()
         g.site_settings = settings
         return f(*args, **kwargs)
     return decorated_function
@@ -45,7 +46,7 @@ def login():
 
     elif request.method == 'POST':
         try:
-            user = User.query.filter_by(email=request.form['email']).one()
+            user = models.User.query.filter_by(email=request.form['email']).one()
         except NoResultFound:
             # TODO refactor this logic block to DRY later
             flash('No active account associated with that email and password, try again.')
@@ -83,13 +84,13 @@ def logout():
 @get_static_stuff
 def site_settings():
     """Allow user to edit global site settings"""
-    settings = SiteSettings.query.filter_by(id=0).one()
+    settings = models.SiteSettings.query.filter_by(id=0).one()
     if request.method == 'POST':
         settings.site_title = request.form['site_title']
         settings.footer_line = request.form['footer_line']
         settings.analytics_code = request.form['analytics_code']
-        db.session.add(settings)
-        db.session.commit()
+        models.db.session.add(settings)
+        models.db.session.commit()
         flash('Site settings have been updated.')
         return redirect(url_for('site_settings'))
     elif request.method == 'GET':
@@ -101,7 +102,7 @@ def site_settings():
 @get_static_stuff
 def manage_users():
     """Allow user to CRUD user accounts"""
-    users = User.query.all()
+    users = models.User.query.all()
     return render_template('manage_users.html', users=users)
 
 
@@ -115,27 +116,26 @@ def create_edit_user():
             if request.form['update_id'] == session['user_id'] and request.form.get('active') == "False":
                 flash('Error: you cannot disable your own user account.')
                 return redirect(url_for('manage_users'))
-            user = User.query.filter_by(id=request.form['update_id']).first_or_404()
+            user = models.User.query.filter_by(id=request.form['update_id']).first_or_404()
             user.name = request.form['name']
             user.email = request.form['email']
             user.active = True if request.form.get('active') == "True" else False
             if request.form['password']:
-                user.pw_hash = helpers.pw_hash(request.form['password'], user.pw_salt)
+                user.pw_hash = models.helpers.pw_hash(request.form['password'], user.pw_salt)
         else:
             # Create new user account
-            user = User(name=request.form['name'],
-                        email=request.form['email'],
-                        password=request.form['password'],
-                        active=True if request.form['active'] == "True" else False
-                        )
-        db.session.add(user)
-        db.session.commit()
+            user = models.User(name=request.form['name'],
+                               email=request.form['email'],
+                               password=request.form['password'],
+                               active=True if request.form['active'] == "True" else False)
+        models.db.session.add(user)
+        models.db.session.commit()
         flash('User %s has been saved.' % request.form['name'])
         return redirect(url_for('manage_users'))
 
     elif request.method == 'GET' and request.args.get('id') is not None:
         # Display form with existing user information populated
-        user = User.query.filter(User.id == request.args.get('id')).first_or_404()
+        user = models.User.query.filter(models.User.id == request.args.get('id')).first_or_404()
         return render_template('create_edit_user.html', formdata=user, edit=True)
     else:
         # Display blank form to create new user
@@ -150,9 +150,9 @@ def delete_user(user_id):
     if user_id == session['user_id']:
         flash('Error: you cannot delete your own user account.')
     else:
-        user = User.query.filter(User.id == user_id).first_or_404()
-        db.session.delete(user)
-        db.session.commit()
+        user = models.User.query.filter(models.User.id == user_id).first_or_404()
+        models.db.session.delete(user)
+        models.db.session.commit()
         flash('User has been deleted.')
     return redirect(url_for('manage_users'))
 
@@ -163,22 +163,25 @@ def delete_user(user_id):
 @get_static_stuff
 def view_posts(permalink=None):
     """Query database for posts and pass them to template. Optional permalink parameter queries for a specific post."""
-    if permalink is None:
+    if permalink is None:  # Display all recent posts
         # Posts in timeline must be published, and either NOT a static page OR a static page set to display in timeline
-        posts = Post.query.filter(and_(Post.published == True,
-                                       or_(Post.static_page == False, Post.static_page_in_timeline == True)))\
-            .order_by(Post.create_date.desc()).all()
+        posts = models.Post.query.filter(and_(models.Post.published == True,
+                                              or_(models.Post.static_page == False,
+                                                  models.Post.static_page_in_timeline == True)))\
+            .order_by(models.Post.create_date.desc()).all()
         if not posts:
             flash('No posts yet.')
         return render_template('multiple_posts.html', posts=posts)
-    else:
+    else:  # Permalink is specified, display one post with comments
         if flask_login.current_user.is_authenticated is True:
             # Authenticated user sees post whether or not it is published
-            post = Post.query.filter_by(permalink=permalink).first_or_404()
+            post = models.Post.query.filter_by(permalink=permalink).first_or_404()
         else:
             # Unauthenticated user only sees post if it is published
-            post = Post.query.filter_by(permalink=permalink, published=True).first_or_404()
-        return render_template('single_post.html', post=post)
+            post = models.Post.query.filter_by(permalink=permalink, published=True).first_or_404()
+        comments = models.Comment.query.filter_by(post_id=post.id)\
+            .order_by(models.Comment.create_date_time.desc()).all()
+        return render_template('single_post.html', post=post, comments=comments)
 
 
 @app.route('/unpublished')
@@ -186,7 +189,7 @@ def view_posts(permalink=None):
 @get_static_stuff
 def view_unpublished():
     """Query database for unpublished posts and pass them to template."""
-    posts = Post.query.filter_by(published=False).order_by(Post.create_date.desc()).all()
+    posts = models.Post.query.filter_by(published=False).order_by(models.Post.create_date.desc()).all()
     if not posts:
         flash('No unpublished posts yet.')
     return render_template('multiple_posts.html', posts=posts, unpublished=True)
@@ -196,9 +199,9 @@ def view_unpublished():
 @get_static_stuff
 def list_posts():
     """Query database for posts and pass them to template displaying list of links to posts (not full posts)."""
-    posts = Post.query.filter(and_(Post.published == True,
-                                   or_(Post.static_page == False, Post.static_page_in_timeline == True)))\
-        .order_by(Post.create_date.desc()).all()
+    posts = models.Post.query.filter(and_(models.Post.published == True,
+                                   or_(models.Post.static_page == False, models.Post.static_page_in_timeline == True)))\
+        .order_by(models.Post.create_date.desc()).all()
     if not posts:
         flash('No posts yet.')
     return render_template('posts_list.html', posts=posts)
@@ -209,9 +212,9 @@ def recent_posts_feed():
     """Generate Atom feed of recent posts."""
     feed = AtomFeed('Recent Posts', feed_url=request.url, url=request.url_root)
     # Posts in feed must be published, and either NOT a static page OR a static page set to display in timeline
-    posts = Post.query.filter(and_(Post.published == True,
-                                   or_(Post.static_page == False, Post.static_page_in_timeline == True)))\
-        .order_by(Post.create_date.desc()).limit(15).all()
+    posts = models.Post.query.filter(and_(models.Post.published == True,
+                                   or_(models.Post.static_page == False, models.Post.static_page_in_timeline == True)))\
+        .order_by(models.Post.create_date.desc()).limit(15).all()
     for post in posts:
         # Todo render markdown
         feed.add(post.title,
@@ -233,7 +236,7 @@ def create_edit_post():
     if request.method == 'POST':
         if request.form.get('update_id'):
             # Updating existing post in database
-            post = Post.query.filter_by(id=request.form['update_id']).first_or_404()
+            post = models.Post.query.filter_by(id=request.form['update_id']).first_or_404()
             post.title = request.form['title']
             post.body = request.form['body']
             post.description = request.form['description']
@@ -243,26 +246,25 @@ def create_edit_post():
             post.static_page_link_title = request.form.get('static_page_link_title')
             post.published = True if request.form.get('published') == "True" else False
             post.comments_allowed = True if request.form.get('comments_allowed') == "True" else False
-            post.edit_date = datetime.utcnow()
+            post.edit_date = models.datetime.utcnow()
             post.user_id = session['user_id']
         else:
             # Creating new post in database
-            post = Post(title=request.form['title'],
-                        body=request.form['body'],
-                        description=request.form['description'],
-                        permalink=slugify(request.form['permalink']),
-                        static_page=True if request.form['static_page'] == "True" else False,
-                        static_page_in_timeline=True if request.form.get('static_page_in_timeline') == "True" else False,
-                        static_page_link_title=request.form.get('static_page_link_title'),
-                        published=True if request.form.get('published') == "True" else False,
-                        comments_allowed=True if request.form.get('comments_allowed') == "True" else False,
-                        user_id=session['user_id']
-                        )
+            post = models.Post(title=request.form['title'],
+                               body=request.form['body'],
+                               description=request.form['description'],
+                               permalink=slugify(request.form['permalink']),
+                               static_page=True if request.form['static_page'] == "True" else False,
+                               static_page_in_timeline=True if request.form.get('static_page_in_timeline') == "True" else False,
+                               static_page_link_title=request.form.get('static_page_link_title'),
+                               published=True if request.form.get('published') == "True" else False,
+                               comments_allowed=True if request.form.get('comments_allowed') == "True" else False,
+                               user_id=session['user_id'])
         try:
-            db.session.add(post)
-            db.session.commit()
+            models.db.session.add(post)
+            models.db.session.commit()
         except (IntegrityError, InvalidRequestError):
-            db.session.rollback()
+            models.db.session.rollback()
             flash('There was a problem creating your post. Please make sure that another post does not already have '
                   'your desired post title and permalink.')
             return render_template('create_edit.html', formdata=request.form)
@@ -271,7 +273,7 @@ def create_edit_post():
             return redirect(url_for('view_posts'))
     elif request.method == 'GET' and request.args.get('id') is not None:
         # Editing existing post
-        post = Post.query.filter_by(id=request.args.get('id')).first_or_404()
+        post = models.Post.query.filter_by(id=request.args.get('id')).first_or_404()
         return render_template('create_edit.html', formdata=post, edit=True)
     elif request.method == 'GET':
         # Composing new post
@@ -283,17 +285,91 @@ def create_edit_post():
 @get_static_stuff
 def delete_post(post_id):
     """Deletes a post."""
-    post = Post.query.filter_by(id=post_id).first_or_404()
-    db.session.delete(post)
-    db.session.commit()
+    post = models.Post.query.filter_by(id=post_id).first_or_404()
+    models.db.session.delete(post)
+    models.db.session.commit()
     flash('Post has been deleted.')
     return redirect(url_for('view_posts'))
 
 
+@app.route('/posts/<permalink>/create-comment', methods=('GET', 'POST'))
+@get_static_stuff
+def create_comment(permalink):
+    """Create a comment on a post."""
+    if flask_login.current_user.is_authenticated:
+        form = forms.CommentForm(request.form)
+        guest = False
+    else:
+        form = forms.CommentFormGuest(request.form)
+        guest = True
+
+    post = models.Post.query.filter_by(permalink=permalink).first_or_404()
+    comments = models.Comment.query.filter_by(post_id=post.id).order_by(models.Comment.create_date_time.desc()).all()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            comment = models.Comment(post_id=post.id,
+                                     body=form.body.data,
+                                     author_user_id=flask_login.current_user.get_id() if guest is False else None,
+                                     guest_author_name=form.guest_author_name.data if guest is True else None,
+                                     guest_author_email=form.guest_author_email.data if guest is True else None)
+            models.db.session.add(comment)
+            models.db.session.commit()
+            flash('Your comment has been posted.')
+            return redirect(url_for('view_posts', permalink=permalink))
+        else:
+            flash('There is a problem with your comment, please see below')
+            return render_template('create_edit_comment.html', post=post, form=form, comments=comments, guest=guest)
+    elif request.method == 'GET':
+        return render_template('create_edit_comment.html', post=post, form=form, comments=comments, guest=guest)
+
+
+@app.route('/posts/<permalink>/edit-comment', methods=('GET', 'POST'))
+@flask_login.login_required
+@get_static_stuff
+def edit_comment(permalink):
+    """Edit an existing comment."""
+    post = models.Post.query.filter_by(permalink=permalink).first_or_404()
+    comment = models.Comment.query.filter_by(id=request.args.get('id')).first_or_404()
+    if comment.author_user_id:
+        form = forms.CommentForm(request.form, comment)
+        guest = False
+    else:
+        form = forms.CommentFormEditGuest(request.form, comment)
+        guest = True
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            comment.body = form.body.data
+            comment.guest_author_name = form.guest_author_name.data if guest is True else None
+            comment.guest_author_email = form.guest_author_email.data if guest is True else None
+            models.db.session.add(comment)
+            models.db.session.commit()
+            flash('Comment has been updated.')
+            return redirect(url_for('view_posts', permalink=permalink))
+        else:
+            flash('There is a problem with your comment, please see below')
+            return render_template('create_edit_comment.html', post=post, form=form, guest=guest, edit=True)
+    if request.method == 'GET' and request.args.get('id') is not None:
+        return render_template('create_edit_comment.html', post=post, form=form, guest=guest, edit=True)
+    else:
+        abort(404)
+
+
+@app.route('/delete_comment')
+@flask_login.login_required
+@get_static_stuff
+def delete_comment():
+    """Delete a comment."""
+    comment = models.Comment.query.filter_by(id=request.args.get('id')).first_or_404()
+    post = models.Post.query.filter_by(id=comment.post_id).first_or_404()
+    models.db.session.delete(comment)
+    models.db.session.commit()
+    flash('Comment has been deleted.')
+    return redirect(url_for('view_posts', permalink=post.permalink))
+
 @app.errorhandler(429)
 def rate_limit_exceeded_handler(e):
     """Warns user that they have hit the rate limiter."""
-    print(e)
     flash('You have tried doing that too often. Please wait a minute before trying again.')
     # Return statement should be generalized if we ever use rate limiting for actions other than logging in
     return make_response(redirect(url_for('login')))
@@ -305,8 +381,16 @@ def date_format(value, formatstr='%Y-%m-%d'):
     """Parses timestamps as a date in ISO 8601 date format."""
     return value.strftime(formatstr)
 
+@app.template_filter('post_preview')
+def post_preview(value):
+    """Returns a truncated 'preview' of a post for display on the front page."""
+    if '$fold$' in value:
+        return value.split('$fold$')[0] + '...'
+    else:
+        return value.split('\n')[0] + '...'
+
 
 @app.template_filter('render_markdown')
 def render_markdown(value):
-    """Renders markdown in jinja2 templates"""
-    return markdown(value)
+    """Renders markdown in jinja2 templates, removing the $fold$ marker"""
+    return markdown(value).replace('$fold$', '')

@@ -3,7 +3,7 @@
     <h1>Site Settings</h1>
 {% endblock %}
 {% block body %}
-    <form action="{{ url_for('site_settings') }}" method="post">
+    <form action="{{ url_for('site_settings') }}" method="POST">
         <p>
             <h3>Site Title</h3>
             <input type="text" size="50" name="site_title" value="{{ formdata['site_title'] }}" /><br />

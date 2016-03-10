@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% from "_helpers.html" import render_field %}
+{% block head %}
+{% endblock %}
+{% block title %}
+    <h1 class="post-title">{% if edit == True %}Edit Comment{% else %}Comment{% endif %} on {{ post.title }}</h1>
+    <h3>{{ g.site_settings.site_title }}</h3>
+{% endblock %}
+{% block body %}
+    {% if guest == False %}
+        <p>Posting comment as {{ current_user.name }}</p>
+    {% endif %}
+    <form action="{% if edit == True %}{{ url_for('edit_comment', permalink=post.permalink, id=request.args.get('id')) }}{% else %}{{ url_for('create_comment', permalink=post.permalink) }}{% endif %}" method="POST">
+        {{ form.hidden_tag() }}
+        {% if guest == True %}
+            <div class="row">
+                <div class="six columns">
+                    {{ render_field(form.guest_author_name, placeholder="Appears next to your comment", class="u-full-width") }}
+                </div>
+                <div class="six columns">
+                    {{ render_field(form.guest_author_email, placeholder="Don't worry, not displayed publicly!", class="u-full-width") }}
+                </div>
+            </div>
+        {% endif %}
+        {{ render_field(form.body, class="u-full-width") }}
+        {% if guest == True and edit == False %}
+            {{ render_field(form.recaptcha) }}
+        {% endif %}
+        <div class="row">
+            <a href="{{ url_for('view_posts', permalink=post.permalink) }}" class="button">Cancel</a>
+            <span class="u-pull-right"><input type="submit" value="Submit" class="button-primary" /></span>
+            {% if edit == True %}
+                <span class="u-pull-right"><a href="{{ url_for('delete_comment', id=request.args.get('id')) }}" class="button">Delete Comment</a></span>
+            {% endif %}
+        </div>
+    </form>
+    <h3>Commenting Tips</h3>
+    <ul>
+        <li>Format and style your comment with <a href="http://packetlife.net/media/library/16/Markdown.pdf">Markdown</a></li>
+    </ul>
+    {% if comments %}
+        <h3>Existing Comments</h3>
+        {% include 'includes/comments.html' %}
+    {% endif %}
+{% endblock %}

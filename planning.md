@@ -1,19 +1,47 @@
 SMOG: Simple Markdown blOG
 
-Things to do:
-- Work on CSS and learn some best practices. Improve my own or use a template/framework
+This revision:
+- $fold$ in post. Document $fold$ for developer and user.
+
+Adding comments:
+x Create model
+x Expand database schema
+x Create database migration
+x Create view to edit comment
+x Create view to show comments (really just part of the single blog post view)
+x Logged-in users don't need to enter 
+x Link to comments from multiple post page
+x Link to create comment from blog post page
+x Integrate forms
+x recaptcha
+x Highlight comments by author?
+x Tell people comments can have markdown and provide link to reference
+x "No comments yet" if no comments
+x Comments allowed: don't display comments or comment link if comments are disabled for a post
+- "Subscribe to updates" checkbox?
+- Disallow some markdown in comments, only allow h6 perhaps?
+
+Comments have a:
+- Either a user_id of a smog user who posted comment, or a name and email address of guest commenter
+- Comment body
+- Timestamp
+
 
 ## CSS Fixes
+- Nav bar should not look like a browser toolbar
 - Images should scale down on small displays
 - Make post body a little bigger
-- Fix display of bullets in post body
+x Fix display of bullets in post body
 - More space between post-footer-items?
+- Make "Full post and comments" link better
+- "Post successful" should bring us back to single-page post
 
 ## Todo
-- Link to Markdown reference in create post page
+- https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
 - Rename create_edit.html to create_edit_post.html
+- Change delete URL to "delete_post" for clarity
 - Refactor "Active" user to "Enabled" user to resolve ambiguity
-- Mitigate XSS and CSRF using WTForms
+- WTForms for other forms on site, not just comments
 - Redirect poster to permalink after posting
 - Test for posting static pages vs blog post
 - How to order static pages?
@@ -28,6 +56,7 @@ Things to do:
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
 
 ## Completed Todo
+x Link to Markdown reference in create post page, perhaps instructions to insert an image
 x Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)
 x Learn about database migrations. Rolling out new feature (ability to set analytics tracking code in site settings) to existing deployment requires something like https://flask-migrate.readthedocs.org/en/latest/
 x Work on update-ability. Currently, running "git clone" overwrites the config (e.g. database URI) on a running web server. Learn best practices of how this is handled with production apps.
@@ -61,6 +90,9 @@ x Write some tests
 x Static pages separate from posts
 
 ## Extended Features
+- Switch to another captcha provider
+- Subscribe to comments via email
+- Post author receives email notifications on new comments
 - Table layout for All Posts page
 - Post tags with tag cloud
 - Confirm before deleting post

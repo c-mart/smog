@@ -15,6 +15,8 @@ See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Tod
 ## Story
 I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
 
+Works equally well for micro- and macro-blogging
+
 ## How to Install on a Web Server (work in progress)
 If you already know how to configure and administer a Unix/Linux web server then Smog is easy to configure. If you don't feel comfortable on the command line then these instructions will probably disappoint.
 

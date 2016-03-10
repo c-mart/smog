@@ -455,7 +455,12 @@ class smogTestCase(unittest.TestCase):
         print(r.data)
         r = self.app2.get('/')
         """
-        assert False
+        raise NotImplementedError()
+
+    # Test Cases - Comments
+    def crud_comments(self):
+        """Create, edit, and delete comments"""
+        raise NotImplementedError
 
     # Test Cases - Sitewide Stuff
     def test_site_settings(self):
