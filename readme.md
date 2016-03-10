@@ -82,6 +82,7 @@ All of these should be available from PyPI/pip:
 - flask_migrate
 - flask_login
 - flask_limiter
+- Flask-WTF
 - slugify
 - mistune
 
