@@ -4,6 +4,7 @@ Simple Markdown blOG, or chriS Martin's blOG
 See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
 
 ## Features for Users
+
 - Write posts in [Markdown](https://daringfireball.net/projects/markdown/), plain text, or HTML. Markdown is a very simple markup language that allows you to easily format and enrich your content.
 - Create both blog posts and static pages. This is ideal for a web site with a mix of regular/new content and permanent/curated content like project pages
 - Supports multiple content authors, each with their own account
@@ -13,16 +14,20 @@ See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Tod
 
 - Written in Python using [Flask](http://flask.pocoo.org/) microframework
 - Uses [SQLAlchemy](http://www.sqlalchemy.org/) with modular back-end: use any database you like
-- Use of [Flask-Migrate](https://flask-migrate.readthedocs.org/en/latest/) allows you to easily update the database of your deployed Flask application when new features are added in the future
-- HTML5
-- Renders nicely without JavaScript support because there is no JavaScript
+- Built-in database migrations (using [Flask-Migrate](https://flask-migrate.readthedocs.org/en/latest/)) allows you to easily update the database of your deployed Flask application when new features are added in the future
+- Guest input is validated using [WTForms](http://wtforms.readthedocs.org/en/latest/)
+- Renders nicely without JavaScript support
 - Easy to modify and extend, fairly complete test coverage will let you know if you break anything
 - GNU GPL
 
 ## Story
 I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
 
-Works equally well for micro- and macro-blogging
+If you're looking for a lean and simple blog platform with clean styling that works equally well for micro- and macro-blogging, smog is for you. If you're looking to download and apply a bunch of pre-made, gaudy themes to your site, smog is not for you.
+
+
+
+easily extendable 
 
 ## How to Install on a Web Server (work in progress)
 If you already know how to configure and administer a Unix/Linux web server then Smog is easy to configure. If you don't feel comfortable on the command line then these instructions will probably disappoint.
