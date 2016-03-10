@@ -1,8 +1,5 @@
 SMOG: Simple Markdown blOG
 
-This revision:
-- $fold$ in post. Document $fold$ for developer and user.
-
 Adding comments:
 x Create model
 x Expand database schema

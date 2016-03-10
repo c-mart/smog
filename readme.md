@@ -3,8 +3,15 @@ Simple Markdown blOG, or chriS Martin's blOG
 
 See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
 
+## Features for Users
+- Write posts in [Markdown](https://daringfireball.net/projects/markdown/), plain text, or HTML. Markdown is a very simple markup language that allows you to easily format and enrich your content.
+- Create both blog posts and static pages. This is ideal for a web site with a mix of regular/new content and permanent/curated content like project pages
+- Supports multiple content authors, each with their own account
+- Comments can be enabled/disabled per post and guest comments are easy to moderate. A Recaptcha limits the amount of spam comments that you'll deal with.
+
+## Features for Developers
+
 - Written in Python using [Flask](http://flask.pocoo.org/) microframework
-- Write posts in [Markdown](https://daringfireball.net/projects/markdown/), HTML, or plain text
 - Uses [SQLAlchemy](http://www.sqlalchemy.org/) with modular back-end: use any database you like
 - Use of [Flask-Migrate](https://flask-migrate.readthedocs.org/en/latest/) allows you to easily update the database of your deployed Flask application when new features are added in the future
 - HTML5
