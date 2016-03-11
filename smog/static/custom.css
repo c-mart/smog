@@ -51,6 +51,11 @@ ul {
     margin-bottom: 5.0rem;
 }
 
+img {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 a { text-decoration: none; }
 
 .prominent-link {
