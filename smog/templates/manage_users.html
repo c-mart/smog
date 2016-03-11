@@ -14,7 +14,7 @@
         {% for user in users %}<tr>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
-            <td>{% if user.active == True %}Active{% else %}Disabled{% endif %}</td>
+            <td>{% if user.active == True %}Enabled{% else %}Disabled{% endif %}</td>
             <td>{{ user.create_date | date_format() }}</td>
             <td><a href="{{ url_for('create_edit_user', id=user.id) }}"><strong>Edit</strong></a></td>
         </tr>{% endfor %}

@@ -267,20 +267,20 @@ def create_edit_post():
             models.db.session.rollback()
             flash('There was a problem creating your post. Please make sure that another post does not already have '
                   'your desired post title and permalink.')
-            return render_template('create_edit.html', formdata=request.form)
+            return render_template('create_edit_post.html', formdata=request.form)
         else:
             flash('Post successful')
             return redirect(url_for('view_posts', permalink=post.permalink))
     elif request.method == 'GET' and request.args.get('id') is not None:
         # Editing existing post
         post = models.Post.query.filter_by(id=request.args.get('id')).first_or_404()
-        return render_template('create_edit.html', formdata=post, edit=True)
+        return render_template('create_edit_post.html', formdata=post, edit=True)
     elif request.method == 'GET':
         # Composing new post
-        return render_template('create_edit.html', formdata=dict())
+        return render_template('create_edit_post.html', formdata=dict())
 
 
-@app.route('/delete/<post_id>')
+@app.route('/delete-post/<post_id>')
 @flask_login.login_required
 @get_static_stuff
 def delete_post(post_id):

@@ -11,24 +11,22 @@ x Fix display of bullets in post body
 
 ## Todo
 - https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
-- Rename create_edit.html to create_edit_post.html
-- Change delete URL to "delete_post" for clarity
-- Refactor "Active" user to "Enabled" user to resolve ambiguity
 - WTForms for other forms on site, not just comments
-- Redirect poster to permalink after posting
-- Test for posting static pages vs blog post
 - How to order static pages?
 - Center images inside posts?
 - H2 in post title and in post body look the same, they should be different? Render H2s in post body as H3s when?
 - Handle "next" for login
-- Post type can be post (shown serially in date order) or static page (shown in nav)
-- create_edit_post() does a LOT. would it be better to split this into multiple views?
-- Make form fields light on dark
+- create_edit_post() does a LOT. would it be better to split this into multiple views, one for create and one for edit?
 - Standardize nomenclature of "nav"/"navigation" vs "site menu" throughout codebase
 - Standardize nomenclature of "timeline" vs "home page" vs "posts page"
-- Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account
+- Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
 ## Completed Todo
+- Change delete URL to "delete_post" for clarity
+- Rename create_edit.html to create_edit_post.html
+- Refactor "Active" user to "Enabled" user in templates to resolve ambiguity
+- Redirect poster to permalink after posting
+- Test for posting static pages vs blog post
 - HR BETWEEN POST AND COMMENTS
 - Link to Markdown reference in create post page, perhaps instructions to insert an image
 - Site settings should have a place to insert analytics tracking code at the footer of each page (e.g. for Piwik or Google Analytics)

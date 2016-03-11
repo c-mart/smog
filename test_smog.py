@@ -197,8 +197,8 @@ class smogTestCase(unittest.TestCase):
         r = self.create_post()
         post_id = re.search("/create\?id=([0-9]+)", r.data).group(1)
         r = self.app.get('/create?id=' + str(post_id))
-        assert re.search("<a href=\"/delete/[0-9]+\" class=\"button\">Delete post</a>", r.data) is not None, "Delete link is missing"
-        r = self.app.get('/delete/' + str(post_id), follow_redirects=True)
+        assert re.search("<a href=\"/delete-post/[0-9]+\" class=\"button\">Delete post</a>", r.data) is not None, "Delete link is missing"
+        r = self.app.get('/delete-post/' + str(post_id), follow_redirects=True)
         assert "Post has been deleted." in r.data, "User should receive notice that post has been deleted"
         assert "No posts yet." in r.data, "We should see no posts now"
 
