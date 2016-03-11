@@ -1,13 +1,9 @@
 SMOG: Simple Markdown blOG
 
 ## CSS Fixes
-- Nav bar should not look like a browser toolbar
-- Images should scale down on small displays
-- Make post body a little bigger
-x Fix display of bullets in post body
+- Make log in/out link float to right of top nav bar
+- Admin menu should be a drop-down toward right of top nav bar 
 - More space between post-footer-items?
-- Make "Full post and comments" link better
-- "Post successful" should bring us back to single-page post
 
 ## Todo
 - Atom feed for comments
@@ -23,6 +19,11 @@ x Fix display of bullets in post body
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
 ## Completed Todo
+- "Post successful" should bring us back to single-page post
+- Make "Full post and comments" link better
+- Fix display of bullets in post body
+- Images should scale down on small displays
+- Nav bar should not look like a browser toolbar
 - Fix regular font size, make it a little bigger
 - Change delete URL to "delete_post" for clarity
 - Rename create_edit.html to create_edit_post.html

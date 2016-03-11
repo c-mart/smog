@@ -5,7 +5,7 @@
     {% else %}
         <h2>Create Post</h2>
     {% endif %}
-    <h5>on {{ g.site_settings.site_title }}</h5>
+    <h4>on {{ g.site_settings.site_title }}</h4>
 {% endblock %}
 {% block body %}
     <form action="{{ url_for('create_edit_post') }}" method="POST">
@@ -34,7 +34,7 @@
                 Static Page (shown in site menu)
             </option>
         </select>
-        <h5>Post Options</h5>
+        <h4>Post Options</h4>
         <div class="row">
             <div class="six columns">
                 <label>
@@ -57,7 +57,8 @@
                 </label>
             </div>
         </div>
-        <h5>Static Page Options (these do not apply for blog posts)</h5>
+        <hr />
+        <h4>Static Page Options (these do not apply for blog posts)</h4>
         <label for="static_page_link_title">Link Title for Site Menu</label>
         <input type="text" name="static_page_link_title" id="static_page_link_title" value="{{ formdata['static_page_link_title'] }}" class="u-full-width" /></li>
         <label>
