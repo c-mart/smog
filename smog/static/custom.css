@@ -89,7 +89,7 @@ a { text-decoration: none; }
     list-style-type: none;
     overflow: hidden;
     font-size: 1.6rem;
-    background-color: #eeeeec;
+    background-color: #fcaf3e;
 }
 
 .top-nav ul {
@@ -112,7 +112,7 @@ a { text-decoration: none; }
 .top-nav ul li p,
 .bottom-nav ul li p {
     display: block;
-    color: #2e3436;
+    color: #000;
     text-align: center;
     margin-bottom: 0;
     padding: 4px 10px;

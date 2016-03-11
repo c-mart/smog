@@ -10,7 +10,7 @@ x Fix display of bullets in post body
 - "Post successful" should bring us back to single-page post
 
 ## Todo
-- Atom feed comments
+- Atom feed for comments
 - WTForms for other forms on site, not just comments
 - https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
 - How to order static pages?
