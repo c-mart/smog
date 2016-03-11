@@ -318,9 +318,9 @@ def create_comment(permalink):
             return redirect(url_for('view_posts', permalink=permalink))
         else:
             flash('There is a problem with your comment, please see below')
-            return render_template('create_edit_comment.html', post=post, form=form, comments=comments, guest=guest)
+            return render_template('create_edit_comment.html', post=post, form=form, comments=comments, guest=guest, edit=False)
     elif request.method == 'GET':
-        return render_template('create_edit_comment.html', post=post, form=form, comments=comments, guest=guest)
+        return render_template('create_edit_comment.html', post=post, form=form, comments=comments, guest=guest, edit=False)
 
 
 @app.route('/posts/<permalink>/edit-comment', methods=('GET', 'POST'))
