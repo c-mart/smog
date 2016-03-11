@@ -10,7 +10,6 @@ x Fix display of bullets in post body
 - "Post successful" should bring us back to single-page post
 
 ## Todo
-- Fix regular font size, make it a little bigger
 - WTForms for other forms on site, not just comments
 - https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
 - How to order static pages?
@@ -23,6 +22,7 @@ x Fix display of bullets in post body
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
 ## Completed Todo
+- Fix regular font size, make it a little bigger
 - Change delete URL to "delete_post" for clarity
 - Rename create_edit.html to create_edit_post.html
 - Refactor "Active" user to "Enabled" user in templates to resolve ambiguity
@@ -58,7 +58,7 @@ x Fix display of bullets in post body
 - Allow viewing of drafts
 - Allow editing post where post is updated
 - Allow editing post which updates edit date but not create date
- make password form box hidden
+- make password form box hidden
 - Write some tests
 - Static pages separate from posts
 - People can post comments, comment moderation
