@@ -1,0 +1,156 @@
+{% extends 'layout.html' %}
+{% block title %}
+    <h1>Markdown Quick Reference</h1>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="six columns">
+            <strong>What You Write</strong>
+        </div>
+        <div class="six columns">
+            <strong>What You Get</strong>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+<pre><code>## Second-level heading
+### Third-level heading
+#### Fourth-level heading
+##### Fifth-level heading
+###### Sixth-level heading
+            </code></pre>
+        </div>
+        <div class="six columns">
+            <h2>Second-level heading</h2>
+            <h3>Third-level heading</h3>
+            <h4>Fourth-level heading</h4>
+            <h5>Fifth-level heading</h5>
+            <h6>Sixth-level heading</h6>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>*This is italicized*
+
+**This is bold**</code></pre>
+        </div>
+        <div class="six columns">
+            <p><em>This is italicized</em></p>
+            <p><strong>This is bold</strong></p>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>This is some regular text
+
+> This is a block of quoted text
+
+This is more regular text</code></pre>
+        </div>
+        <div class="six columns">
+            This is some regular text
+            <blockquote>This is a block of quoted text</blockquote>
+            This is more regular text
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>- List item
+- List item
+- List item
+
+1. Ordered list item
+2. Ordered list item
+3. Ordered list item</code></pre>
+        </div>
+        <div class="six columns">
+            <ul>
+                <li>List item</li>
+                <li>List item</li>
+                <li>List item</li>
+            </ul>
+            <ol>
+                <li>Ordered list item</li>
+                <li>Ordered list item</li>
+                <li>Ordered list item</li>
+            </ol>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>This is some normal text.
+
+    This is a block of code
+    Code blocks are indented
+    At least four spaces
+
+This is some more normal text.
+
+Here's `some_code()` in text.</code></pre>
+        </div>
+        <div class="six columns">
+            <p>This is some normal text.</p>
+            <pre><code>This is a block of code
+Code blocks are indented
+At least four spaces</code></pre>
+            <p>This is some more normal text.
+            <p>Here's <code>some_code()</code> in text.</p>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>Below is a horizontal line
+
+***
+
+Above is a horizontal line</code></pre>
+        </div>
+        <div class="six columns">
+            <p>Below is a horizontal line</p>
+            <hr />
+            <p>Above is a horizontal line</p>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>[Google](https://google.com)
+
+[reddit](https://reddit.com)</code></pre>
+        </div>
+        <div class="six columns">
+            <p><a href="https://google.com">Google</a></p>
+            <p><a href="https://reddit.com">reddit</a></p>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>![piglet](/path/to/piglet.jpg)</code></pre>
+        </div>
+        <div class="six columns">
+            <img src="https://33.media.tumblr.com/avatar_a8b261df8da2_128.png" alt="piglet">
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="six columns">
+            <pre><code>This is a paragraph.
+
+This is another paragraph.
+
+A blank line separates paragraphs.</code></pre>
+        </div>
+        <div class="six columns">
+            <p>This is a paragraph.</p>
+            <p>This is another paragraph.</p>
+            <p>A blank line separates paragraphs.</p>
+        </div>
+    </div>
+{% endblock %}

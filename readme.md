@@ -9,6 +9,7 @@ See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Tod
 - Create both blog posts and static pages. This is ideal for a web site with a mix of regular/new content and permanent/curated content like project pages
 - Supports multiple content authors, each with their own account
 - Comments can be enabled/disabled per post and guest comments are easy to moderate. A Recaptcha limits the amount of spam comments that you'll deal with.
+- Super mobile-friendly
 
 ## Features for Developers
 

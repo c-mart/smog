@@ -6,6 +6,10 @@ SMOG: Simple Markdown blOG
 - More space between post-footer-items?
 
 ## Todo
+- Find a better markdown quick reference. Should I write one?
+- Center images
+- Alternative to recaptcha for people without JavaScript
+- Unpublished post should have a flash message saying "not published"
 - Atom feed for comments
 - WTForms for other forms on site, not just comments
 - https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
@@ -66,7 +70,7 @@ SMOG: Simple Markdown blOG
 - People can post comments, comment moderation
 
 ## Extended Features
-- Switch to another captcha provider
+- Alternative to recaptcha if no JS enabled?
 - Subscribe to comments via email
 - Post author receives email notifications on new comments
 - Table layout for All Posts page

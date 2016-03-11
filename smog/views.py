@@ -367,6 +367,11 @@ def delete_comment():
     flash('Comment has been deleted.')
     return redirect(url_for('view_posts', permalink=post.permalink))
 
+@app.route('/markdown')
+@get_static_stuff
+def markdown_reference():
+    return render_template('markdown_reference.html')
+
 @app.errorhandler(429)
 def rate_limit_exceeded_handler(e):
     """Warns user that they have hit the rate limiter."""
