@@ -8,6 +8,8 @@
 
 body {
     font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: 1.7em; /* currently ems cause chrome bug misinterpreting rems on body element */
+    line-height: 1.35;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,6 +51,11 @@ ul {
 }
 
 a { text-decoration: none; }
+
+.prominent-link {
+    font-size: 2rem;
+    font-weight: 700;
+}
 
 .flash {
     border: 2px solid #f57900;

@@ -10,8 +10,9 @@ x Fix display of bullets in post body
 - "Post successful" should bring us back to single-page post
 
 ## Todo
-- https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
+- Fix regular font size, make it a little bigger
 - WTForms for other forms on site, not just comments
+- https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
 - How to order static pages?
 - Center images inside posts?
 - H2 in post title and in post body look the same, they should be different? Render H2s in post body as H3s when?

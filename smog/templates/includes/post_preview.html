@@ -1,5 +1,5 @@
 <div class="post-preview">
     {{ post.body | post_preview() | render_markdown() | safe }}
-    <a href="{{ url_for('view_posts', permalink=post.permalink) }}"><strong>Full Post and Comments</strong></a>
+    <a href="{{ url_for('view_posts', permalink=post.permalink) }}" class="prominent-link">Full Post and Comments</a>
     <hr />
 </div>
