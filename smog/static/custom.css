@@ -52,8 +52,11 @@ ul {
 }
 
 img {
+    display: block;
     max-width: 100%;
     box-sizing: border-box;
+    margin: 0 auto;
+
 }
 
 a { text-decoration: none; }
@@ -76,42 +79,36 @@ a { text-decoration: none; }
 
 /* Navigation */
 
-.top-nav {
+.top-nav ul {
     margin: 0;
     padding: 0;
-}
-
-.top-nav ul,
-.bottom-nav ul {
+    /*
+    Fixed-position nav bar breaks the drop-down "Manage Site" menu...
     position: fixed;
-    width: 100%;
+    top: 0;
     z-index: 9999;
+    */
+    width: 100%;
     list-style-type: none;
     overflow: hidden;
     font-size: 1.6rem;
     background-color: #fcaf3e;
 }
 
-.top-nav ul {
-    top: 0;
-}
-
-.bottom-nav ul {
-    bottom: 0;
+.top-nav ul li {
     margin-bottom: 0;
-}
-
-.top-nav ul li,
-.bottom-nav ul li {
     float: left;
-    margin-bottom: 0;
+    display: inline;
 }
 
-.top-nav ul li a,
-.bottom-nav ul li a,
-.top-nav ul li p,
-.bottom-nav ul li p {
-    display: block;
+.right-nav-li {
+    float: right!important;
+}
+
+.top-nav li a,
+.top-nav li p,
+.dropbtn {
+    display: inline-block;
     color: #000;
     text-align: center;
     margin-bottom: 0;
@@ -119,8 +116,33 @@ a { text-decoration: none; }
     text-decoration: none;
 }
 
-.top-nav ul li a:hover,
-.bottom-nav ul li a:hover {
+.top-nav li a:hover,
+.dropdown:hover .dropbtn {
+    background-color: #d3d7cf;
+}
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    background-color: #fcaf3e;
+    min-width: 100px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block!important;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
     background-color: #d3d7cf;
 }
 

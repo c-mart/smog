@@ -1,13 +1,11 @@
 SMOG: Simple Markdown blOG
 
+## Publish-critical issues 
+
 ## CSS Fixes
-- Make log in/out link float to right of top nav bar
-- Admin menu should be a drop-down toward right of top nav bar 
 - More space between post-footer-items?
 
 ## Todo
-- Find a better markdown quick reference. Should I write one?
-- Center images
 - Alternative to recaptcha for people without JavaScript
 - Unpublished post should have a flash message saying "not published"
 - Atom feed for comments
@@ -23,6 +21,10 @@ SMOG: Simple Markdown blOG
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
 ## Completed Todo
+- Center images
+- Make log in/out link float to right of top nav bar
+- Admin menu should be a drop-down toward right of top nav bar
+- Find a better markdown quick reference. Should I write one?
 - "Post successful" should bring us back to single-page post
 - Make "Full post and comments" link better
 - Fix display of bullets in post body
@@ -70,6 +72,7 @@ SMOG: Simple Markdown blOG
 - People can post comments, comment moderation
 
 ## Extended Features
+- Demo site
 - Alternative to recaptcha if no JS enabled?
 - Subscribe to comments via email
 - Post author receives email notifications on new comments
