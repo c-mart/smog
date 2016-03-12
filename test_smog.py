@@ -346,7 +346,7 @@ class smogTestCase(unittest.TestCase):
         assert 'User Rumpel Stiltskin has been saved.' in r.data, 'User account saved message should appear'
         assert '<td>Rumpel Stiltskin</td>' in r.data, 'User name should appear on manage users page'
         assert '<td>rumpel@stilt.skin</td>' in r.data, 'User email should appear on manage users page'
-        assert '<td>Active</td>' in r.data, 'User enabled status should appear on manage users page'
+        assert '<td>Enabled</td>' in r.data, 'User enabled status should appear on manage users page'
         # Log out and log in as Rumpel Stiltskin
         self.logout()
         r = self.login(email='rumpel@stilt.skin', password='cheesefries99')
