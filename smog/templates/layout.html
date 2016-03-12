@@ -30,6 +30,7 @@
                         <a href="{{ url_for('site_settings') }}">Site Settings</a>
                     </div>
                 </li>
+                <li class="right-nav-li"><p>Logged in as {{ current_user.name }}</p></li>
             {% else %}
                 <li class="right-nav-li"><a href="{{ url_for('login') }}">Login</a></li>
             {% endif %}
@@ -45,13 +46,6 @@
         </div>
         <div class="footer">{{ g.site_settings.get_footer_line() }}</div>
     </div>
-    {% if current_user.is_authenticated %}
-        <div class="bottom-nav">
-            <ul>
-                <li><p>Logged in as {{ current_user.name }}.</p></li>
-            </ul>
-        </div>
-    {% endif %}
 </body>
 {{ g.site_settings.analytics_code | safe }}
 </html>
