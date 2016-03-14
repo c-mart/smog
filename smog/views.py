@@ -195,16 +195,18 @@ def view_unpublished():
     return render_template('multiple_posts.html', posts=posts, unpublished=True)
 
 
-@app.route('/list')
+@app.route('/site-index')
 @get_static_stuff
-def list_posts():
+def site_index():
     """Query database for posts and pass them to template displaying list of links to posts (not full posts)."""
-    posts = models.Post.query.filter(and_(models.Post.published == True,
-                                   or_(models.Post.static_page == False, models.Post.static_page_in_timeline == True)))\
+    pages = models.Post.query.filter(and_(models.Post.published == True, models.Post.static_page == True)).all()
+    posts = models.Post.query.filter(and_(models.Post.published == True, models.Post.static_page == False)) \
         .order_by(models.Post.create_date.desc()).all()
+    if not pages:
+        flash('No static pages yet.')
     if not posts:
         flash('No posts yet.')
-    return render_template('posts_list.html', posts=posts)
+    return render_template('site_index.html', pages=pages, posts=posts)
 
 
 @app.route('/posts.atom')

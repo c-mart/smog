@@ -15,7 +15,7 @@
     <div class="top-nav">
         <ul>
             <li class="left-nav-li"><a href="{{ url_for('view_posts') }}">Home</a></li>
-            <li class="left-nav-li"><a href="{{ url_for('list_posts') }}">All Posts</a></li>
+            <li class="left-nav-li"><a href="{{ url_for('site_index') }}">Index</a></li>
             {% for page in g.static_pages %}
                 <li class="left-nav-li"><a href="{{ url_for('view_posts') }}{{ page.permalink }}">{{ page.static_page_link_title }}</a></li>
             {% endfor %}

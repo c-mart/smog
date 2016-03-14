@@ -12,7 +12,6 @@ SMOG: Simple Markdown blOG
 - WTForms for other forms on site, not just comments
 - https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
 - How to order static pages?
-- Center images inside posts?
 - H2 in post title and in post body look the same, they should be different? Render H2s in post body as H3s when?
 - Handle "next" for login
 - create_edit_post() does a LOT. would it be better to split this into multiple views, one for create and one for edit?
@@ -21,7 +20,8 @@ SMOG: Simple Markdown blOG
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
 ## Completed Todo
-- Center images
+- All posts should show as table
+- Center images inside posts?
 - Make log in/out link float to right of top nav bar
 - Admin menu should be a drop-down toward right of top nav bar
 - Find a better markdown quick reference. Should I write one?
