@@ -4,8 +4,11 @@ SMOG: Simple Markdown blOG
 
 ## CSS Fixes
 - More space between post-footer-items?
+- Down arrow in CSS dropdown buttons
+- HR after post in single post page should come before "posted on" footer
 
 ## Todo
+- Show description (without images) in site index
 - Alternative to recaptcha for people without JavaScript
 - Unpublished post should have a flash message saying "not published"
 - Atom feed for comments
