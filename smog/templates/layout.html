@@ -44,7 +44,7 @@
         <div class="row">
             {% block body %}{% endblock %}
         </div>
-        <div class="footer">{{ g.site_settings.get_footer_line() }}</div>
+        <div class="footer">{{ g.site_settings.get_footer_line() | safe }}</div>
     </div>
 </body>
 {{ g.site_settings.analytics_code | safe }}
