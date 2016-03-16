@@ -1,7 +1,7 @@
 # smog: Simple Markdown blOG
 See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
 
-smog is intended to be a lightweight yet feature-complete blog platform for individuals and organizations. I wrote smog in about 60 hours to learn web development using Python and the [Flask](http://flask.pocoo.org/) microframework, after trying other blog platforms and deciding they weren't for me$fold$.
+smog is intended to be a lightweight yet feature-complete blog platform for individuals and organizations. I wrote smog in about 60 hours to learn web development using Python and the [Flask](http://flask.pocoo.org/) microframework, after trying other blog platforms and deciding they weren't for me.
 
 I want smog to be a pleasure for bloggers, readers, and also developers who want to tweak or extend what their blog can do.
 
