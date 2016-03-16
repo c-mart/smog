@@ -3,6 +3,8 @@ SMOG: Simple Markdown blOG
 ## Publish-critical issues 
 
 ## CSS Fixes
+- Blog content narrower than title
+- Centered caption under images
 - More space between post-footer-items?
 - Down arrow in CSS dropdown buttons
 - HR after post in single post page should come before "posted on" footer
