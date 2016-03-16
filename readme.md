@@ -1,30 +1,28 @@
 # smog
-Simple Markdown blOG, or chriS Martin's blOG
+Simple Markdown blOG, or chriS Martin's blOG. See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
 
-See a demo blog, which is also my personal blog, at https://smog.c-mart.in. (Todo: host a demo site where people can log in, where the database is rebuilt every hour or so)
+smog is intended to be a lightweight yet feature-complete blog platform for individuals and organizations. I wrote smog in about 60 hours to learn web development using Python and the [Flask](http://flask.pocoo.org/) microframework, after trying other blog platforms and deciding they weren't for me$fold$.
 
-## Features for Users
+I want smog to be a pleasure for bloggers, readers, and also developers who want to tweak or extend what their blog can do.
 
-- Write posts in [Markdown](https://daringfireball.net/projects/markdown/), plain text, or HTML. Markdown is a very simple markup language that allows you to easily format and enrich your content.
-- Create both blog posts and static pages. This is ideal for a web site with a mix of regular/new content and permanent/curated content like project pages
-- Supports multiple content authors, each with their own account
-- Comments can be enabled/disabled per post and guest comments are easy to moderate. A Recaptcha limits the amount of spam comments that you'll deal with.
-- Super mobile-friendly
+## Why you may like smog as a blogger
 
-## Features for Developers
+- **Write posts in Markdown**, plain text, or HTML
+- Create **blog posts and static pages**; ideal for a web site with a mix of regular/new content and permanent/curated content like project pages or your resume
+- Supports **multiple content authors**, each with their own account
+- Guest comments are protected with a CSRF token and [reCAPTCHA](https://www.google.com/recaptcha/intro/index.html), which **drastically limits the number of spam comments** you'll need to deal with
+- **Comments** can be enabled/disabled per post and are easy to moderate
+- Super **mobile-friendly**. Also **renders nicely without JavaScript**, because some people don't want to run your JavaScript
 
-- Written in Python using [Flask](http://flask.pocoo.org/) microframework
+## Why you may like smog as a developer
+
+- Written in Python using [Flask](http://flask.pocoo.org/) microframework and several of its extensions
+- Easy to modify and extend, fairly complete test coverage will let you know if you break stuff
 - Uses [SQLAlchemy](http://www.sqlalchemy.org/) with modular back-end: use any database you like
-- Built-in database migrations (using [Flask-Migrate](https://flask-migrate.readthedocs.org/en/latest/)) allows you to easily update the database of your deployed Flask application when new features are added in the future
-- Guest input is validated using [WTForms](http://wtforms.readthedocs.org/en/latest/)
-- Renders nicely without JavaScript support
-- Easy to modify and extend, fairly complete test coverage will let you know if you break anything
-- GNU GPL
-
-## Story
-I wrote this in order to learn Python web development and scratch a personal itch for a blogging engine.
-
-If you're looking for a lean and simple blog platform with clean styling that works equally well for micro- and macro-blogging, smog is for you. If you're looking to download and apply a bunch of pre-made, gaudy themes to your site, smog is not for you.
+- Built-in database migrations (using [Flask-Migrate](https://flask-migrate.readthedocs.org/en/latest/)) allows you to update the database of your deployed blog when new features are added to smog
+- Input validation using [WTForms](http://wtforms.readthedocs.org/en/latest/)
+- Complete source only ~200 KB (as of March 2016)
+- GNU GPL licensed
 
 ## How to Install on a Web Server (work in progress)
 If you already know how to configure and administer a Unix/Linux web server then Smog is easy to configure. If you don't feel comfortable on the command line then these instructions will probably disappoint.
