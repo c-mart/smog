@@ -26,6 +26,13 @@ I want smog to be a pleasure for bloggers, readers, and also developers who want
 - Complete source only ~200 KB (as of March 2016)
 - GNU GPL licensed
 
+## How to Evaluate
+If you want your own copy of smog for evaluation purposes, it's easiest to grab the Docker image.
+
+(link to image here)
+
+(WARNING: the smog-demo docker image is for evaluation purposes, not production use. It uses the default Flask development WSGI server with default secret keys and  doesn't have HTTPS support. Please do not trust it with any sensitive data or run it exposed to the internet.)
+
 ## How to Install on a Web Server (work in progress)
 If you already have experience configuring and administering a Unix/Linux server, then smog is easy to set up. If you don't, then these instructions will probably disappoint; I recommend you obtain assistance from someone who knows what they are doing. (smog isn't currently packaged for easy setup by non-technical folks, though that could change in the future!)
 
