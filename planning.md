@@ -1,8 +1,5 @@
 SMOG: Simple Markdown blOG
 
-## Deploy things
-- requirements.txt
-
 ## CSS Fixes
 - Blog content narrower than title
 - Centered caption under images

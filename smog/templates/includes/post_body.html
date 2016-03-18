@@ -2,6 +2,7 @@
     <div class="post-body">
         {{ post.body | render_markdown() | safe }}
     </div>
+    <hr />
     <div class="row">
         <div class="u-pull-right">
             <span class="content-footer-item">Posted by {{ post.user_name() }} on {{ post.create_date|date_format() }}</span>
