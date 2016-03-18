@@ -8,7 +8,7 @@ import re
 class smogTestCase(unittest.TestCase):
 
     test_user_email = 'test@test.com'
-    test_user_password = 'changeme123'
+    test_user_password = 'test'
 
     def setUp(self):
         """Set up each test: initialize test client and database, disable rate limiter."""

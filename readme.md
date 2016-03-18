@@ -71,18 +71,8 @@ smog is not yet recommended for blog admins that don't completely trust their au
 
 If you will be the only post author, or you will only have a handful of trusted users, then rock on.
 
-
 ## Dependencies
-All of these should be available from PyPI/pip:
-- flask
-- flask_sqlalchemy
-- flask_script
-- flask_migrate
-- flask_login
-- flask_limiter
-- Flask-WTF
-- slugify
-- mistune
+See requirements.txt
 
 ## Acknowledgements
 - Default template uses https://en.wikipedia.org/wiki/Tango_Desktop_Project#Palette
