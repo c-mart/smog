@@ -1,11 +1,7 @@
 # smog: Simple Markdown blOG
-smog is intended to be a lightweight yet feature-complete blog platform for individuals and organizations. I wrote smog in about 60 hours to learn web development using Python and the [Flask](http://flask.pocoo.org/) microframework, after trying other blog platforms and deciding they weren't for me.
+smog is intended to be a lightweight yet feature-complete blog platform for individuals and organizations. I wrote smog in about 60 hours to learn web development using Python and the [Flask](http://flask.pocoo.org/) microframework, after trying other blog platforms and deciding they weren't for me. I want smog to be a pleasure for bloggers, readers, and also developers who want to tweak or extend what their blog can do.
 
 See a real live example (also my personal blog) at https://smog.c-mart.in.
-Play with a demo site at http://smogdemo.c-mart.in. Log in with username 'test@test.com' and password 'test', create some posts and play with the settings. (Demo site is rebuilt from scratch every 30 minutes, if you're having trouble just try again in half an hour.)
-Docker image is not secure!
-
-I want smog to be a pleasure for bloggers, readers, and also developers who want to tweak or extend what their blog can do.
 
 ## Why you may like smog as a blogger
 
@@ -26,15 +22,24 @@ I want smog to be a pleasure for bloggers, readers, and also developers who want
 - Complete source only ~200 KB (as of March 2016)
 - GNU GPL licensed
 
-## How to Evaluate
-If you want your own copy of smog for evaluation purposes, it's easiest to grab the Docker image.
+## Try Smog
+### Demo Site
+[http://smogdemo.c-mart.in](http://smogdemo.c-mart.in)
+
+- Username: 'test@test.com'
+- Password: 'test'
+
+Here you can create some posts and play with the settings. The demo site is automatically destroyed and re-created every 30 minutes, so if you're having trouble just try again in half an hour.
+
+### Docker Image
+If you want your own copy of smog for evaluation purposes, it's easiest to grab the Docker image. Do this on a computer with docker installed:
 
     docker pull cmart/smog-demo
     docker run --name smog -p 80:5000 cmart/smog-demo
 
-Then, browse to http://localhost and you should have a test site running. Log in with username 'test@test.com' and password 'test'.
+Then, browse to http://localhost and you should have a demo site running. Log in with username 'test@test.com' and password 'test'.
 
-(WARNING: the smog-demo docker image is for evaluation purposes, not production use. It uses the default Flask development WSGI server with default secret keys and doesn't have HTTPS support. Please do not trust it with any sensitive data or run it exposed to the internet.)
+WARNING: the smog-demo docker image is for evaluation purposes, not production use. It runs as a privileged user, uses the default Flask development WSGI server with default secret keys, and doesn't have HTTPS support. Please do not trust it with any sensitive data or run it exposed to the internet.
 
 ## How to Install on a Web Server (work in progress)
 If you already have experience configuring and administering a Unix/Linux server, then smog is easy to set up. If you don't, then these instructions will probably disappoint; I recommend you obtain assistance from someone who knows what they are doing. (smog isn't currently packaged for easy setup by non-technical folks, though that could change in the future!)
