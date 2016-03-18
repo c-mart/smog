@@ -12,4 +12,4 @@ RUN git clone https://github.com/c-mart/smog.git
 WORKDIR /smog
 RUN pip install -r requirements.txt
 EXPOSE 80
-CMD python run_debug_server.py
+CMD python manage.py init_db && python run_debug_server.py
