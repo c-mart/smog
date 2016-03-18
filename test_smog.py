@@ -221,13 +221,14 @@ class smogTestCase(unittest.TestCase):
             "We should see the post title in HTML <title> tag if we load a single-post page"
 
     def test_list_posts(self):
-        """Confirm that the All Posts page displays a list of posts."""
+        """Confirm that the site index page displays a list of posts."""
         self.login()
         self.create_post(title='post 1')
         self.create_post(title='post 2')
-        r = self.app.get('/list')
-        assert '<a href="/posts/post-1">post 1</a>' in r.data and \
-               '<a href="/posts/post-2">post 2</a>' in r.data, \
+        r = self.app.get('/site-index')
+        print(r.data)
+        assert '<a href="/posts/post-1"><strong>post 1</strong></a>' in r.data and \
+               '<a href="/posts/post-2"><strong>post 2</strong></a>' in r.data, \
                'We should see a list of posts a link to our test post'
 
     # Test Cases - Syndication
@@ -239,7 +240,7 @@ class smogTestCase(unittest.TestCase):
         r = self.app.get('/')
         assert '<link href="/posts.atom" rel="alternate" title="Recent Posts" type="application/atom+xml">' in r.data,\
             "We should see a link to an Atom feed"
-        r = self.app.get('/list')
+        r = self.app.get('/site-index')
         assert '<link href="/posts.atom" rel="alternate" title="Recent Posts" type="application/atom+xml">' in r.data,\
             "We should see a link to an Atom feed"
         r = self.app.get('/posts.atom')
@@ -350,7 +351,7 @@ class smogTestCase(unittest.TestCase):
         # Log out and log in as Rumpel Stiltskin
         self.logout()
         r = self.login(email='rumpel@stilt.skin', password='cheesefries99')
-        assert 'Logged in as Rumpel Stiltskin.' in r.data, 'Should be logged in as new user'
+        assert 'Logged in as Rumpel Stiltskin' in r.data, 'Should be logged in as new user'
         # Load "Manage Users" page and obtain edit user link for Test User
         r = self.app.get('/manage-users')
         reg_exp = re.search(

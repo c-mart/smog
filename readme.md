@@ -25,12 +25,11 @@ I want smog to be a pleasure for bloggers, readers, and also developers who want
 - GNU GPL licensed
 
 ## How to Install on a Web Server (work in progress)
-If you already know how to configure and administer a Unix/Linux web server then Smog is easy to configure. If you don't feel comfortable on the command line then these instructions will probably disappoint.
+If you already have experience configuring and administering a Unix/Linux server, then smog is easy to set up. If you don't, then these instructions will probably disappoint; I recommend you obtain assistance from someone who knows what they are doing. (smog isn't currently packaged for easy setup by non-technical folks, though that could change in the future!)
 
 Hardening the server, updates, and backups are up to you. This also doesn't cover setup of HTTPS encryption, but that is very easy if you run [Let's Encrypt](https://letsencrypt.org/getting-started/) after following the setup steps below.
 
-
-This is written for a Debian/Ubuntu server running Apache 2. Commands will be slightly different on another operating system like RHEL/CentOS.
+This is written for a Debian/Ubuntu server running Apache. Commands will be slightly different on another operating system like RHEL/CentOS.
 
 - Install prerequisite packages: `apt-get install git libapache2-mod-wsgi python python-dev python-pip`
 - Clone the project: `git clone https://github.com/c-mart/smog.git` into a directory on your web server (like /var/www/)
@@ -46,7 +45,7 @@ This is written for a Debian/Ubuntu server running Apache 2. Commands will be sl
 - Try browsing to your site, if everything is working the page will load.
 - Log in with test account, username "test@test.com" and password "changeme123". **The first thing you should do is navigate to Manage Users, then change the user name and password for your account.** (todo make this more secure by default)
 - Browse to Site Settings, customize the name of your blog and your desired footer line
-- Start blogging
+- Start blogging!
 
 Other (integrate this):
 
@@ -61,7 +60,7 @@ Other (integrate this):
 and run `python manage.py db upgrade` to apply latest schema version to your database
 - Reload your web server?
 
-## Known Issues
+## Is smog right for me? / Known Issues
 Automatic database schema updates in the future (using Flask-Migrate) may not work if you're using a SQLite back-end. Use another database engine instead, like MySQL or PostgreSQL. (This is because SQLite doesn't natively support adding and removing columns from a table, and Flask-Migrate hasn't yet implemented a workaround.)
 
 smog does not protect against [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery). I plan to switch to WTForms which should solve this.

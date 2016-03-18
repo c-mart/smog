@@ -1,6 +1,7 @@
 SMOG: Simple Markdown blOG
 
-## Publish-critical issues 
+## Deploy things
+- requirements.txt
 
 ## CSS Fixes
 - Blog content narrower than title
