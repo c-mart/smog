@@ -3,7 +3,7 @@ smog is intended to be a lightweight yet feature-complete blog platform for indi
 
 See a real live example (also my personal blog) at https://smog.c-mart.in.
 Play with a demo site at http://smogdemo.c-mart.in. Log in with username 'test@test.com' and password 'test', create some posts and play with the settings. (Demo site is rebuilt from scratch every 30 minutes, if you're having trouble just try again in half an hour.)
-
+Docker image is not secure!
 
 I want smog to be a pleasure for bloggers, readers, and also developers who want to tweak or extend what their blog can do.
 
