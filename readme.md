@@ -24,7 +24,7 @@ See a real live example (also my personal blog) at https://smog.c-mart.in.
 
 ## Try Smog
 ### Demo Site
-[http://smogdemo.c-mart.in](http://smogdemo.c-mart.in)
+**[http://smogdemo.c-mart.in](http://smogdemo.c-mart.in)**
 
 - Username: 'test@test.com'
 - Password: 'test'
