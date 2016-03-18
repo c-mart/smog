@@ -14,7 +14,6 @@ limits
 Mako
 MarkupSafe
 mistune
-psycopg2
 python-editor
 python-slugify
 six
