@@ -11,7 +11,7 @@
     <table>
         <tr>
             <td><strong>Title</strong></td>
-            <td><strong>Posted on</strong></td>
+            <td><strong>Updated on</strong></td>
             <td><strong>Description</strong></td>
             <td></td>
         </tr>
@@ -19,10 +19,7 @@
             <tr>
                 <td><a href="{{ url_for('view_posts') }}{{ page.permalink }}"><strong>{{ page.title }}</strong></a></td>
                 <td>
-                    {{ page.create_date|date_format() }}
-                    {% if page.edit_date|date_format() != page.create_date|date_format() %}
-                     - updated on {{ page.edit_date|date_format() }}
-                    {% endif %}
+                    {{ page.edit_date|date_format() }}
                 </td>
                 <td>
                     {{ page.description }}
@@ -40,7 +37,7 @@
     <table>
         <tr>
             <td><strong>Title</strong></td>
-            <td><strong>Posted on</strong></td>
+            <td><strong>Updated on</strong></td>
             <td><strong>Description</strong></td>
             <td></td>
         </tr>
@@ -50,10 +47,7 @@
                     <a href="{{ url_for('view_posts') }}{{ post.permalink }}"><strong>{{ post.title }}</strong></a>
                 </td>
                 <td>
-                    {{ post.create_date|date_format() }}
-                    {% if post.edit_date|date_format() != post.create_date|date_format() %}
-                     - updated on {{ post.edit_date|date_format() }}
-                    {% endif %}
+                     {{ post.edit_date|date_format() }}
                 </td>
                 <td>
                     {{ post.description }}
