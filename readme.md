@@ -40,12 +40,10 @@ Then, browse to http://localhost and you should have a demo site running. Log in
 
 WARNING: the smog-demo docker image is for evaluation purposes and not secured for production use. It runs as a privileged user, uses the default Flask development WSGI server with default secret keys, and doesn't have HTTPS support. Please do not trust it with any sensitive data or leave it exposed to the internet.
 
-## How to Install smog In Production
+## Install smog In Production
 See [install_guide.md](https://github.com/c-mart/smog/blob/master/install_guide.md).
 
 ## How to Perform Updates
-Future database schema changes probably won't work if you're running a SQLite database. If you're using MySQL or PostgreSQL, update on:
-
 - `cd` to your smog repository folder and run `git pull` to update the repository
 - Activate your smog virtualenv, e.g.:
 - `source /var/www/smog-venv/bin/activate`)
@@ -55,6 +53,8 @@ Future database schema changes probably won't work if you're running a SQLite da
 - `python manage.py db upgrade`
 - Restart your web server:
 - (sudo) `service apache2 restart`
+
+(As mentioned in the installation guide, future database schema changes probably won't work if you're running a SQLite database. If you're using MySQL or PostgreSQL, update on.)
 
 ## Is smog right for me? / Known Issues
 smog does not yet fully protect against [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery). This will change when WTForms is fully integrated with the site.
