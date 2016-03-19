@@ -133,8 +133,10 @@ Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. 
 ### Populate Database
 Finally, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
 
+- Create the folder for your database:
+- `mkdir /var/www/smogdb`
 - Set an environment variable for your smog configuration file:
-- `SMOG_CONFIG=/var/www/smog_config.py`
+- `export SMOG_CONFIG=/var/www/smog_config.py`
 - Run the database initialization routine, which creates the database tables, adds a user, and populates initial site settings:
 - `python /var/www/smog/manage.py init_db`
 
