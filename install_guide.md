@@ -66,7 +66,7 @@ Create your WSGI file at a place like /var/www/smog.wsgi. This is the Python fil
     os.environ['SMOG_CONFIG'] = '/var/www/smog_config.py'  # Change path to your smog config file if necessary
     from smog import app as application
 
-Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. An example of this file follows. Change the ServerName and ServerAlias to the hostname of your blog. Edit the directory fields to point to the location of your smog repo folder and WSGI file if you placed them somewhere else.
+Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. An example of this file follows. Change the ServerName to the domain/hostname of your blog as you configure in DNS. Edit the directory fields to reflect the location of your smog repository folder and WSGI file if you placed them somewhere else.
 
     <VirtualHost *:80>
             ServerName myblog.c-mart.in
@@ -90,17 +90,24 @@ Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. 
 - Enable the site: (sudo) `a2ensite smog`
 - Reload apache: (sudo) `service apache2 restart`
 
-## Populate Database
-Finally, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
+## Initialize Database
+Next, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
 
-- If you are using a SQLite database, create the folder for your database:
-- `mkdir /var/www/smogdb`
-- Set an environment variable for your smog configuration file:
-- `export SMOG_CONFIG=/var/www/smog_config.py`
-- Run the database initialization routine. This creates the database tables, adds a user, and populates initial site settings.
-- (sudo) `python /var/www/smog/manage.py init_db`
-- If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
-- (sudo) `chown -R www-data:www-data /var/www/smogdb`
+If you are using a SQLite database, create the folder for your database:
+
+`mkdir /var/www/smogdb`
+
+Set an environment variable for your smog configuration file:
+
+`export SMOG_CONFIG=/var/www/smog_config.py`
+
+Run the database initialization routine. This creates the database tables, adds a user, and populates initial site settings.
+
+(sudo) `python /var/www/smog/manage.py init_db`
+
+If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
+
+(sudo) `chown -R www-data:www-data /var/www/smogdb`
 
 ## Final Steps
 Try browsing to your site. if everything is working your new blog will load!

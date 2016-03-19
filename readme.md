@@ -31,7 +31,7 @@ See a real-life example (also my personal blog) at https://blog.c-mart.in.
 Here you can create some posts and play with the settings. The demo site is automatically destroyed and re-created every 30 minutes, so if you're having trouble just try again in half an hour.
 
 ## Try the Docker Image
-If you have Docker installed, you can download and run a own demo copy of smog with just one command:
+If you have Docker installed, you can download and run a demo copy of smog with just one command:
 
     docker run --name smog -p 80:5000 cmart/smog-demo
 
