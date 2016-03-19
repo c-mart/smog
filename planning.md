@@ -1,7 +1,11 @@
 SMOG: Simple Markdown blOG
 
+## To do
+Rework installation instructions for production web server. Consider deploying entire site using docker, which means I need a WSGI server and a database container?
+Remove my ReCAPTCHA API keys from config_default.py?
+
 ## CSS Fixes
-- Blog content narrower than title
+- Fix tests which break when we start with a test post in database
 - Centered caption under images
 - More space between post-footer-items?
 - Down arrow in CSS dropdown buttons
