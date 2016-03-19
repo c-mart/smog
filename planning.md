@@ -1,11 +1,11 @@
 SMOG: Simple Markdown blOG
 
 ## To do
-Rework installation instructions for production web server. Consider deploying entire site using docker, which means I need a WSGI server and a database container?
+Consider deploying entire site using docker, which means I need a WSGI server and a database container?
 Remove my ReCAPTCHA API keys from config_default.py?
+Fix tests which break when we start with a test post in database
 
 ## CSS Fixes
-- Fix tests which break when we start with a test post in database
 - Centered caption under images
 - More space between post-footer-items?
 - Down arrow in CSS dropdown buttons
