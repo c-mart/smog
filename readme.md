@@ -1,7 +1,7 @@
 # smog: Simple Markdown blOG
 smog is intended to be a lightweight yet feature-complete blog platform for individuals and organizations. I wrote smog in about 60 hours to learn web development using Python and the [Flask](http://flask.pocoo.org/) microframework, after trying other blog platforms and deciding they weren't for me. I want smog to be a pleasure for bloggers, readers, and also developers who want to tweak or extend what their blog can do.
 
-See a real live example (also my personal blog) at https://smog.c-mart.in.
+See a real-life example (also my personal blog) at https://blog.c-mart.in.
 
 ## Why you may like smog as a blogger
 
@@ -22,8 +22,7 @@ See a real live example (also my personal blog) at https://smog.c-mart.in.
 - Complete source only ~200 KB (as of March 2016)
 - GNU GPL licensed
 
-## Try Smog
-### Demo Site
+## Try the Demo Site
 **[http://smogdemo.c-mart.in](http://smogdemo.c-mart.in)**
 
 - Username: 'test@test.com'
@@ -31,14 +30,14 @@ See a real live example (also my personal blog) at https://smog.c-mart.in.
 
 Here you can create some posts and play with the settings. The demo site is automatically destroyed and re-created every 30 minutes, so if you're having trouble just try again in half an hour.
 
-### Docker Image
+### Try the Docker Image
 If you have Docker installed, you can download and run a own demo copy of smog with just one command:
 
     docker run --name smog -p 80:5000 cmart/smog-demo
 
 Then, browse to http://localhost and you should have a demo site running. Log in with username 'test@test.com' and password 'test'.
 
-WARNING: the smog-demo docker image is for evaluation purposes and not secured for production use. It runs as a privileged user, uses the default Flask development WSGI server with default secret keys, and doesn't have HTTPS support. Please do not trust it with any sensitive data or leave it exposed to the internet.
+**WARNING:** the smog-demo docker image is for evaluation purposes and not secured for production use. It runs as a privileged user, uses the default Flask development WSGI server with default secret keys, and doesn't have HTTPS support. Please do not trust it with any sensitive data or leave it exposed to the internet.
 
 ## Install smog In Production
 See [install_guide.md](https://github.com/c-mart/smog/blob/master/install_guide.md).
