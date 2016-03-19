@@ -91,7 +91,7 @@ Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. 
 - Reload apache: (sudo) `service apache2 restart`
 
 ## Initialize Database
-Next, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
+Ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
 
 If you are using a SQLite database, create the folder for your database:
 
@@ -105,12 +105,12 @@ Run the database initialization routine. This creates the database tables, adds 
 
 (sudo) `python /var/www/smog/manage.py init_db`
 
-If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
+If you are using a SQLite database, we need to change its file/folder permissions so that the Apache user can write to it:
 
 (sudo) `chown -R www-data:www-data /var/www/smogdb`
 
 ## Final Steps
-Try browsing to your site. if everything is working your new blog will load!
+Try browsing to your site. if everything is working your new blog will load.
 
 The first thing you should do is log in with the test account, username "test@test.com" and password "test". Navigate to Manage Site -> Manage Users, then change the email and password for the account to make it yours.
 
@@ -118,3 +118,5 @@ You can also browse to Site Settings to customize the name of your blog and your
 
 ## I'm Stuck!
 If you're trying to load your blog and you get an "Internal Server Error",  temporarily add `debug = True` to your smog_config.py file and restart Apache with (sudo) `service apache2 restart`. Then, try loading the page that's not working again, and look at your Apache error log (/var/log/apache2/error.log), it will probably tell you what the problem is. When you're done troubleshooting, be sure to remove the `debug = True` and restart Apache again.
+
+If you're still stuck, contact me (Chris Martin) or submit an issue on the GitHub repository, and I'll help you out.
