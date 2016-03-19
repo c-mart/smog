@@ -66,7 +66,8 @@ With that sorted, let's proceed with the installation.
 - Change to the directory where you want to install smog, like /var/www
 - Clone the project repository:
 - `git clone https://github.com/c-mart/smog.git`
-- From the repository folder that you just cloned, copy smog/smog/config_default.py to another location, name it something like /var/www/smog_config.py. This is the file you'll use to configure your site.
+- From the repository folder that you just cloned, copy smog/smog/config_default.py to another location, name it something like smog_config.py. (This is the file you'll use to configure your site.)
+- `cp /var/www/smog/smog/config_default.py /var/www/smog_config.py`
 
 ### Edit smog_config.py
 Change the value for SQLALCHEMY_DATABASE_URI to tell smog how to connect to your database. This should be formatted as a [SQLAlchemy database URL](http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#database-urls).
@@ -132,10 +133,14 @@ Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. 
 ### Populate Database
 Finally, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
 
-- Set an environment variable for your smog configuration file: `SMOG_CONFIG=/var/www/smog_config.py`
-- Run `python /var/www/smog/manage.py init_db`. This will create the database tables, add a user, and populate initial site settings.
+- Set an environment variable for your smog configuration file:
+- `SMOG_CONFIG=/var/www/smog_config.py`
+- Run the database initialization routine, which creates the database tables, adds a user, and populates initial site settings:
+- `python /var/www/smog/manage.py init_db`
 
-If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user: `chown -R www-data:www-data /var/www/smogdb`
+If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
+
+`chown -R www-data:www-data /var/www/smogdb`
 
 ### Final Steps
 Try browsing to your site. if everything is working your new blog will load!
