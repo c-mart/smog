@@ -12,7 +12,7 @@ Other sysadmin tasks that you may wish to perform, which this guide does *not* c
 - Configure backups for filesystem and database.
 - Run periodic updates for the OS, Python packages installed via pip, and smog itself.
 
-### Python Version
+## Python Version
 First, check your Python version with `python -V`. smog requires Python 2.7.8 or newer. If your server runs Debian 8 (Jessie) then you can skip this section, but with Ubuntu 14.04 LTS, you're probably on Python 2.7.6, in which case you can use Felix Krull's [Python 2.7 updates](https://launchpad.net/~fkrull/+archive/ubuntu/deadsnakes-python2.7) repository for Ubuntu. (If you do this, read Felix's warning before running the following commands.)
 
 - (sudo) `add-apt-repository ppa:fkrull/deadsnakes-python2.7`
@@ -20,7 +20,7 @@ First, check your Python version with `python -V`. smog requires Python 2.7.8 or
 
 With that sorted, let's proceed.
 
-### Server Prep
+## Server Prep
 - Install prerequisite packages:
 - (sudo) `apt-get update && apt-get -y install apache2 libapache2-mod-wsgi git python python-dev python-pip python-virtualenv`
 - Change to the directory where you want to install smog, like /var/www
@@ -29,7 +29,7 @@ With that sorted, let's proceed.
 - From the repository folder that you just cloned, copy smog/smog/config_default.py to another location, name it something like smog_config.py. (This is the file you'll use to configure your site.)
 - `cp /var/www/smog/smog/config_default.py /var/www/smog_config.py`
 
-### Edit smog_config.py
+## Edit smog_config.py
 Change the value for SQLALCHEMY_DATABASE_URI to tell smog how to connect to your database. This should be formatted as a [SQLAlchemy database URL](http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#database-urls).
 
 If you don't want to set up a database engine like MySQL or PostgreSQL (and are OK with the caveats above), you can just specify a SQLite file, e.g. `SQLALCHEMY_DATABASE_URI = 'sqlite:////var/www/smogdb/smog.sqlite'`. The user that Apache uses to run smog needs to have read and write access to the folder in which the .sqlite file lives, so I recommend that you place it in its own folder which can be owned by that user. Whatever you do, don't leave the default setting with the database stored in /tmp, which will disappear next time you reboot your server!
@@ -40,7 +40,7 @@ Go sign up for [ReCAPTCHA](http://www.google.com/recaptcha/admin), then replace 
 
 Save and close your config file.
 
-### Create Virtual Environment and Install Dependencies
+## Create Virtual Environment and Install Dependencies
 We'll use a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) for smog to store our Python interpreter and dependencies. This way they won't conflict with (or be overwritten by) other Python applications that you may run on your server.
 
 - Create a virtualenv:
@@ -50,7 +50,7 @@ We'll use a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/
 - Install smog's dependencies in your virtualenv:
 - `pip install -r /var/www/smog/requirements.txt` (again, change this file path if you cloned smog to somewhere else)
 
-### Configure WSGI file and Apache
+## Configure WSGI file and Apache
 The following steps were loosely adapted from [this](http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/) guide in the Flask documentation. If you have trouble configuring Apache, that's a good place to look.
 
 Create your WSGI file at a place like /var/www/smog.wsgi. This is the Python file that apache runs to load your site. An example WSGI file follows, change the folder paths if you need to.
@@ -90,7 +90,7 @@ Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. 
 - Enable the site: (sudo) `a2ensite smog`
 - Reload apache: (sudo) `service apache2 restart`
 
-### Populate Database
+## Populate Database
 Finally, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
 
 - If you are using a SQLite database, create the folder for your database:
@@ -102,25 +102,12 @@ Finally, we need to build our database tables. First, ensure that your virtualen
 - If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
 - (sudo) `chown -R www-data:www-data /var/www/smogdb`
 
-### Final Steps
+## Final Steps
 Try browsing to your site. if everything is working your new blog will load!
 
 The first thing you should do is log in with the test account, username "test@test.com" and password "test". Navigate to Manage Site -> Manage Users, then change the email and password for the account to make it yours.
 
 You can also browse to Site Settings to customize the name of your blog and your footer line.
 
-### I'm Stuck!
+## I'm Stuck!
 If you're trying to load your blog and you get an "Internal Server Error",  temporarily add `debug = True` to your smog_config.py file and restart Apache with (sudo) `service apache2 restart`. Then, try loading the page that's not working again, and look at your Apache error log (/var/log/apache2/error.log), it will probably tell you what the problem is. When you're done troubleshooting, be sure to remove the `debug = True` and restart Apache again.
-
-## How to Perform Updates
-Future database schema changes probably won't work if you're running a SQLite database. If you're using MySQL or PostgreSQL, update on:
-
-- `cd` to your smog repository folder and run `git pull` to update the repository
-- Activate your smog virtualenv, e.g.:
-- `source /var/www/smog-venv/bin/activate`)
-- Set your SMOG_CONFIG environment variable to point to your configuration file, e.g.:
-- `SMOG_CONFIG=/var/www/smog_config.py`)
-- Run the database upgrade script to apply latest schema version:
-- `python manage.py db upgrade`
-- Restart your web server:
-- (sudo) `service apache2 restart`
