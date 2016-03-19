@@ -43,7 +43,9 @@ WARNING: the smog-demo docker image is for evaluation purposes, not production u
 ## Install smog In Production
 These instructions will help you get smog running for real production use. It is written for people who feel comfortable administering a Unix/Linux server. If that's not you then you may struggle with this guide. (smog isn't currently packaged for easy setup in production by non-technical folks, though that could change in the future!)
 
-This is written for a Debian/Ubuntu server, which may also be called a 'VPS', 'droplet', or 'instance' depending on your cloud provider. If you are not running as root then you will need to prepend `sudo ` to commands that require root privileges. Steps for RPM-based distros like CentOS are similar, but with a few more changes (e.g. yum instead of apt-get).
+This is written for a Debian/Ubuntu server, which may also be called a 'VPS', 'droplet', or 'instance' depending on your cloud provider. If you don't have a server, you can get one for cheap (sometimes free) from Linode, Amazon EC2, or DigitalOcean.
+
+If you are not running as root then you will need to prepend `sudo ` to commands that require root privileges. Steps for RPM-based distros like CentOS are similar, but with a few more changes (e.g. yum instead of apt-get).
 
 Other sysadmin tasks that you may wish to perform, which this guide does *not* cover:
 - Configure DNS for your domain so that people can browse to your site (basically, just add an "A" record for your blog's hostname that points to the IP address of your server)
@@ -108,7 +110,7 @@ Create your WSGI file at a place like /var/www/smog.wsgi. This is the Python fil
 
 Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. An example of this file follows. Change the ServerName and ServerAlias to the hostname of your blog. Edit the directory fields to point to the location of your smog repo folder and WSGI file if you placed them somewhere else.
 
-    <VirtualHost *>
+    <VirtualHost *:80>
             ServerName myblog.c-mart.in
             WSGIScriptAlias / /var/www/smog.wsgi
             <Directory /var/www/smog/smog/>
@@ -133,16 +135,14 @@ Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. 
 ### Populate Database
 Finally, we need to build our database tables. First, ensure that your virtualenv is still activated in the shell. Activate it again if necessary (`source /var/www/smog-venv/bin/activate`).
 
-- Create the folder for your database:
+- If you are using a SQLite database, create the folder for your database:
 - `mkdir /var/www/smogdb`
 - Set an environment variable for your smog configuration file:
 - `export SMOG_CONFIG=/var/www/smog_config.py`
-- Run the database initialization routine, which creates the database tables, adds a user, and populates initial site settings:
+- Run the database initialization routine. This creates the database tables, adds a user, and populates initial site settings.
 - `python /var/www/smog/manage.py init_db`
-
-If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
-
-`chown -R www-data:www-data /var/www/smogdb`
+- If you are using a SQLite database, we need to change its file permissions so that smog can write to it while running as the Apache user:
+- `chown -R www-data:www-data /var/www/smogdb`
 
 ### Final Steps
 Try browsing to your site. if everything is working your new blog will load!
@@ -157,12 +157,15 @@ If you're trying to load your blog and you get an "Internal Server Error",  temp
 ## How to Perform Updates
 Future database schema changes probably won't work if you're running a SQLite database. If you're using MySQL or PostgreSQL, update on:
 
-- `cd` to your outer-level smog folder and run `git pull` to update the repository
-- Activate your smog virtualenv (e.g. `source /var/www/smog-venv/bin/activate`)
-- Set your SMOG_CONFIG environment variable to point to your configuration file (e.g. 
-`SMOG_CONFIG=/var/www/smog_config.py`)
-- Run `python manage.py db upgrade` to apply latest schema version to your database
-- Restart your web server: `service apache2 restart`
+- `cd` to your smog repository folder and run `git pull` to update the repository
+- Activate your smog virtualenv, e.g.:
+- `source /var/www/smog-venv/bin/activate`)
+- Set your SMOG_CONFIG environment variable to point to your configuration file, e.g.:
+- `SMOG_CONFIG=/var/www/smog_config.py`)
+- Run the database upgrade script to apply latest schema version:
+- `python manage.py db upgrade`
+- Restart your web server:
+- `service apache2 restart`
 
 ## Is smog right for me? / Known Issues
 smog does not yet fully protect against [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery). This will change when WTForms is fully integrated with the site.
