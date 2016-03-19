@@ -7,9 +7,6 @@ Fix tests which break when we start with a test post in database
 
 ## CSS Fixes
 - Centered caption under images
-- More space between post-footer-items?
-- Down arrow in CSS dropdown buttons
-- HR after post in single post page should come before "posted on" footer
 
 ## Todo
 - Show description (without images) in site index
@@ -27,6 +24,8 @@ Fix tests which break when we start with a test post in database
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
 ## Completed Todo
+- Down arrow in CSS dropdown buttons
+- HR after post in single post page should come before "posted on" footer
 - All posts should show as table
 - Center images inside posts?
 - Make log in/out link float to right of top nav bar
