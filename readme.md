@@ -40,31 +40,33 @@ Then, browse to http://localhost and you should have a demo site running. Log in
 
 WARNING: the smog-demo docker image is for evaluation purposes, not production use. It runs as a privileged user, uses the default Flask development WSGI server with default secret keys, and doesn't have HTTPS support. Please do not trust it with any sensitive data or run it exposed to the internet.
 
-## Install smog on a Server
+## Install smog In Production
 These instructions will help you get smog running for real production use. It is written for people who feel comfortable administering a Unix/Linux server. If that's not you then you may struggle with this guide. (smog isn't currently packaged for easy setup in production by non-technical folks, though that could change in the future!)
 
-This is written for a Debian/Ubuntu server, which may also be called a VPS, droplet, or instance depending on your cloud provider. If you are not running as root then you will need to prepend `sudo ` to commands that require root privileges. Steps for RPM-based distros like CentOS are similar, but with a few more changes (e.g. yum instead of apt-get).
+This is written for a Debian/Ubuntu server, which may also be called a 'VPS', 'droplet', or 'instance' depending on your cloud provider. If you are not running as root then you will need to prepend `sudo ` to commands that require root privileges. Steps for RPM-based distros like CentOS are similar, but with a few more changes (e.g. yum instead of apt-get).
 
 Other sysadmin tasks that you may wish to perform, which this guide does *not* cover:
 - Configure DNS for your domain so that people can browse to your site (basically, just add an "A" record for your blog's hostname that points to the IP address of your server)
-- Configure a database engine like MySQL or PostgreSQL. (SQLite will work fine to get started and doesn't require much configuration, but you won't be able to use smog's built-in database migrations if you want to upgrade later on, due to limitations with SQLite.)
+- Configure a database engine like MySQL or PostgreSQL. SQLite will work fine to get started and doesn't require much configuration, but *you won't be able to use smog's built-in database migrations if you want to upgrade later on*, due to limitations with SQLite.
 - Set up HTTPS encryption, which is very easy if you run [Let's Encrypt](https://letsencrypt.org/getting-started/) after following the setup steps below
 - Secure the server (e.g. lock down SSH access, disable unneeded services, run smog as its own user if you have multiple sites and want separation of privileges)
-- Configure filesystem and database backups
+- Configure backups for filesystem and database
 - Run periodic updates for the OS, Python packages installed via pip, and smog itself
 
 ### Initial Server Prep
 First, check your Python version with `python -V`. smog requires Python 2.7.8 or newer. If you're using Ubuntu 14.04 LTS, you're probably on Python 2.7.6. You can use Felix Krull's [Python 2.7 updates](https://launchpad.net/~fkrull/+archive/ubuntu/deadsnakes-python2.7) repository for Ubuntu. (If you do this, read Felix's warning before proceeding.)
 
-`add-apt-repository ppa:fkrull/deadsnakes-python2.7`
-`apt-get update && apt-get install python2.7`
+- `add-apt-repository ppa:fkrull/deadsnakes-python2.7`
+- `apt-get update && apt-get -y install python2.7`
 
 With that sorted, let's proceed with the installation.
 
-- Install prerequisite packages: `apt-get update && apt-get -y install apache2 libapache2-mod-wsgi git python python-dev python-pip python-virtualenv`
-- Change to the directory where you want to install smog, like `cd /var/www`
-- Clone the project repository: `git clone https://github.com/c-mart/smog.git`
-- From inside the repository that you just cloned, copy smog/smog/config_default.py to another location, name it something like /var/www/smog_config.py. This is the file you'll use to configure your site.
+- Install prerequisite packages:
+- `apt-get update && apt-get -y install apache2 libapache2-mod-wsgi git python python-dev python-pip python-virtualenv`
+- Change to the directory where you want to install smog, like /var/www
+- Clone the project repository:
+- `git clone https://github.com/c-mart/smog.git`
+- From the repository folder that you just cloned, copy smog/smog/config_default.py to another location, name it something like /var/www/smog_config.py. This is the file you'll use to configure your site.
 
 ### Edit smog_config.py
 Change the value for SQLALCHEMY_DATABASE_URI to tell smog how to connect to your database. This should be formatted as a [SQLAlchemy database URL](http://docs.sqlalchemy.org/en/rel_0_8/core/engines.html#database-urls).
@@ -80,44 +82,47 @@ Save and close your config file.
 ### Create Virtual Environment and Install Dependencies
 We'll use a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) for smog to store our Python interpreter and dependencies. This way they won't conflict with (or be overwritten by) other Python applications that you may run on your server.
 
-- Create a virtualenv: `virtualenv /var/www/smog-venv` (or any other path you wish your virtualenv to live in)
-- Activate your virtualenv in the shell: `source /var/www/smog-venv/bin/activate`
-- Install smog's dependencies in your virtualenv: `pip install -r /var/www/smog/requirements.txt` (use a different file path if you cloned smog to somewhere else)
+- Create a virtualenv:
+- `virtualenv /var/www/smog-venv` (or any other path you wish your virtualenv to live in)
+- Activate your virtualenv in the shell:
+- `source /var/www/smog-venv/bin/activate`
+- Install smog's dependencies in your virtualenv:
+- `pip install -r /var/www/smog/requirements.txt` (again, change this file path if you cloned smog to somewhere else)
 
 ### Configure WSGI file and Apache
-The following steps were loosely adapted from [this](http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/) guide in the Flask documentation. If you have trouble, this is a good place to look.
+The following steps were loosely adapted from [this](http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/) guide in the Flask documentation. If you have trouble configuring Apache, that's a good place to look.
 
 Create your WSGI file at a place like /var/www/smog.wsgi. This is the Python file that apache runs to load your site. An example WSGI file follows, change the folder paths if you need to.
 
-        #!/usr/bin/python
-        import os
-        import sys
-        import logging
-        
-        activate_this = '/var/www/smog-venv/bin/activate_this.py'  # Change path to your virtualenv if necessary
-        execfile(activate_this, dict(__file__=activate_this))
-        sys.path.insert(0,"/var/www/smog")  # Change path to your smog folder if necessary
-        os.environ['SMOG_CONFIG'] = '/var/www/smog_config.py'  # Change path to your smog config file if necessary
-        from smog import app as application
+    #!/usr/bin/python
+    import os
+    import sys
+    import logging
+    
+    activate_this = '/var/www/smog-venv/bin/activate_this.py'  # Change path to your virtualenv if necessary
+    execfile(activate_this, dict(__file__=activate_this))
+    sys.path.insert(0,"/var/www/smog")  # Change path to your smog folder if necessary
+    os.environ['SMOG_CONFIG'] = '/var/www/smog_config.py'  # Change path to your smog config file if necessary
+    from smog import app as application
 
 Create a VirtualHost file for Apache, `/etc/apache2/sites-available/smog.conf`. An example of this file follows. Change the ServerName and ServerAlias to the hostname of your blog. Edit the directory fields to point to the location of your smog repo folder and WSGI file if you placed them somewhere else.
 
-        <VirtualHost *>
-                ServerName myblog.c-mart.in
-                WSGIScriptAlias / /var/www/smog.wsgi
-                <Directory /var/www/smog/smog/>
-                        Order allow,deny
-                        Allow from all
-                </Directory>
-                Alias /static /var/www/smog/smog/static
-                <Directory /var/www/smog/smog/static/>
-                        Order allow,deny
-                        Allow from all
-                </Directory>
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                LogLevel warn
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-        </VirtualHost>
+    <VirtualHost *>
+            ServerName myblog.c-mart.in
+            WSGIScriptAlias / /var/www/smog.wsgi
+            <Directory /var/www/smog/smog/>
+                    Order allow,deny
+                    Allow from all
+            </Directory>
+            Alias /static /var/www/smog/smog/static
+            <Directory /var/www/smog/smog/static/>
+                    Order allow,deny
+                    Allow from all
+            </Directory>
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            LogLevel warn
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
+    </VirtualHost>
 
 
 - Enable WSGI Apache module: `a2enmod wsgi`
