@@ -1,5 +1,5 @@
 # This builds a docker image for smog: Simple Markdown blOG.
-# Right now it runs the debug server which is ONLY for testing/troubleshooting purposes. It is INSECURE and should not be used for production.
+# Right now it runs the debug server which is ONLY for testing/evaluation purposes. It is INSECURE and should not be used for production.
 
 FROM debian
 MAINTAINER Chris Martin
