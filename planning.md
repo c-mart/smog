@@ -9,11 +9,10 @@ Fix tests which break when we start with a test post in database
 - Centered caption under images
 
 ## Todo
-- Show description (without images) in site index
+- WTForms for other forms on site, not just comments
 - Alternative to recaptcha for people without JavaScript
 - Unpublished post should have a flash message saying "not published"
 - Atom feed for comments
-- WTForms for other forms on site, not just comments
 - https://flask-wtf.readthedocs.org/en/latest/csrf.html#why-csrf
 - How to order static pages?
 - H2 in post title and in post body look the same, they should be different? Render H2s in post body as H3s when?
@@ -23,7 +22,16 @@ Fix tests which break when we start with a test post in database
 - Standardize nomenclature of "timeline" vs "home page" vs "posts page"
 - Standardize nomenclature of "active"/"inactive" vs "enabled"/"disabled" user account in model
 
+## Extended Features todo
+- Post author receives email notifications on new comments
+- Subscribe to comments via email
+- Preview function while composing, pagedown
+- Post tags with tag cloud
+- Confirm before deleting post
+- Automatically publish at a date and time
+
 ## Completed Todo
+- Show description (without images) in site index
 - Down arrow in CSS dropdown buttons
 - HR after post in single post page should come before "posted on" footer
 - All posts should show as table
@@ -76,17 +84,6 @@ Fix tests which break when we start with a test post in database
 - Write some tests
 - Static pages separate from posts
 - People can post comments, comment moderation
-
-## Extended Features
 - Demo site
-- Alternative to recaptcha if no JS enabled?
-- Subscribe to comments via email
-- Post author receives email notifications on new comments
 - Table layout for All Posts page
-- Post tags with tag cloud
-- Confirm before deleting post
 - Figure out markdown blockquoting and footnotes
-- Automatically publish at a date and time
-- Preview function while composing
-- Built-in image hosting with exif tag removal
-- Allow short post URLs with post ID

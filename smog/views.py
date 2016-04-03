@@ -14,7 +14,6 @@ from mistune import markdown
 from functools import wraps
 
 
-# TODO write some docstrings
 @login_manager.user_loader
 def user_loader(user_id):
     """Retrieves user object for login manager."""
