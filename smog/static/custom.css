@@ -55,11 +55,8 @@ img {
     max-width: 100%;
     box-sizing: border-box;
     margin: 0 auto;
-
-}
-
-.drop-shadow {
     box-shadow: 10px 10px 5px #000000;
+
 }
 
 a { text-decoration: none; }
