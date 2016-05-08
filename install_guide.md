@@ -1,3 +1,4 @@
+## Overview
 This will help you get smog running for real production use. Instructions are written for people who feel comfortable administering a Unix/Linux server. If that's not you then you may struggle with this guide. (smog isn't currently packaged for easy setup in production by non-technical folks, though that could change in the future!)
 
 This is written for a Debian/Ubuntu server, which may also be called a VPS, droplet, or instance depending on your cloud provider. If you don't have a server, you can get one for cheap (in some cases free) from Linode, Amazon EC2, or DigitalOcean.
